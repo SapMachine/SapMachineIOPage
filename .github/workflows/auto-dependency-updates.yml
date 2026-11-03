@@ -1,0 +1,208 @@
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
+
+# Automated npm dependency updates.
+#
+# Why this exists: the native Dependabot *update* engine (the bot that opens
+# upgrade/fix PRs) is not enabled on this GitHub Enterprise Server instance, so
+# .github/dependabot.yml currently has nothing to run its npm block. This
+# workflow reproduces that behaviour using the Actions runners we already have:
+# on a weekly schedule (and on demand via the "Run workflow" button) it refreshes
+# npm dependencies, applies available security fixes, and opens/updates a pull
+# request with the result.
+#
+# The PR is pushed with the CI token (SAPMACHINE_USER_TOKEN_CI), so the existing
+# "PR checks and preview" workflow validates it automatically — a PR opened with
+# the default GITHUB_TOKEN would NOT trigger those checks.
+#
+# Modes (scheduled runs always use "safe"; the others are manual only):
+#   safe            npm update (within semver ranges) + npm audit fix.
+#                   No breaking changes. Quiet and mergeable — the weekly default.
+#   audit-only      npm audit fix only (security patches, no general refresh).
+#   security-major  npm update + npm audit fix --force. Allows BREAKING changes,
+#                   but only to resolve security advisories (e.g. a transitive
+#                   major like minimatch). Review before merging.
+#   latest          npm-check-updates -u + npm install + npm audit fix --force.
+#                   Bumps ALL direct deps to their latest majors. Most aggressive;
+#                   for intentional big refreshes. Expect to review carefully.
+#
+# Major-mode PRs use a separate branch so they never clobber the weekly safe PR.
+# Note: a transitive-only major (e.g. minimatch) may still resist --force; the
+# robust fix for those is an "overrides" pin in package.json.
+name: Automated dependency updates
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'   # Mondays 06:17 UTC
+  workflow_dispatch:       # manual "Run workflow" button in the Actions tab
+    inputs:
+      mode:
+        description: 'Update mode'
+        type: choice
+        default: safe
+        options:
+          - safe
+          - audit-only
+          - security-major
+          - latest
+
+concurrency:
+  group: auto-deps
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    name: Update npm dependencies
+    runs-on: [self-hosted, solinas]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.SAPMACHINE_USER_TOKEN_CI }}
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install current dependencies
+        run: npm ci
+
+      - name: Apply dependency updates
+        id: update
+        shell: bash
+        run: |
+          set -euo pipefail
+          MODE="${{ github.event.inputs.mode || 'safe' }}"
+          echo "Update mode: $MODE"
+          MAJOR=false
+          case "$MODE" in
+            safe)
+              npm update
+              npm audit fix || echo "audit fix: no changes or unavailable"
+              ;;
+            audit-only)
+              npm audit fix || echo "audit fix: no changes or unavailable"
+              ;;
+            security-major)
+              npm update
+              npm audit fix --force \
+                || npm audit fix --force --legacy-peer-deps \
+                || echo "audit fix --force: no changes or unavailable"
+              MAJOR=true
+              ;;
+            latest)
+              # --peer: pick versions that satisfy peer-dependency constraints
+              # (UI5 packages must move in lockstep), avoiding most ERESOLVE.
+              npx --yes npm-check-updates -u --peer
+              # Fall back to --legacy-peer-deps so a lockfile is still produced
+              # and a reviewable PR opens even if peers remain unsatisfiable;
+              # the PR's build/checks are the real gate.
+              npm install || npm install --legacy-peer-deps
+              npm audit fix --force \
+                || npm audit fix --force --legacy-peer-deps \
+                || echo "audit fix --force: no changes or unavailable"
+              MAJOR=true
+              ;;
+            *)
+              echo "Unknown mode: $MODE" >&2
+              exit 1
+              ;;
+          esac
+          BRANCH="deps/auto-npm-updates"
+          [ "$MAJOR" = "true" ] && BRANCH="deps/auto-npm-updates-major"
+          {
+            echo "mode=$MODE"
+            echo "major=$MAJOR"
+            echo "branch=$BRANCH"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Detect changes
+        id: diff
+        shell: bash
+        run: |
+          if git diff --quiet -- package.json package-lock.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No dependency changes — nothing to do."
+            echo "### No dependency updates available — no PR opened." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Changes detected:"
+            git diff --stat -- package.json package-lock.json
+          fi
+
+      - name: Push update branch
+        if: steps.diff.outputs.changed == 'true'
+        shell: bash
+        env:
+          BRANCH: ${{ steps.update.outputs.branch }}
+          MODE: ${{ steps.update.outputs.mode }}
+        run: |
+          set -euo pipefail
+          git config user.name  "sapmachine-ci"
+          git config user.email "sapmachine-ci@users.noreply.github.tools.sap"
+          git checkout -B "$BRANCH"
+          git add package.json package-lock.json
+          git commit -m "chore(deps): automated npm dependency update (${MODE} mode)"
+          git push --force origin "$BRANCH"
+
+      - name: Open or update pull request
+        if: steps.diff.outputs.changed == 'true'
+        uses: actions/github-script@v7
+        env:
+          BRANCH: ${{ steps.update.outputs.branch }}
+          MODE: ${{ steps.update.outputs.mode }}
+          MAJOR: ${{ steps.update.outputs.major }}
+        with:
+          github-token: ${{ secrets.SAPMACHINE_USER_TOKEN_CI }}
+          script: |
+            const branch = process.env.BRANCH;
+            const mode = process.env.MODE;
+            const isMajor = process.env.MAJOR === 'true';
+            const { owner, repo } = context.repo;
+            const base = context.payload.repository.default_branch;
+            const title = isMajor
+              ? `chore(deps): automated npm dependency update — MAJOR (${mode})`
+              : 'chore(deps): automated npm dependency update';
+            const lines = [
+              'Automated npm dependency update.',
+              '',
+              'Opened by the **Automated dependency updates** workflow — a stand-in',
+              'for Dependabot updates, which are not enabled on this instance.',
+              '',
+              `- Mode: \`${mode}\``,
+            ];
+            if (isMajor) {
+              lines.push(
+                '',
+                '> [!WARNING]',
+                '> This run allowed **breaking / major-version** upgrades, and may have',
+                '> used `--legacy-peer-deps` to resolve peer-dependency conflicts.',
+                '> **Do not merge unless the PR checks below are green** — a passing',
+                '> `npm ci` + build is what confirms the upgrade actually works.',
+              );
+            }
+            lines.push(
+              '',
+              'Advisories needing a major bump of a *transitive* dep (e.g. minimatch),',
+              'or with no released patch, may still remain — pin those via `overrides`',
+              'in package.json.',
+            );
+            const body = lines.join('\n');
+            const { data: existing } = await github.rest.pulls.list({
+              owner, repo, state: 'open', head: `${owner}:${branch}`,
+            });
+            if (existing.length > 0) {
+              await github.rest.pulls.update({ owner, repo, pull_number: existing[0].number, title, body });
+              core.info(`Updated existing PR #${existing[0].number}`);
+              await core.summary.addRaw(`### PR updated for review: [#${existing[0].number}](${existing[0].html_url})`).write();
+            } else {
+              const { data: pr } = await github.rest.pulls.create({ owner, repo, head: branch, base, title, body });
+              core.info(`Opened PR #${pr.number}`);
+              await core.summary.addRaw(`### PR opened for review: [#${pr.number}](${pr.html_url})`).write();
+            }
