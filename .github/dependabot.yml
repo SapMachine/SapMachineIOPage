@@ -1,0 +1,51 @@
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
+
+version: 2
+updates:
+  # Keep GitHub Actions workflows up-to-date
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "actions/upload-pages-artifact"
+        versions: ["<2.0.0", ">=3.0.0"]
+      - dependency-name: "actions/deploy-pages"
+        versions: ["<3.0.0", ">=4.0.0"]
+
+  # Keep npm dependencies up-to-date (opens version-update PRs on a schedule;
+  # also batches the security-update PRs once security updates are enabled).
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+    # Group related packages so you get a few consolidated PRs, not dozens.
+    groups:
+      # Version-update PRs
+      docusaurus:
+        patterns:
+          - "@docusaurus/*"
+          - "@mdx-js/*"
+      ui5:
+        patterns:
+          - "@ui5/*"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+      minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      # Security-fix PRs (needs "Dependabot security updates" enabled);
+      # bundle all vulnerability fixes into one PR instead of one per alert.
+      security-fixes:
+        applies-to: security-updates
+        patterns:
+          - "*"

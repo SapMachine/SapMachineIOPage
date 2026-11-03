@@ -1,0 +1,116 @@
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
+
+# Remove a PR's live preview from the preview-pages branch.
+#
+# Runs when a PR is closed/merged (deletes just that PR's folder) and daily as a
+# self-healing sweep (deletes any pr-preview/pr-<N>/ whose PR is no longer open —
+# catches anything a close event missed, e.g. a deploy that finished after merge).
+# It is deliberately separate from the deploy workflow (pr-preview.yml): deleting a
+# folder needs no checkout, Node, or build.
+#
+# The whole pr-preview/pr-<N>/ folder is removed with a direct `git rm`, so — unlike
+# rossjrw's remove path, which preserves CNAME/.nojekyll — no stub is left behind.
+name: PR preview cleanup
+
+on:
+  # Reliable on close even when the head branch was deleted on merge: runs from main's
+  # workflow definition with a token. Safe here — no PR code is checked out or
+  # executed; the only PR-derived value used is the integer PR number.
+  pull_request_target:
+    types: [closed]
+  # Daily self-healing sweep (02:37 UTC; off-peak, just before the 03:00 live-site
+  # job in test-live-site.yml).
+  schedule:
+    - cron: '37 2 * * *'
+  # Manual run.
+  workflow_dispatch:
+
+# Serialize cleanup runs so they don't race each other. The push loop below also
+# retries against concurrent deploy pushes from pr-preview.yml (there is no shared
+# lock on the preview-pages branch across the two workflows).
+concurrency:
+  group: preview-pages-cleanup
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    name: Remove closed-PR previews
+    runs-on: [self-hosted, solinas]
+    permissions:
+      contents: write       # push the deletion to preview-pages
+      pull-requests: read   # read PR state during the weekly sweep
+    steps:
+      - name: Remove preview folder(s) for closed PRs
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SERVER_URL: ${{ github.server_url }}
+          API_URL: ${{ github.api_url }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.number }}
+        run: |
+          set -euo pipefail
+
+          repo_url="https://x-access-token:${GH_TOKEN}@${SERVER_URL#https://}/${GITHUB_REPOSITORY}.git"
+
+          # Print the pr-preview/pr-<N> paths that should be removed, based on the
+          # trigger. Runs against the clone in the current directory.
+          collect_targets() {
+            if [ "${EVENT_NAME}" = "pull_request_target" ]; then
+              # types: [closed] -> this PR is closed; remove its folder (if present).
+              echo "pr-preview/pr-${PR_NUMBER}"
+              return 0
+            fi
+            # schedule / workflow_dispatch: sweep every folder whose PR is not open.
+            [ -d pr-preview ] || return 0
+            for d in pr-preview/pr-*/; do
+              [ -d "$d" ] || continue
+              n="$(basename "$d" | sed 's/^pr-//')"
+              case "$n" in (*[!0-9]*) continue ;; esac   # skip non-numeric names
+              state="$(curl -sS -H "Authorization: token ${GH_TOKEN}" \
+                            -H "Accept: application/vnd.github+json" \
+                            "${API_URL}/repos/${GITHUB_REPOSITORY}/pulls/${n}" \
+                       | jq -r '.state // "closed"')"
+              [ "${state}" = "open" ] || echo "pr-preview/pr-${n}"
+            done
+          }
+
+          # Up to 5 attempts: clone fresh, remove, commit, push; retry if another push
+          # (e.g. a concurrent deploy) moved the branch between clone and push.
+          for attempt in 1 2 3 4 5; do
+            tmp="$(mktemp -d)"
+            git clone --quiet --single-branch --branch preview-pages "${repo_url}" "${tmp}"
+            cd "${tmp}"
+
+            mapfile -t targets < <(collect_targets)
+            removed=0
+            for t in "${targets[@]:-}"; do
+              if [ -n "${t}" ] && [ -d "${t}" ]; then
+                git rm -rf --quiet "${t}"
+                echo "Removing ${t}"
+                removed=1
+              fi
+            done
+
+            if [ "${removed}" = "0" ]; then
+              echo "Nothing to remove."
+              exit 0
+            fi
+
+            git -c user.name='github-actions[bot]' \
+                -c user.email='github-actions[bot]@users.noreply.github.com' \
+                commit --quiet -m "Remove preview(s) for closed PR(s) 🧹"
+
+            if git push --quiet origin preview-pages; then
+              echo "Cleanup pushed on attempt ${attempt}."
+              exit 0
+            fi
+
+            echo "Push rejected (branch moved); retrying (${attempt}/5)…"
+            cd /
+            rm -rf "${tmp}"
+            sleep 3
+          done
+
+          echo "::error::Failed to push preview-pages cleanup after 5 attempts."
+          exit 1

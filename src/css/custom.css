@@ -1,0 +1,2486 @@
+/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */
+
+/**
+ * SapMachine Custom Styles
+ * Using SAP Design System guidelines
+ */
+
+/* ============================================
+   Anchor scroll offset
+   The navbar is sticky (position: sticky; top: 0; height: 56px),
+   so jumping to an in-page anchor (#heading) would otherwise land
+   with the target heading hidden behind the navbar. Reserve scroll
+   space equal to the navbar height (+ a little breathing room) so
+   headings land just below the navbar.
+   ============================================ */
+html {
+  scroll-padding-top: 72px;
+  scroll-behavior: smooth;
+}
+
+:root {
+  /* ============================================
+     Infima/Docusaurus CSS Variable Overrides
+     Override the default Docusaurus theme variables
+     to use SAP typography and colors
+     ============================================ */
+  
+  /* Font Family - Override Infima's default font */
+  --ifm-font-family-base: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  --ifm-font-family-monospace: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  
+  /* Font Sizes - Map to SAP Body/S (16px) for base */
+  --ifm-font-size-base: 100%; /* 16px */
+  
+  /* Heading Font Sizes - Map to SAP heading sizes */
+  --ifm-h1-font-size: 2.5rem;    /* 40px - heading-xl */
+  --ifm-h2-font-size: 2.25rem;   /* 36px - heading-l */
+  --ifm-h3-font-size: 2rem;      /* 32px - heading-m */
+  --ifm-h4-font-size: 1.75rem;   /* 28px - heading-s */
+  --ifm-h5-font-size: 1.5rem;    /* 24px - heading-xs */
+  --ifm-h6-font-size: 1.25rem;   /* 20px - heading-xxs */
+  
+  /* Line Heights - SAP uses 1.1 for headings, 1.5 for body */
+  --ifm-line-height-base: 1.5;
+  --ifm-heading-line-height: 1.1;
+  
+  /* Font Weights */
+  --ifm-font-weight-normal: 400;
+  --ifm-font-weight-semibold: 500;
+  --ifm-font-weight-bold: 700;
+  --ifm-heading-font-weight: 500; /* SAP uses medium (500) for headings */
+  
+  /* Colors - Map to SAP colors */
+  --ifm-font-color-base: #223548; /* SAP Grey-9 for body text */
+  --ifm-heading-color: #000000;   /* SAP Black for headings */
+  --ifm-link-color: #0070F2;      /* SAP Blue-7 */
+  --ifm-link-hover-color: #0040B0; /* SAP Blue-9 */
+  
+  /* Code colors */
+  --ifm-code-font-size: 87.5%;
+  --ifm-code-background: #F5F6F7; /* SAP Grey-1 */
+  --ifm-code-padding-vertical: 0.2rem;
+  --ifm-code-padding-horizontal: 0.4rem;
+  --ifm-code-border-radius: 4px;
+  
+  /* Pre/Code blocks */
+  --ifm-pre-background: #F5F6F7; /* SAP Grey-1 */
+  --ifm-pre-padding: 1rem;
+  --ifm-pre-border-radius: 8px;
+  --ifm-pre-line-height: 1.6;
+  
+  /* Blockquote */
+  --ifm-blockquote-border-left-width: 4px;
+  --ifm-blockquote-border-color: #0070F2; /* SAP Blue-7 */
+  --ifm-blockquote-color: #475E75; /* SAP Grey-7 */
+  --ifm-blockquote-padding-vertical: 0.5rem;
+  --ifm-blockquote-padding-horizontal: 1rem;
+  
+  /* Table */
+  --ifm-table-stripe-background: #F5F6F7; /* SAP Grey-1 */
+  --ifm-table-border-color: #D5DADD; /* SAP Grey-3 */
+  --ifm-table-head-background: #F5F6F7; /* SAP Grey-1 */
+  --ifm-table-head-color: #000000; /* SAP Black */
+  --ifm-table-head-font-weight: 500;
+  --ifm-table-cell-padding: 0.75rem 1rem;
+  
+  /* HR */
+  --ifm-hr-border-color: #D5DADD; /* SAP Grey-3 */
+  --ifm-hr-border-width: 1px;
+  
+  /* Spacing */
+  --ifm-paragraph-margin-bottom: 1rem;
+  --ifm-heading-margin-top: 2rem;
+  --ifm-heading-margin-bottom: 1rem;
+  --ifm-list-margin: 1rem;
+  --ifm-list-item-margin: 0.5rem;
+  --ifm-list-left-padding: 1.5rem;
+  
+  /* SAP Brand Colors - Blue */
+  --sap-blue1: #EBF8FF;
+  --sap-blue2: #D1EFFF;
+  --sap-blue3: #A6E0FF;
+  --sap-blue4: #89D1FF;
+  --sap-blue5: #4DB1FF;
+  --sap-blue6: #1B90FF;
+  --sap-blue7: #0070F2;
+  --sap-blue8: #0057D2;
+  --sap-blue9: #0040B0;
+  --sap-blue10: #002A86;
+  --sap-blue11: #00144A;
+  
+  /* SAP Brand Colors - Neutral */
+  --sap-white: #FFFFFF;
+  --sap-black: #000000;
+  
+  /* SAP Brand Colors - Grey */
+  --sap-grey1: #F5F6F7;
+  --sap-grey2: #EAECEE;
+  --sap-grey3: #D5DADD;
+  --sap-grey4: #A9B4BE;
+  --sap-grey5: #8396A8;
+  --sap-grey6: #5B738B;
+  --sap-grey7: #475E75;
+  --sap-grey8: #354A5F;
+  --sap-grey9: #223548;
+  --sap-grey10: #1A2733;
+  --sap-grey11: #12171C;
+  
+  /* Grid System Variables - Default (XS: 360-639px) */
+  --grid-columns: 12;
+  --grid-gutter: 1rem; /* 16px */
+  --grid-margin: 1.5rem; /* 24px */
+  --grid-content-max-width: 1600px;
+  
+  /* Section Spacing Variables - XL/L (1280px+) */
+  --section-spacing-hero: 84px; /* Between hero and content block */
+  --section-spacing-block: 56px; /* Between content blocks */
+  --section-spacing-footer: 84px; /* Between content block and footer */
+}
+
+svg {
+  shape-rendering: geometricPrecision;
+}
+
+/* ============================================
+   12-Column Grid System
+   ============================================ */
+
+/* Grid Container - applies margins */
+.grid-container {
+  width: 100%;
+  margin: 0 auto;
+  padding-left: var(--grid-margin);
+  padding-right: var(--grid-margin);
+  box-sizing: border-box;
+}
+
+/* Grid Row - uses flexbox with negative margins for gutters */
+.grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: calc(var(--grid-gutter) / -2);
+  margin-right: calc(var(--grid-gutter) / -2);
+}
+
+/* Grid Columns - base styles */
+.grid-col {
+  flex: 0 0 auto;
+  padding-left: calc(var(--grid-gutter) / 2);
+  padding-right: calc(var(--grid-gutter) / 2);
+  box-sizing: border-box;
+}
+
+/* Remove outer column padding at all breakpoints - content aligns with container edge */
+.grid-row > .grid-col:first-child {
+  padding-left: 0;
+}
+
+.grid-row > .grid-col:last-child {
+  padding-right: 0;
+}
+
+/* Remove row negative margins since we're removing outer column padding */
+.grid-row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Column spans for 12-column grid */
+.grid-col-1 { width: calc(100% / 12 * 1); }
+.grid-col-2 { width: calc(100% / 12 * 2); }
+.grid-col-3 { width: calc(100% / 12 * 3); }
+.grid-col-4 { width: calc(100% / 12 * 4); }
+.grid-col-5 { width: calc(100% / 12 * 5); }
+.grid-col-6 { width: calc(100% / 12 * 6); }
+.grid-col-7 { width: calc(100% / 12 * 7); }
+.grid-col-8 { width: calc(100% / 12 * 8); }
+.grid-col-9 { width: calc(100% / 12 * 9); }
+.grid-col-10 { width: calc(100% / 12 * 10); }
+.grid-col-11 { width: calc(100% / 12 * 11); }
+.grid-col-12 { width: 100%; }
+
+/* Full width container (for hero sections, etc.) */
+.full-width {
+  width: 100%;
+  padding-left: var(--grid-margin);
+  padding-right: var(--grid-margin);
+  box-sizing: border-box;
+}
+
+/* ============================================
+   Breakpoint: S (640-979px)
+   Gutter: 32px, Margin: 48px
+   ============================================ */
+@media (min-width: 640px) {
+  :root {
+    --grid-gutter: 2rem; /* 32px */
+    --grid-margin: 3rem; /* 48px */
+    --section-spacing-hero: 64px;
+    --section-spacing-block: 48px;
+    --section-spacing-footer: 64px;
+  }
+}
+
+/* ============================================
+   Breakpoint: M (980-1279px)
+   Gutter: 48px, Margin: 72px
+   ============================================ */
+@media (min-width: 980px) {
+  :root {
+    --grid-gutter: 3rem; /* 48px */
+    --grid-margin: 4.5rem; /* 72px */
+    --section-spacing-hero: 64px;
+    --section-spacing-block: 48px;
+    --section-spacing-footer: 64px;
+  }
+}
+
+/* ============================================
+   Breakpoint: L (1280-1599px)
+   Gutter: 48px, Margin: 72px
+   ============================================ */
+@media (min-width: 1280px) {
+  :root {
+    --grid-gutter: 3rem; /* 48px */
+    --grid-margin: 4.5rem; /* 72px */
+    --section-spacing-hero: 84px;
+    --section-spacing-block: 56px;
+    --section-spacing-footer: 84px;
+  }
+}
+
+/* ============================================
+   Breakpoint: XL (1600px+)
+   Gutter: 48px, Margin: 84px
+   Content max-width: 1600px, then margins grow
+   ============================================ */
+@media (min-width: 1600px) {
+  :root {
+    --grid-gutter: 3rem; /* 48px */
+    --grid-margin: 5.25rem; /* 84px */
+  }
+  
+  .grid-container {
+    max-width: calc(var(--grid-content-max-width) + var(--grid-margin) * 2);
+    margin: 0 auto;
+  }
+}
+
+/* ============================================
+   Breakpoint: XS specific overrides (< 640px)
+   ============================================ */
+@media (max-width: 639px) {
+  :root {
+    --section-spacing-hero: 48px;
+    --section-spacing-block: 32px;
+    --section-spacing-footer: 48px;
+  }
+
+  /* Stack columns on mobile */
+  .grid-col-xs-12 {
+    width: 100%;
+  }
+
+  /* Hide benefit image on phones */
+  .benefit-image-wrapper {
+    display: none !important;
+  }
+
+  /* Expand tabs to full width when image is hidden */
+  .grid-col-6:has(.vertical-tab-navigation) {
+    width: 100%;
+  }
+}
+
+/* ============================================
+   Button Styles
+   Buttons and Button Labels are smaller at XS and S breakpoints
+   ============================================ */
+.btn-base {
+  display: flex;
+  padding: 12px 14px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--Button-Radius, 8px);
+  font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* ============================================
+   Primary Button - Dark/Evening Theme
+   Used on dark backgrounds (e.g., hero section)
+   ============================================ */
+.btn-primary {
+  /* Default State */
+  border: var(--Button-Border, 1px) solid var(--sap-white);
+  background: var(--sap-white);
+  color: var(--sap-blue8); /* Blue/8 */
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-primary:hover {
+  /* Hover State */
+  background: var(--sap-grey4);
+  border-color: var(--sap-grey3);
+  color: var(--sap-blue10); /* Blue/10 */
+}
+
+.btn-primary:active {
+  /* Active/Pressed State */
+  background: rgba(0, 0, 0, 0.70); /* Black, opacity 70% */
+  border-color: var(--sap-blue4);
+  color: var(--sap-blue4);
+}
+
+/* ============================================
+   Secondary Button - Dark/Evening Theme
+   Used on dark backgrounds (e.g., hero section)
+   ============================================ */
+.btn-secondary {
+  /* Default State */
+  border: var(--Button-Border, 1px) solid var(--sap-white);
+  background: rgba(255, 255, 255, 0); /* White, 0% opacity (transparent) */
+  color: var(--sap-white);
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-secondary:hover {
+  /* Hover State */
+  background: rgba(0, 0, 0, 0.10); /* Black, 10% opacity */
+  border-color: var(--sap-grey5);
+  color: var(--sap-blue3);
+}
+
+.btn-secondary:active {
+  /* Active/Pressed State */
+  background: rgba(0, 0, 0, 0.40); /* Black, 40% opacity */
+  border-color: var(--sap-blue4);
+  color: var(--sap-blue4);
+}
+
+/* Responsive Button Sizing - S Breakpoint (640-979px) */
+@media (min-width: 640px) and (max-width: 979px) {
+  .btn-base {
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 16px;
+    gap: 6px;
+  }
+}
+
+/* Responsive Button Sizing - XS Breakpoint (<640px) */
+@media (max-width: 639px) {
+  .btn-base {
+    padding: 8px 10px;
+    font-size: 14px;
+    line-height: 16px;
+    gap: 6px;
+  }
+}
+
+/* ============================================
+   SAP Typography System - Base Tokens
+   Based on SAP Design System Digital Guidelines
+   ============================================ */
+:root {
+  /* Typography Font Family */
+  --sap-font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  
+  /* Heading Font Sizes (px and rem) */
+  --heading-xxl-size: 2.75rem;    /* 44px */
+  --heading-xl-size: 2.5rem;      /* 40px */
+  --heading-l-size: 2.25rem;      /* 36px */
+  --heading-m-size: 2rem;         /* 32px */
+  --heading-s-size: 1.75rem;      /* 28px */
+  --heading-xs-size: 1.5rem;      /* 24px */
+  --heading-xxs-size: 1.25rem;    /* 20px */
+  --heading-xxxs-size: 1.125rem;  /* 18px */
+  
+  /* Heading Line Height (1.1 multiplier) */
+  --heading-line-height: 1.1;
+  
+  /* Body Font Sizes (px and rem) */
+  --body-l-size: 1.25rem;   /* 20px */
+  --body-m-size: 1.125rem;  /* 18px */
+  --body-s-size: 1rem;      /* 16px */
+  
+  /* Body Line Height (1.5 multiplier) */
+  --body-line-height: 1.5;
+  
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+}
+
+/* ============================================
+   Typography Base Token Classes
+   Direct mapping to SAP Design System tokens
+   
+   Default Colors:
+   - Headings: Black (#000000) unless specified otherwise
+   - Body Copy: Gray-9 (#223548) unless specified otherwise
+   - For dark backgrounds: White (#FFFFFF)
+   ============================================ */
+
+/* Heading Token Classes - Default color: Black */
+.heading-xxl {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-xxl-size);
+  line-height: var(--heading-line-height);
+  font-weight: var(--font-weight-medium);
+  color: var(--sap-black);
+}
+
+.heading-xl {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-xl-size);
+  line-height: var(--heading-line-height);
+  font-weight: var(--font-weight-medium);
+  color: var(--sap-black);
+}
+
+.heading-l {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-l-size);
+  line-height: var(--heading-line-height);
+  font-weight: var(--font-weight-medium);
+  color: var(--sap-black);
+}
+
+.heading-m {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-m-size);
+  line-height: var(--heading-line-height);
+  font-weight: var(--font-weight-medium);
+  color: var(--sap-black);
+}
+
+.heading-s {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-s-size);
+  line-height: var(--heading-line-height);
+  font-weight: var(--font-weight-medium);
+  color: var(--sap-black);
+}
+
+.heading-xs {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-xs-size);
+  line-height: var(--heading-line-height);
+  font-weight: var(--font-weight-medium);
+  color: var(--sap-black);
+}
+
+.heading-xxs {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-xxs-size);
+  line-height: var(--heading-line-height);
+  font-weight: var(--font-weight-medium);
+  color: var(--sap-black);
+}
+
+.heading-xxxs {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-xxxs-size);
+  line-height: var(--heading-line-height);
+  font-weight: var(--font-weight-regular);
+  color: var(--sap-black);
+}
+
+/* Body Token Classes - Default color: Gray-9 */
+.body-l {
+  font-family: var(--sap-font-family);
+  font-size: var(--body-l-size);
+  line-height: var(--body-line-height);
+  font-weight: var(--font-weight-regular);
+  color: var(--sap-grey9);
+}
+
+.body-m {
+  font-family: var(--sap-font-family);
+  font-size: var(--body-m-size);
+  line-height: var(--body-line-height);
+  font-weight: var(--font-weight-regular);
+  color: var(--sap-grey9);
+}
+
+.body-s {
+  font-family: var(--sap-font-family);
+  font-size: var(--body-s-size);
+  line-height: var(--body-line-height);
+  font-weight: var(--font-weight-regular);
+  color: var(--sap-grey9);
+}
+
+/* ============================================
+   Navigation Text Styles
+   Used in navigation and menu systems
+   Smaller line height for text wrapping in link lists
+   ============================================ */
+.nav-text {
+  font-family: var(--sap-font-family);
+  font-size: var(--body-s-size);
+  line-height: 1.25; /* Smaller line height for navigation */
+  font-weight: var(--font-weight-regular);
+  color: var(--sap-grey9);
+}
+
+.nav-text-active {
+  font-family: var(--sap-font-family);
+  font-size: var(--body-s-size);
+  line-height: 1.25;
+  font-weight: var(--font-weight-medium);
+  color: var(--sap-blue7);
+}
+
+/* ============================================
+   Responsive Typography Classes
+   These classes automatically adjust based on breakpoint
+   
+   Default Colors:
+   - Headings: Black (#000000) unless specified otherwise
+   - Body/Subheadings: Gray-9 (#223548) unless specified otherwise
+   - For dark backgrounds (hero): use inline color override to White
+   ============================================ */
+
+/* Hero Heading: XXL → L → M → S → S 
+   Note: On dark backgrounds, override color to white inline */
+.hero-heading {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-xxl-size);
+  line-height: var(--heading-line-height);
+  font-weight: var(--font-weight-medium);
+  color: var(--sap-black);
+}
+
+/* Hero Paragraph: Body/L → Body/M → Body/S → Body/S → Body/S
+   Note: On dark backgrounds, override color to white inline */
+.hero-paragraph {
+  font-family: var(--sap-font-family);
+  font-size: var(--body-l-size);
+  line-height: var(--body-line-height);
+  font-weight: var(--font-weight-regular);
+  color: var(--sap-grey9);
+}
+
+/* Page Section Heading: XL → M → S → XS → XS */
+.section-heading {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-xl-size);
+  line-height: var(--heading-line-height);
+  font-weight: var(--font-weight-medium);
+  color: var(--sap-black);
+}
+
+/* Page Section Sub-heading: Body/L → Body/L → Body/L → Body/M → Body/M */
+.section-subheading {
+  font-family: var(--sap-font-family);
+  font-size: var(--body-l-size);
+  line-height: var(--body-line-height);
+  font-weight: var(--font-weight-regular);
+  color: var(--sap-grey9);
+}
+
+/* Small Heading: XXS → XXS → XXS → XXXS → XXXS */
+.small-heading {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-xxs-size);
+  line-height: var(--heading-line-height);
+  font-weight: var(--font-weight-medium);
+  color: var(--sap-black);
+}
+
+/* Body Copy: Body/S (consistent across all breakpoints) */
+.body-copy {
+  font-family: var(--sap-font-family);
+  font-size: var(--body-s-size);
+  line-height: var(--body-line-height);
+  font-weight: var(--font-weight-regular);
+  color: var(--sap-grey9);
+}
+
+/* Eyebrow Text - sized in relation to heading size
+   XL: 14px, L: 14px, M: 13px, S: 12px, XS: 12px */
+.eyebrow-text {
+  font-family: var(--sap-font-family);
+  font-size: 0.875rem; /* 14px default */
+  font-weight: var(--font-weight-medium);
+  line-height: 1.07; /* ~15px */
+  letter-spacing: 0.42px;
+  text-transform: uppercase;
+  color: var(--sap-grey6);
+}
+
+/* ============================================
+   Responsive Typography - L Breakpoint (1280-1599px)
+   ============================================ */
+@media (min-width: 1280px) and (max-width: 1599px) {
+  .hero-heading {
+    font-size: var(--heading-l-size); /* 36px */
+  }
+  
+  .hero-paragraph {
+    font-size: var(--body-m-size); /* 18px */
+  }
+  
+  .section-heading {
+    font-size: var(--heading-m-size); /* 32px */
+  }
+  
+  /* section-subheading stays Body/L */
+  /* small-heading stays XXS */
+  /* body-copy stays Body/S */
+}
+
+/* ============================================
+   Responsive Typography - M Breakpoint (980-1279px)
+   ============================================ */
+@media (min-width: 980px) and (max-width: 1279px) {
+  .hero-heading {
+    font-size: var(--heading-m-size); /* 32px */
+  }
+  
+  .hero-paragraph {
+    font-size: var(--body-s-size); /* 16px */
+  }
+  
+  .section-heading {
+    font-size: var(--heading-s-size); /* 28px */
+  }
+  
+  .eyebrow-text {
+    font-size: 0.8125rem; /* 13px */
+  }
+  
+  /* section-subheading stays Body/L */
+  /* small-heading stays XXS */
+  /* body-copy stays Body/S */
+}
+
+/* ============================================
+   Responsive Typography - S Breakpoint (640-979px)
+   ============================================ */
+@media (min-width: 640px) and (max-width: 979px) {
+  .hero-heading {
+    font-size: var(--heading-s-size); /* 28px */
+  }
+  
+  .hero-paragraph {
+    font-size: var(--body-s-size); /* 16px */
+  }
+  
+  .section-heading {
+    font-size: var(--heading-xs-size); /* 24px */
+  }
+  
+  .section-subheading {
+    font-size: var(--body-m-size); /* 18px */
+  }
+  
+  .small-heading {
+    font-size: var(--heading-xxxs-size); /* 18px */
+  }
+  
+  .eyebrow-text {
+    font-size: 0.75rem; /* 12px */
+  }
+}
+
+/* ============================================
+   Responsive Typography - XS Breakpoint (<640px)
+   ============================================ */
+@media (max-width: 639px) {
+  .hero-heading {
+    font-size: var(--heading-s-size); /* 28px */
+  }
+
+  .hero-paragraph {
+    font-size: var(--body-s-size); /* 16px */
+  }
+
+  .section-heading {
+    font-size: var(--heading-xs-size); /* 24px */
+  }
+
+  .section-subheading {
+    font-size: var(--body-m-size); /* 18px */
+  }
+
+  .small-heading {
+    font-size: var(--heading-xxxs-size); /* 18px */
+  }
+
+  .eyebrow-text {
+    font-size: 0.75rem; /* 12px */
+  }
+}
+
+@media (max-width: 979px) {
+  .hero-header-logo {
+    display: none;
+  }
+
+  .hero-header .grid-col-8 {
+    width: 100%;
+  }
+}
+
+/* ============================================
+   Hero Header Component
+   ============================================ */
+.hero-header {
+  background-color: #001CA7;
+  /* var(--sap-blue9); */
+  width: 100%;
+  padding-top: 32px;
+  padding-bottom: 32px;
+  background-position: center right;
+}
+
+@media (max-width: 979px) {
+  .hero-header {
+    background-position: left center;
+  }
+}
+
+.hero-header .eyebrow-text,
+.hero-header .heading-l,
+.hero-header .body-m {
+  color: var(--sap-white);
+}
+
+.hero-header .eyebrow-text {
+  margin: 0 0 16px 0;
+}
+
+.hero-header .heading-l {
+  margin: 0 0 24px 0;
+}
+
+.hero-header .body-m {
+  margin: 0;
+}
+
+/* ============================================
+   Filter Checkbox Styles
+   ============================================ */
+.filter-checkbox {
+  font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--sap-grey9);
+}
+
+.filter-checkbox::part(label) {
+  font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #223548;
+}
+
+.filter-checkbox {
+  --_ui5_checkbox_focus_outline_display: none;
+}
+
+body.kb-nav .filter-checkbox {
+  --_ui5_checkbox_focus_outline_display: block;
+}
+
+/* ============================================
+   Custom Search Input Styles
+   ============================================ */
+.custom-search-wrapper {
+  transition: all 0.2s ease;
+}
+
+.custom-search-wrapper:hover {
+  border-color: var(--sap-blue7, #0070F2) !important;
+  background-color: var(--sap-white, #FFFFFF) !important;
+}
+
+.custom-search-wrapper:focus-within {
+  border-color: var(--sap-blue7, #0070F2) !important;
+  background-color: var(--sap-white, #FFFFFF) !important;
+}
+
+.custom-search-input::placeholder {
+  color: var(--sap-grey6, #5B738B);
+}
+
+/* ============================================
+   Navbar Navigation Items
+   ============================================ */
+.navbar-nav-text {
+  color: var(--sap-grey9, #223548);
+  font-weight: 400;
+  font-size: 14px;
+  font-family: "72", "72full", Arial, Helvetica, sans-serif;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.15s ease;
+}
+
+/* Explore SAP button - match nav item styling */
+.navbar-explore-sap {
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: var(--sap-grey9, #223548) !important;
+  font-family: "72", "72full", Arial, Helvetica, sans-serif !important;
+}
+
+.navbar-explore-sap::part(button) {
+  font-weight: 400 !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.navbar-explore-sap:hover {
+  color: var(--sap-blue7, #0070F2) !important;
+}
+
+.navbar-explore-sap:hover::part(button) {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Navbar search button - match nav item styling */
+.navbar-search-btn {
+  color: var(--sap-grey9, #223548) !important;
+}
+
+.navbar-search-btn::part(button) {
+  border: none !important;
+  background: transparent !important;
+}
+
+.navbar-search-btn:hover {
+  color: var(--sap-blue7, #0070F2) !important;
+}
+
+.navbar-search-btn:hover::part(button) {
+  border: none !important;
+  background: transparent !important;
+}
+
+.navbar-nav-text-active {
+  color: var(--sap-blue7, #0070F2) !important;
+  font-weight: 400; /* Same as inactive - no font weight change */
+}
+
+.navbar-nav-arrow {
+  margin-left: 4px;
+  font-size: 12px;
+  color: inherit;
+  transition: color 0.15s ease;
+}
+
+/* Navbar icon (e.g., search) */
+.navbar-nav-icon {
+  font-size: 16px;
+  color: inherit;
+  transition: color 0.15s ease;
+}
+
+.navbar-nav-item:hover .navbar-nav-text {
+  color: var(--sap-blue7, #0070F2) !important;
+}
+
+.navbar-nav-item:hover .navbar-nav-arrow {
+  color: var(--sap-blue7, #0070F2) !important;
+}
+
+.navbar-nav-item:hover .navbar-nav-icon {
+  color: var(--sap-blue7, #0070F2) !important;
+}
+
+/* Navbar Title (SapMachine) hover effect */
+.navbar-title:hover {
+  color: var(--sap-blue7, #0070F2) !important;
+}
+
+/* ============================================
+   Custom Tab Navigation
+   ============================================ */
+.tab-navigation {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--sap-grey3, #D5DADD);
+  margin-bottom: 32px;
+}
+
+.tab-item {
+  padding: 12px 4px;
+  margin-right: 32px;
+  font-family: "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--sap-grey9, #223548);
+  cursor: pointer;
+  border: none;
+  margin-bottom: -1px;
+  transition: color 0.2s ease;
+  background: transparent;
+  position: relative;
+}
+
+.tab-item:hover {
+  color: var(--sap-blue7, #0070F2);
+}
+
+.tab-item.active {
+  color: var(--sap-blue7, #0070F2);
+  font-weight: 700;
+}
+
+/* Tab Item Focus Styles - focus around text only, not container */
+.tab-item:focus {
+  outline: none;
+}
+
+.tab-item:focus-visible {
+  outline: none;
+}
+
+/* Tab text span for focus styling */
+.tab-item-text {
+  padding: 2px 4px;
+  border-radius: 4px;
+  position: relative;
+  display: inline-block;
+}
+
+/* Active indicator - positioned on tab-item container at border line */
+.tab-item:has(.tab-item-text-active)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  background-color: var(--sap-blue7, #0070F2);
+}
+
+/* Only show focus on keyboard navigation, not on click */
+.tab-item:focus-visible .tab-item-text {
+  outline: 0.125rem solid var(--sap-blue10, #002A86);
+  outline-offset: 0px;
+  border-radius: 4px;
+}
+
+/* ============================================
+   Download Card - Full Height Alignment
+   ============================================ */
+.download-clear-all:focus {
+  outline: none;
+}
+
+.download-clear-all:focus-visible {
+  outline: 0.125rem solid var(--sap-blue10, #002A86);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.download-card-wrapper {
+  height: 100%;
+  border-radius: 8px;
+}
+
+/* Download filter grids — column by default, grid on mobile */
+.download-filter-os-grid,
+.download-filter-release-grid,
+.download-filter-type-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+/* On desktop the col wrappers are invisible to layout — checkboxes stack like siblings */
+.download-filter-release-col {
+  display: contents;
+}
+
+/* ============================================
+   Download page — mobile layout (< 640px)
+   ============================================ */
+@media (max-width: 639px) {
+  /* Stack filters above results, zero out gutter padding so both
+     columns sit flush with the container's own grid-margin */
+  .grid-col-3,
+  .grid-col-9 {
+    width: 100%;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Indent the filter section titles (OS, Release, Type) and their arrows */
+  .download-filter-section-title {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  /* Filters header: "Filters" left, "Clear all" right */
+  .download-filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  /* Each filter section: title + separator inline, checkboxes in grid below */
+  .download-filter-section-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .download-filter-separator {
+    width: 1px;
+    height: 20px;
+    background: var(--sap-grey3, #D5DADD);
+    flex-shrink: 0;
+  }
+
+  /* OS: 2x2 grid */
+  .download-filter-os-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 0;
+  }
+
+  /* Release: two side-by-side flex columns */
+  .download-filter-release-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    align-items: start;
+  }
+
+  .download-filter-release-col {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 4px;
+  }
+
+  /* Type: 2x1 grid */
+  .download-filter-type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 0;
+  }
+
+  /* Results header: "Results" left, counter right */
+  .download-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  /* Cards: single column */
+  .download-cards-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.doc-card-wrapper {
+  height: 100%;
+  border-radius: 8px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.doc-card-wrapper:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 20px rgba(0, 112, 242, 0.18);
+}
+
+a:has(> .doc-card-wrapper):focus {
+  outline: none;
+}
+
+a:has(> .doc-card-wrapper):focus-visible {
+  outline: 0.125rem solid var(--sap-blue10, #002A86);
+  outline-offset: 4px;
+  border-radius: 0.75rem;
+}
+
+/* Large card: outline on the visual div, not the <a>, so it matches the card exactly */
+.doc-cards-using-large a:has(> .doc-card-wrapper):focus-visible {
+  outline: none;
+}
+
+.doc-cards-using-large a:has(> .doc-card-wrapper):focus-visible .doc-card-wrapper > div {
+  outline: 0.125rem solid var(--sap-blue10, #002A86);
+  outline-offset: 4px;
+  border-radius: 0.75rem;
+}
+
+.download-card-wrapper > ui5-card,
+.doc-card-wrapper > ui5-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.download-card-wrapper > ui5-card::part(content),
+.doc-card-wrapper > ui5-card::part(content) {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%
+}
+
+/* ============================================
+   Accessibility Utilities
+   ============================================ */
+
+/* Visually hidden but accessible to screen readers */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Skip to Main Content Link */
+.skip-to-main-content {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 1001;
+  padding: 12px 16px;
+  background-color: var(--sap-blue7, #0070F2);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-family: "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  transition: top 0.2s ease;
+}
+
+.skip-to-main-content:focus {
+  top: 8px;
+  outline: 2px solid var(--sap-blue7, #0070F2);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   Remove Docusaurus default navbar styles
+   Reset padding so grid-container controls all margins
+   ============================================ */
+.navbar.navbar--fixed-top {
+  border-bottom: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+
+/* ============================================
+   Navbar Logo Link Styles
+   ============================================ */
+.navbar-logo-link {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+/* Hide focus on click, only show on keyboard navigation */
+.navbar-logo-link:focus {
+  outline: none;
+}
+
+.navbar-logo-link:focus-visible {
+  outline: 0.125rem solid var(--sap-blue10, #002A86);
+  outline-offset: 4px;
+}
+
+/* ============================================
+   Navbar Title Styles
+   ============================================ */
+.navbar-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--sap-grey9, #223548);
+  margin-right: 24px;
+  font-family: "72", "72full", Arial, Helvetica, sans-serif;
+  line-height: 56px;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.navbar-title:hover {
+  color: var(--sap-blue7, #0070F2) !important;
+}
+
+/* Hide focus on click, only show on keyboard navigation */
+.navbar-title:focus {
+  outline: none;
+}
+
+.navbar-title:focus-visible {
+  outline: none;
+}
+
+/* Title text span for focus styling - 2px spacer, blue10 color */
+.navbar-title-text {
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+/* Only show focus on keyboard navigation, not on click */
+.navbar-title:focus-visible .navbar-title-text {
+  outline: 0.125rem solid var(--sap-blue10, #002A86);
+  outline-offset: 0px;
+  border-radius: 4px;
+}
+
+/* ============================================
+   Footer Back to Top Button
+   At XL breakpoint, grid-margin is 0 so we need explicit positioning
+   ============================================ */
+.footer-back-to-top {
+  color: var(--sap-blue9, #0040B0);
+}
+
+/* Remove border/outline from back to top button on all states */
+.footer-back-to-top::part(button) {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.footer-back-to-top:focus,
+.footer-back-to-top:focus-visible,
+.footer-back-to-top:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* XL Breakpoint (1600px+) - Position back-to-top relative to centered container */
+@media (min-width: 1600px) {
+  .footer-back-to-top {
+    right: max(var(--grid-margin), calc((100vw - var(--grid-content-max-width)) / 2));
+  }
+}
+
+/* ============================================
+   Mobile Footer — accordion layout
+   ============================================ */
+
+.footer-desktop { display: block; }
+.footer-mobile  { display: none; }
+
+.footer-mobile-logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.footer-mobile-tagline {
+  font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #002A86;
+  letter-spacing: -0.5px;
+  margin-left: 8px;
+  flex: 1;
+}
+
+.footer-mobile-back-to-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #001CA2;
+  padding: 4px;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.footer-accordion {
+  border-top: 1px solid var(--sap-grey3, #D5DADD);
+}
+
+.footer-accordion-first {
+  border-top: none;
+}
+
+.footer-accordion-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 0 16px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sap-grey9, #223548);
+  text-align: left;
+}
+
+.footer-accordion-arrow {
+  color: #001CA2;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.footer-accordion-arrow--open {
+  transform: rotate(90deg);
+}
+
+/* Smooth open/close animation */
+.footer-accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.footer-accordion-body--open {
+  max-height: 600px;
+}
+
+.footer-accordion-items {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0 12px 36px;
+}
+
+.footer-accordion-link {
+  display: block;
+  padding: 10px 0;
+  font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--sap-grey8, #354A5F);
+  text-decoration: none;
+}
+
+.footer-accordion-link:hover {
+  color: var(--sap-blue7, #0070F2);
+}
+
+.footer-accordion-separator {
+  height: 1px;
+  background: var(--sap-grey3, #D5DADD);
+}
+
+.footer-mobile-copyright {
+  margin: 24px 0 16px;
+  font-size: 13px;
+  color: var(--sap-grey7, #475E75);
+}
+
+.footer-mobile-social {
+  display: flex;
+  gap: 12px;
+  padding-bottom: 8px;
+}
+
+@media (max-width: 979px) {
+  .footer-desktop { display: none; }
+  .footer-mobile  { display: block; }
+}
+
+/* ============================================
+   Dropdown Menu Link Focus Styles
+   Only show outline on keyboard navigation, not on mouse click
+   ============================================ */
+.navbar-dropdown-menu a:focus {
+  outline: none;
+}
+
+.navbar-dropdown-menu a:focus-visible {
+  outline: 0.125rem solid var(--sap-blue10, #002A86);
+  outline-offset: 0px;
+  border-radius: 4px;
+}
+
+/* ============================================
+   Navbar Navigation Item Focus Styles
+   Focus appears around the text, not the container
+   ============================================ */
+.navbar-nav-item {
+  position: relative;
+  height: 56px;
+  padding: 0 12px;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.navbar-nav-item:focus {
+  outline: none;
+}
+
+.navbar-nav-item:focus-visible {
+  outline: none;
+}
+
+/* Add padding to nav-text for focus styling with 2px space */
+.navbar-nav-text {
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+/* Active indicator - positioned on nav-item at the very bottom */
+.navbar-nav-item:has(.navbar-nav-text-active)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 12px; /* Match the padding of nav-item */
+  right: 12px; /* Match the padding of nav-item */
+  height: 2.5px;
+  background-color: var(--sap-blue7, #0070F2);
+}
+
+/* Only show focus on keyboard navigation, not on click */
+.navbar-nav-item:focus-visible .navbar-nav-text {
+  outline: 0.125rem solid var(--sap-blue10, #002A86);
+  outline-offset: 0px;
+}
+
+/* Features grid — flexbox, 3 per row, last-row items centered */
+.doc-features-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.doc-features-grid > * {
+  flex: 0 0 calc((100% - 32px) / 3);
+  min-width: 0;
+}
+
+/* General grid — flexbox, 3 per row, last-row items centered */
+.doc-cards-grid {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.doc-cards-grid > div {
+  flex: 0 0 calc((100% - 32px) / 3);
+  min-width: 0;
+}
+
+/* ============================================
+   Content Overview page — mobile card layouts
+   ============================================ */
+@media (max-width: 639px) {
+  /* Using SapMachine: stack large card on top, 2x2 grid below */
+  .doc-cards-using {
+    flex-direction: column !important;
+  }
+
+  .doc-cards-using-large {
+    flex: none !important;
+    width: 100% !important;
+  }
+
+  /* Reduce large card height on mobile */
+  .doc-cards-using-large .doc-card-wrapper > div {
+    min-height: 120px !important;
+  }
+
+  .doc-cards-using-grid {
+    flex: none !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  .doc-cards-using-grid > * {
+    flex: 0 0 calc((100% - 16px) / 2) !important;
+    min-width: 0;
+    height: auto !important;
+  }
+
+  /* Features: 2 per row on mobile, last-row item centered */
+  .doc-features-grid > * {
+    flex: 0 0 calc((100% - 16px) / 2) !important;
+    height: auto !important; /* allow align-items:stretch to equalize row heights */
+  }
+
+  /* General: 2 per row on mobile, last-row item centered */
+  .doc-cards-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: stretch;
+  }
+
+  /* Every direct child div needs height:auto so align-items:stretch can equalize row heights */
+  .doc-cards-grid > div {
+    flex: 0 0 calc((100% - 16px) / 2) !important;
+    min-width: 0;
+    height: auto !important;
+  }
+
+  .doc-cards-grid > div > a {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .doc-cards-grid > div > a > .doc-card-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .doc-cards-grid > div > a > .doc-card-wrapper > ui5-card {
+    flex: 1;
+  }
+}
+
+/* ============================================
+   Mobile Navbar — hamburger + overlay menu
+   Applied at < 980px (below M breakpoint)
+   ============================================ */
+
+/* Hide desktop nav items and hamburger by default */
+.navbar-hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--sap-grey9, #223548);
+  border-radius: 4px;
+  padding: 0;
+  flex-shrink: 0;
+  margin-right: -12px;
+}
+
+.navbar-hamburger:hover {
+  background: var(--sap-grey2, #EAECEE);
+}
+
+.navbar-hamburger:focus-visible {
+  outline: 0.125rem solid var(--sap-blue10, #002A86);
+  outline-offset: 2px;
+}
+
+/* Full-screen overlay */
+.mobile-nav-overlay {
+  display: none;
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--sap-white, #fff);
+  z-index: 999;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Tablet: right-side drawer instead of full-width */
+@media (min-width: 640px) and (max-width: 979px) {
+  .mobile-nav-overlay {
+    left: auto;
+    right: 0;
+    width: 48%;
+    box-shadow: -4px 0 24px rgba(34, 53, 72, 0.18);
+  }
+}
+
+/* Landscape phone: separator + gap before Explore SAP */
+@media (max-width: 639px) and (orientation: landscape) {
+  .mobile-nav-explore {
+    border-top: 1px solid var(--sap-grey3, #D5DADD);
+    margin-top: 16px;
+  }
+}
+
+.mobile-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-top: 12px;
+  flex: 1;
+}
+
+.mobile-nav-logo {
+  padding: 40px calc(var(--grid-margin) + 8px) 8px;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-nav-logo img {
+  height: 140px;
+  width: auto;
+}
+
+/* Separator spans full width; text is inset to match grid margin */
+.mobile-nav-item {
+  border-bottom: 1px solid var(--sap-grey3, #D5DADD);
+  margin: 0 var(--grid-margin);
+}
+
+.mobile-nav-item-last {
+  border-bottom: 1px solid var(--sap-grey3, #D5DADD);
+}
+
+.mobile-nav-item-indented {
+  margin-left: calc(var(--grid-margin) + 16px);
+  margin-right: calc(var(--grid-margin) + 16px);
+}
+
+.mobile-nav-section-toggle {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.mobile-nav-section-arrow {
+  color: var(--sap-grey5, #8396A8);
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.mobile-nav-section-arrow--open {
+  transform: rotate(180deg);
+}
+
+.mobile-nav-section-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.mobile-nav-section-body--open {
+  max-height: 600px;
+}
+
+.mobile-nav-link--active {
+  color: var(--sap-blue7, #0070F2) !important;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 8px;
+  font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400.5;
+  color: var(--sap-black, #000);
+  text-decoration: none;
+}
+
+.mobile-nav-link:hover {
+  color: var(--sap-blue7, #0070F2);
+}
+
+.mobile-nav-link svg {
+  color: var(--sap-black, #000);
+  flex-shrink: 0;
+}
+
+.mobile-nav-explore-separator {
+  height: 1px;
+  background: var(--sap-grey3, #D5DADD);
+  margin: 40px var(--grid-margin) 0;
+}
+
+/* On phones the FAQ item already has a border-bottom — hide the extra line */
+@media (max-width: 639px) {
+  .mobile-nav-explore-separator {
+    background: transparent;
+  }
+}
+
+/* On tablets the FAQ item already has a border-bottom — hide the extra line */
+@media (min-width: 640px) and (max-width: 979px) {
+  .mobile-nav-explore-separator {
+    background: transparent;
+  }
+}
+
+/* Explore SAP — pinned blue row at bottom */
+.mobile-nav-explore {
+  background: var(--sap-blue7, #0070F2);
+  margin-top: auto;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+}
+
+.mobile-nav-explore-link {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px calc(var(--grid-margin) + 8px);
+  font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sap-white, #fff);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.mobile-nav-explore-link:hover {
+  background: var(--sap-blue8, #0057D2);
+  color: var(--sap-white, #fff);
+}
+
+.mobile-nav-explore-link svg {
+  color: var(--sap-white, #fff);
+}
+
+/* Explore SAP sub-panel header */
+.mobile-nav-subpanel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--grid-margin);
+  margin-top: 20px;
+  height: 52px;
+  flex-shrink: 0;
+}
+
+.mobile-nav-subpanel-separator {
+  margin: 0 var(--grid-margin);
+  border-bottom: 1px solid var(--sap-grey3, #D5DADD);
+}
+
+.mobile-nav-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--sap-grey9, #223548);
+  padding: 0;
+  margin-right: 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.mobile-nav-back:hover {
+  background: var(--sap-grey2, #EAECEE);
+}
+
+.mobile-nav-subpanel-title {
+  font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 410;
+  color: var(--sap-black, #000);
+  flex: 1;
+  text-align: center;
+}
+
+@media (max-width: 979px) {
+  .navbar-hamburger {
+    display: flex;
+  }
+
+  .navbar-desktop-nav {
+    display: none !important;
+  }
+
+  .mobile-nav-overlay {
+    display: flex;
+  }
+}
+
+/* ============================================
+   Docusaurus Layout Overrides
+   Remove all default padding, margins, and max-width constraints
+   ============================================ */
+
+/* Main wrapper - remove top margin/padding */
+.main-wrapper {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Remove all Docusaurus container constraints */
+div[class*="docPage"],
+div[class*="docRoot"],
+div[class*="docMainContainer"],
+div[class*="docsWrapper"],
+div[class*="docItemWrapper"],
+div[class*="docItemContainer"] {
+  max-width: none !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Remove article padding */
+article[class*="docItemCol"] {
+  max-width: none !important;
+  padding: 0 !important;
+}
+
+/* Remove row container margins */
+div[class*="docPage"] div[class*="row"],
+.docs-wrapper div[class*="row"] {
+  margin: 0 !important;
+}
+
+/* Override any container with padding classes */
+.container.padding-top--md,
+.container.padding-bottom--lg,
+.container[class*="padding-top"],
+.container[class*="padding-bottom"] {
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Hide default Docusaurus sidebar - we use our custom one */
+aside[class*="docSidebarContainer"],
+div[class*="sidebarViewport"] {
+  display: none !important;
+}
+
+/* Ensure doc content fills width */
+main[class*="docMainContainer"] {
+  max-width: none !important;
+  padding: 0 !important;
+  flex: 1 !important;
+}
+
+/* Remove theme-doc-markdown wrapper padding */
+div[class*="theme-doc-markdown"] {
+  padding: 0 !important;
+}
+
+/* ============================================
+   Vertical Tab Navigation
+   Used for Benefits of SapMachine section
+   ============================================ */
+.vertical-tab-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  border-left: 1px solid var(--sap-grey3, #D5DADD);
+  border-radius: 1px;
+}
+
+.vertical-tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px 0 16px 16px;
+  border: none;
+  border-left: 3px solid transparent;
+  margin-left: -1px; /* Overlap the container border */
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.2s ease, border-left-color 0.4s ease;
+  position: relative;
+}
+
+.vertical-tab-item-active {
+  border-left-color: var(--sap-blue7, #0070F2);
+}
+
+.vertical-tab-title {
+  font-family: "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--sap-grey9, #223548);
+  transition: color 0.2s ease;
+}
+
+.vertical-tab-item:hover .vertical-tab-title {
+  color: var(--sap-blue7, #0070F2);
+}
+
+.vertical-tab-item-active .vertical-tab-title {
+  color: var(--sap-blue7, #0070F2);
+}
+
+.vertical-tab-description {
+  display: block;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  font-family: var(--sap-font-family);
+  font-size: var(--body-s-size);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--body-line-height);
+  color: var(--sap-grey7, #475E75);
+  transition: max-height 0.45s ease, opacity 0.35s ease, margin-top 0.45s ease;
+}
+
+.vertical-tab-item-active .vertical-tab-description {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 8px;
+}
+
+.benefit-image-wrapper {
+  animation: benefit-image-in 0.35s ease-out;
+}
+
+@keyframes benefit-image-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vertical-tab-description,
+  .benefit-image-wrapper {
+    animation: none;
+    transition: none;
+  }
+  .vertical-tab-item {
+    transition: none;
+  }
+}
+
+/* Vertical Tab Focus Styles */
+.vertical-tab-item:focus {
+  outline: none;
+}
+
+.vertical-tab-item:focus-visible {
+  outline: 0.125rem solid var(--sap-blue10, #002A86);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ============================================
+   Vertical Tab Responsive - M Breakpoint (980-1279px)
+   ============================================ */
+@media (min-width: 980px) and (max-width: 1279px) {
+  .vertical-tab-title {
+    font-size: var(--heading-xxxs-size); /* 18px */
+  }
+  
+  /* Description stays body-s (16px) at all breakpoints */
+  
+  .vertical-tab-item {
+    padding: 12px 0 12px 12px;
+  }
+}
+
+/* ============================================
+   Vertical Tab Responsive - S Breakpoint (640-979px)
+   ============================================ */
+@media (min-width: 640px) and (max-width: 979px) {
+  .vertical-tab-title {
+    font-size: var(--body-s-size); /* 16px */
+  }
+  
+  /* Description stays body-s (16px) at all breakpoints */
+  
+  .vertical-tab-item {
+    padding: 10px 0 10px 10px;
+  }
+}
+
+/* ============================================
+   Vertical Tab Responsive - XS Breakpoint (<640px)
+   Stack vertically on mobile
+   ============================================ */
+@media (max-width: 639px) {
+  .vertical-tab-title {
+    font-size: var(--body-s-size); /* 16px */
+  }
+  
+  /* Description stays body-s (16px) at all breakpoints */
+  
+  .vertical-tab-item {
+    padding: 10px 0 10px 10px;
+  }
+}
+
+/* ============================================
+   UI5 Side Navigation - Global Overrides
+   Remove separators and apply SAP branding
+   Design: Light blue background with blue left indicator when active
+   ============================================ */
+
+/* Target the UI5 side navigation component globally */
+ui5-side-navigation {
+  --_ui5_side_navigation_separator_backgound: transparent !important;
+  --sapList_BorderColor: transparent !important;
+  --sapList_BorderWidth: 0 !important;
+  --sapContent_ForegroundBorderColor: transparent !important;
+  /* Remove toggle separators */
+  --_ui5-tree-toggle-box-width: 0 !important;
+  --_ui5_side_navigation_toggle_icon_before_border_color: transparent !important;
+}
+
+/* Remove the separator line (vertical line before arrows) - comprehensive selectors */
+ui5-side-navigation-item::part(tree-item-icon)::before,
+ui5-side-navigation-item::part(separator),
+ui5-side-navigation-item::part(toggle-icon)::before,
+ui5-side-navigation::part(separator),
+ui5-side-navigation-item .ui5-sn-item-separator,
+ui5-side-navigation [class*="separator"],
+ui5-side-navigation-item [class*="toggle"]::before {
+  display: none !important;
+  visibility: hidden !important;
+  border: none !important;
+  background: transparent !important;
+  width: 0 !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+/* Base tree item styling - remove all borders */
+ui5-side-navigation-item::part(tree-item),
+ui5-side-navigation-sub-item::part(tree-item) {
+  border: none !important;
+  border-left: none !important;
+}
+
+/* Active state styling - light blue background with blue left indicator */
+ui5-side-navigation-item[selected]::part(tree-item),
+ui5-side-navigation-sub-item[selected]::part(tree-item) {
+  background: var(--sap-blue1, #EBF8FF) !important;
+  border-radius: 12px !important;
+  min-height: 40px;
+  /* Blue left indicator as a left border with rounded corners */
+  border-left: 4px solid var(--sap-blue6, #1B90FF) !important;
+  border-top-left-radius: 12px !important;
+  border-bottom-left-radius: 12px !important;
+}
+
+/* Override selection indicator - keep it hidden, we use border-left instead */
+ui5-side-navigation-item[selected]::part(selection-indicator),
+ui5-side-navigation-sub-item[selected]::part(selection-indicator),
+ui5-side-navigation-item::part(selection-indicator),
+ui5-side-navigation-sub-item::part(selection-indicator) {
+  display: none !important;
+  background: transparent !important;
+  width: 0 !important;
+}
+
+/* Hover state for non-selected items */
+ui5-side-navigation-item:not([selected]):hover::part(tree-item),
+ui5-side-navigation-sub-item:not([selected]):hover::part(tree-item) {
+  background: var(--sap-grey1, #F5F6F7) !important;
+  border-radius: 12px !important;
+}
+
+/* Typography - using nav-text style (body-s: 16px) */
+ui5-side-navigation-item,
+ui5-side-navigation-sub-item {
+  --sapFontFamily: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  --sapFontSize: 1rem;
+  --sapTextColor: #000;
+  font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif !important;
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  line-height: 1.25 !important;
+  color: #000 !important;
+}
+
+/* ============================================
+   Documentation Content - SAP Typography
+   Applied to markdown content rendered by Docusaurus
+   ============================================ */
+
+/* Target the markdown content wrapper */
+.theme-doc-markdown,
+article[class*="docItemCol"],
+.markdown {
+  font-family: var(--sap-font-family);
+}
+
+/* Body text (paragraphs) - Body/S: 16px, line-height 1.5, Grey-9 */
+.theme-doc-markdown p,
+.markdown p {
+  font-family: var(--sap-font-family);
+  font-size: var(--body-s-size); /* 16px */
+  line-height: var(--body-line-height); /* 1.5 */
+  font-weight: var(--font-weight-regular); /* 400 */
+  color: var(--sap-grey9); /* #223548 */
+  margin-bottom: 1rem;
+}
+
+/* Heading 1 - heading-xl: 40px */
+.theme-doc-markdown h1,
+.markdown h1 {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-xl-size); /* 40px */
+  line-height: var(--heading-line-height); /* 1.1 */
+  font-weight: var(--font-weight-medium); /* 500 */
+  color: var(--sap-black);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+/* Heading 2 - heading-l: 36px */
+.theme-doc-markdown h2,
+.markdown h2 {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-l-size); /* 36px */
+  line-height: var(--heading-line-height); /* 1.1 */
+  font-weight: var(--font-weight-medium); /* 500 */
+  color: var(--sap-black);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 979px) {
+  .faq-content h2 {
+    font-size: var(--heading-xs-size); /* 24px */
+  }
+}
+
+/* Heading 3 - heading-m: 32px */
+.theme-doc-markdown h3,
+.markdown h3 {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-m-size); /* 32px */
+  line-height: var(--heading-line-height); /* 1.1 */
+  font-weight: var(--font-weight-medium); /* 500 */
+  color: var(--sap-black);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Heading 4 - heading-s: 28px */
+.theme-doc-markdown h4,
+.markdown h4 {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-s-size); /* 28px */
+  line-height: var(--heading-line-height); /* 1.1 */
+  font-weight: var(--font-weight-medium); /* 500 */
+  color: var(--sap-black);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Heading 5 - heading-xs: 24px */
+.theme-doc-markdown h5,
+.markdown h5 {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-xs-size); /* 24px */
+  line-height: var(--heading-line-height); /* 1.1 */
+  font-weight: var(--font-weight-medium); /* 500 */
+  color: var(--sap-black);
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Heading 6 - heading-xxs: 20px */
+.theme-doc-markdown h6,
+.markdown h6 {
+  font-family: var(--sap-font-family);
+  font-size: var(--heading-xxs-size); /* 20px */
+  line-height: var(--heading-line-height); /* 1.1 */
+  font-weight: var(--font-weight-medium); /* 500 */
+  color: var(--sap-black);
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Lists - Body/S styling */
+.theme-doc-markdown ul,
+.theme-doc-markdown ol,
+.markdown ul,
+.markdown ol {
+  font-family: var(--sap-font-family);
+  font-size: var(--body-s-size); /* 16px */
+  line-height: var(--body-line-height); /* 1.5 */
+  font-weight: var(--font-weight-regular); /* 400 */
+  color: var(--sap-grey9);
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.theme-doc-markdown li,
+.markdown li {
+  margin-bottom: 0.5rem;
+}
+
+/* Nested lists */
+.theme-doc-markdown li ul,
+.theme-doc-markdown li ol,
+.markdown li ul,
+.markdown li ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Links - Blue-7 with hover to Blue-9 */
+.theme-doc-markdown a,
+.markdown a {
+  color: var(--sap-blue7); /* #0070F2 */
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.theme-doc-markdown a:hover,
+.markdown a:hover {
+  color: var(--sap-blue9); /* #0040B0 */
+  text-decoration: underline;
+}
+
+/* Strong/Bold text */
+.theme-doc-markdown strong,
+.theme-doc-markdown b,
+.markdown strong,
+.markdown b {
+  font-weight: var(--font-weight-bold); /* 700 */
+  color: var(--sap-grey9);
+}
+
+/* Emphasis/Italic text */
+.theme-doc-markdown em,
+.theme-doc-markdown i,
+.markdown em,
+.markdown i {
+  font-style: italic;
+}
+
+/* Inline code */
+.theme-doc-markdown code,
+.markdown code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 0.875em; /* Slightly smaller than surrounding text */
+  background-color: var(--sap-grey1); /* #F5F6F7 */
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  color: var(--sap-grey9);
+}
+
+/* Code blocks */
+.theme-doc-markdown pre,
+.markdown pre {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.6;
+  background-color: var(--sap-grey1); /* #F5F6F7 */
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.theme-doc-markdown pre code,
+.markdown pre code {
+  background-color: transparent;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* Blockquotes */
+.theme-doc-markdown blockquote,
+.markdown blockquote {
+  border-left: 4px solid var(--sap-blue7);
+  margin: 1rem 0;
+  padding: 0.5rem 0 0.5rem 1rem;
+  background-color: var(--sap-grey1);
+  border-radius: 0 8px 8px 0;
+}
+
+.theme-doc-markdown blockquote p,
+.markdown blockquote p {
+  margin-bottom: 0;
+  color: var(--sap-grey7);
+}
+
+/* Tables */
+.theme-doc-markdown table,
+.markdown table {
+  font-family: var(--sap-font-family);
+  font-size: var(--body-s-size);
+  line-height: var(--body-line-height);
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.theme-doc-markdown th,
+.markdown th {
+  font-weight: var(--font-weight-medium);
+  color: var(--sap-black);
+  text-align: left;
+  padding: 0.75rem 1rem;
+  background-color: var(--sap-grey1);
+  border-bottom: 2px solid var(--sap-grey3);
+}
+
+.theme-doc-markdown td,
+.markdown td {
+  color: var(--sap-grey9);
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--sap-grey3);
+}
+
+.theme-doc-markdown tr:hover td,
+.markdown tr:hover td {
+  background-color: var(--sap-grey1);
+}
+
+/* Horizontal rule - SAP Grey-3 color with section spacing */
+.theme-doc-markdown hr,
+.markdown hr,
+hr {
+  border: none !important;
+  border-top: 1px solid var(--sap-grey3, #D5DADD) !important;
+  background: transparent !important;
+  height: 0 !important;
+  margin: var(--section-spacing-block, 56px) 0 !important;
+}
+
+/* Images */
+.theme-doc-markdown img,
+.markdown img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* ============================================
+   Documentation Typography - Responsive
+   Adjust heading sizes for smaller screens
+   ============================================ */
+
+/* M Breakpoint (980-1279px) */
+@media (min-width: 980px) and (max-width: 1279px) {
+  .theme-doc-markdown h1,
+  .markdown h1 {
+    font-size: var(--heading-l-size); /* 36px */
+  }
+  
+  .theme-doc-markdown h2,
+  .markdown h2 {
+    font-size: var(--heading-m-size); /* 32px */
+  }
+  
+  .theme-doc-markdown h3,
+  .markdown h3 {
+    font-size: var(--heading-s-size); /* 28px */
+  }
+  
+  .theme-doc-markdown h4,
+  .markdown h4 {
+    font-size: var(--heading-xs-size); /* 24px */
+  }
+  
+  .theme-doc-markdown h5,
+  .markdown h5 {
+    font-size: var(--heading-xxs-size); /* 20px */
+  }
+  
+  .theme-doc-markdown h6,
+  .markdown h6 {
+    font-size: var(--heading-xxxs-size); /* 18px */
+  }
+}
+
+/* S Breakpoint (640-979px) */
+@media (min-width: 640px) and (max-width: 979px) {
+  .theme-doc-markdown h1,
+  .markdown h1 {
+    font-size: var(--heading-m-size); /* 32px */
+  }
+  
+  .theme-doc-markdown h2,
+  .markdown h2 {
+    font-size: var(--heading-s-size); /* 28px */
+  }
+  
+  .theme-doc-markdown h3,
+  .markdown h3 {
+    font-size: var(--heading-xs-size); /* 24px */
+  }
+  
+  .theme-doc-markdown h4,
+  .markdown h4 {
+    font-size: var(--heading-xxs-size); /* 20px */
+  }
+  
+  .theme-doc-markdown h5,
+  .markdown h5 {
+    font-size: var(--heading-xxxs-size); /* 18px */
+  }
+  
+  .theme-doc-markdown h6,
+  .markdown h6 {
+    font-size: var(--body-s-size); /* 16px */
+    font-weight: var(--font-weight-bold);
+  }
+}
+
+/* XS Breakpoint (<640px) */
+@media (max-width: 639px) {
+  .theme-doc-markdown h1,
+  .markdown h1 {
+    font-size: var(--heading-s-size); /* 28px */
+  }
+  
+  .theme-doc-markdown h2,
+  .markdown h2 {
+    font-size: var(--heading-xs-size); /* 24px */
+  }
+  
+  .theme-doc-markdown h3,
+  .markdown h3 {
+    font-size: var(--heading-xxs-size); /* 20px */
+  }
+  
+  .theme-doc-markdown h4,
+  .markdown h4 {
+    font-size: var(--heading-xxxs-size); /* 18px */
+  }
+  
+  .theme-doc-markdown h5,
+  .markdown h5 {
+    font-size: var(--body-s-size); /* 16px */
+    font-weight: var(--font-weight-bold);
+  }
+  
+  .theme-doc-markdown h6,
+  .markdown h6 {
+    font-size: var(--body-s-size); /* 16px */
+    font-weight: var(--font-weight-bold);
+  }
+}
+
