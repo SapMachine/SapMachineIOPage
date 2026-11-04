@@ -1,76 +1,26 @@
-<!-- Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. -->
+[![REUSE status](https://api.reuse.software/badge/github.com/SapMachine/sapmachineiopage)](https://api.reuse.software/info/github.com/SapMachine/sapmachineiopage)
 
-This repository is the source of the external SapMachine anchor page [sapmachine.io](https://sapmachine.io).
+# SapMachineIOPage
 
-# Constraints (Mission Statement)
+## About this project
 
-- **Intention/Target audience:** Inform customers and colleagues about SapMachine. Provide documentation, download links and release APIs.
-- **Availability:** Keep the site reliably up all times, 24/7.
-- **4 Eyes:** Changes need to be reviewed by a second person.
+Infrastructure workflow for building and publishing the https://sapmachine.io website.
 
-# sapmachine.io deployment process
+## Requirements and Setup
 
-![Deployment Diagram](./sapmachineIOPage_deployment.svg)
+*Insert a short description what is required to get your project running...*
 
-# Links
+## Support, Feedback, Contributing
 
-| Repository | Github Pages |
-| ---------- | ------------ |
-| [SapMachineIOPage](https://github.tools.sap/SapMachine/SapMachineIOPage) | [SapMachineIOPage GitHub Pages](https://pages.github.tools.sap/SapMachine/SapMachineIOPage/) |
-| [SapMachine](https://github.com/SAP/SapMachine) | [SapMachine GitHub Pages](https://sap.github.io/SapMachine/) |
-| [SapMachine-Infrastructure](https://github.com/SAP/SapMachine-infrastructure) | [sapmachine.io](https://sapmachine.io/) |
+This project is open to feature requests/suggestions, bug reports etc. via [GitHub issues](https://github.com/SapMachine/sapmachineiopage/issues). Contribution and feedback are encouraged and always welcome. For more information about how to contribute, the project structure, as well as additional contribution information, see our [Contribution Guidelines](CONTRIBUTING.md).
 
-# Known external usage
+## Security / Disclosure
+If you find any bug that may be a security problem, please follow our instructions at [in our security policy](https://github.com/SapMachine/sapmachineiopage/security/policy) on how to report it. Please do not create GitHub issues for security-related doubts or problems.
 
-Some endpoints/URLs on our pages are used by others. Lets try to list the known ones that we can inform them, in case of a change.
+## Code of Conduct
 
-## [GitHub Actions - setup-java](https://github.com/actions/setup-java)
+We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone. By participating in this project, you agree to abide by its [Code of Conduct](https://github.com/SAP/.github/blob/main/CODE_OF_CONDUCT.md) at all times.
 
-Discover JDKs through sapmachine-releases-all.json. Needs to be updated.
+## Licensing
 
-[src/distributions/sapmachine/installer.ts](https://github.com/actions/setup-java/blob/main/src/distributions/sapmachine/installer.ts#L65):
-
-```text
-    let fetchedReleasesJson = await this.fetchReleasesFromUrl(
-      'https://sapmachine.io/assets/data/sapmachine-releases-all.json'
-    );
-
-    if (!fetchedReleasesJson) {
-      fetchedReleasesJson = await this.fetchReleasesFromUrl(
-        'https://sap.github.io/SapMachine/assets/data/sapmachine-releases-all.json'
-      );
-    }
-```
-
-## Java Buildpacks
-
-Discover available JDKs/JREs from their code like configured here:
-
-https://github.wdf.sap.corp/xs2-java/xs-java-buildpack/blob/master/resources/src/main/resources/config/sap_machine_jdk.yml
-https://github.wdf.sap.corp/xs2-java/xs-java-buildpack/blob/master/resources/src/main/resources/config/sap_machine_jre.yml
-https://github.tools.sap/buildpacks/cf-sjb/blob/main/resources/src/main/resources/config/sap_machine_jdk.yml
-https://github.tools.sap/buildpacks/cf-sjb/blob/main/resources/src/main/resources/config/sap_machine_jre.yml
-https://github.com/cloudfoundry/java-buildpack/blob/main/config/sap_machine_jre.yml
-
-Needs https://sapmachine.io/assets/cf/{jre/jdk}/{platform}/{architecture}/index.yml for the relevant type/platform/architecture combinations.
-
-For Paketo buildpacks there is only documentation which was fixed by these PRs:
-https://github.com/paketo-buildpacks/paketo-website/pull/944
-https://github.com/paketo-buildpacks/jvm-vendors/pull/24
-
-## Stable links
-
-```https://sapmachine.io/latest/<jdk-number>/<os-name>-<cpu-arch>/[jdk|jre]```
-
-## [SapMachine Manager](https://github.com/SAP/sapmachine-manager-for-macos)
-
-References assets/data/sapmachine-releases-latest.json in [Constants.h](https://github.com/SAP/sapmachine-manager-for-macos/blob/b615af3cd468810a78fc9ec4d1407a5544fa9b9f/source/Shared/Constants.h#L21)
-
-## [sdkman](https://sdkman.io/)
-
-They are using the disco API from foojay. Update URL through a PR:
-https://github.com/foojayio/discoapi/pull/129
-
-Found some occurrences of old URL in sdkman. Updated through PRs:
-https://github.com/sdkman/sdkman.github.io/pull/135  
-https://github.com/sdkman/new-sdkman.github.io/pull/13
+Copyright 2026 SAP SE or an SAP affiliate company and sapmachineiopage contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SapMachine/sapmachineiopage).
