@@ -8,7 +8,32 @@ Infrastructure workflow for building and publishing the https://sapmachine.io we
 
 ## Requirements and Setup
 
-*Insert a short description what is required to get your project running...*
+This project is a [Docusaurus](https://docusaurus.io/) site that generates the static https://sapmachine.io website.
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) 20 or newer (the CI build runs on Node 24)
+- npm (bundled with Node.js)
+
+### Local development
+
+Install the dependencies and start a local dev server with hot reload at http://localhost:3000:
+
+```bash
+npm ci
+npm start
+```
+
+### Production build
+
+Generate the static site into the `build/` directory and preview it locally before deploying:
+
+```bash
+npm run build
+npm run serve
+```
+
+Pushing to the `main` branch triggers the [publish workflow](.github/workflows/publish-page.yml), which builds the site and deploys it to GitHub Pages.
 
 ## Support, Feedback, Contributing
 
