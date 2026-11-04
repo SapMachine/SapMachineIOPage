@@ -1,0 +1,238 @@
+/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */
+
+---
+---
+
+@import "jekyll-theme-slate";
+
+/* Sidebar Styles - Clean White Theme */
+.content-with-sidebar {
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.sidebar {
+  flex: 0 0 280px;
+  background: #ffffff;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  padding: 2rem 1.5rem;
+  position: sticky;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-header h3 {
+  color: #1a1a1a;
+  //margin: 0 0 1.5rem 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  margin-bottom: 0.25rem;
+}
+
+.sidebar-menu a {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: #4a4a4a;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  font-weight: 400;
+  border-left: 3px solid transparent;
+}
+
+.sidebar-menu a:hover {
+  background: #f8f9fa;
+  color: #2c3e50;
+  border-left-color: #ddd;
+  transform: translateX(2px);
+}
+
+.sidebar-menu .active a {
+  background: #f1f8ff;
+  color: #0366d6;
+  font-weight: 500;
+  border-left-color: #0366d6;
+}
+
+/* Main content adjustments */
+#main_content {
+  flex: 1;
+  min-width: 0;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Improve typography */
+#main_content h1 {
+  color: #1a1a1a;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.5rem;
+}
+
+#main_content h2 {
+  color: #2c3e50;
+  font-size: 1.6rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+#main_content h3 {
+  color: #34495e;
+  font-size: 1.3rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+#main_content p {
+  color: #4a4a4a;
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
+}
+
+#main_content code {
+  background: #f6f8fa;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+  color: #d73a49;
+}
+
+#main_content pre {
+  background: #f6f8fa;
+  border: 1px solid #e1e8ed;
+  border-radius: 6px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+#main_content pre code {
+  background: none;
+  padding: 0;
+  color: #24292e;
+}
+
+/* Links styling */
+#main_content a {
+  color: #0366d6;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+#main_content a:hover {
+  border-bottom-color: #0366d6;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 992px) {
+  .content-with-sidebar {
+    gap: 2rem;
+  }
+
+  .sidebar {
+    flex: 0 0 250px;
+    padding: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content-with-sidebar {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .sidebar {
+    flex: none;
+    position: static;
+    max-height: none;
+    margin-bottom: 0;
+    order: -1; /* Show sidebar first on mobile */
+  }
+
+  #main_content {
+    padding: 1.5rem;
+  }
+
+  .sidebar-header h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-menu a {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .sidebar {
+    padding: 1rem;
+    border-radius: 6px;
+  }
+
+  #main_content {
+    padding: 1rem;
+    border-radius: 6px;
+  }
+
+  #main_content h1 {
+    font-size: 1.8rem;
+  }
+}
+
+/* Override theme's outer wrapper for better spacing */
+#main_content_wrap .inner {
+  max-width: none;
+  padding: 2rem 1rem;
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus states for accessibility */
+.sidebar-menu a:focus {
+  outline: 2px solid #0366d6;
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .sidebar {
+    display: none;
+  }
+
+  .content-with-sidebar {
+    display: block;
+  }
+
+  #main_content {
+    box-shadow: none;
+    border: none;
+  }
+}

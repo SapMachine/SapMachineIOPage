@@ -1,0 +1,123 @@
+---
+title: "Documentation of SapMachine"
+description: "These pages provide documentation about using SapMachine."
+sidebar_position: 1
+slug: /
+hide_table_of_contents: true
+---
+
+{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
+
+import Link from '@docusaurus/Link';
+import { Card, Icon } from "@ui5/webcomponents-react";
+import "@ui5/webcomponents-icons/dist/navigation-right-arrow.js";
+// Navigation config — IMPORTANT!!!! add new docs articles to src/docsNavConfig.js to have them appear here and in the mobile hamburger menu.
+import { usingSection, featuresSection, generalSection } from '../../src/docsNavConfig.js';
+
+export const ArrowLink = ({to, children}) => (
+  <Link
+    to={to}
+    className="body-s"
+    style={{
+      color: 'var(--sap-blue7, #0070F2)',
+      textDecoration: 'none',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '4px',
+      cursor: 'pointer',
+    }}
+  >
+    {children}{" "}
+    <Icon
+      name="navigation-right-arrow"
+      style={{ fontSize: '14px', color: 'var(--sap-blue7, #0070F2)' }}
+    />
+  </Link>
+);
+
+export const DocCard = ({ to, title, large, short }) => (
+  <Link to={to} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <div className="doc-card-wrapper" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      {large ? (
+        <div style={{
+          flex: 1,
+          minHeight: '180px',
+          background: 'rgba(0, 112, 242, 0.08)',
+          border: 'none',
+          boxShadow: '0 0 0.125rem 0 rgba(34,53,72,.2), 0 0.125rem 0.25rem 0 rgba(34,53,72,.2)',
+          borderRadius: '0.75rem',
+          cursor: 'pointer',
+          padding: '24px',
+          display: 'flex',
+          flexDirection: 'column',
+          boxSizing: 'border-box',
+        }}>
+          <span className="heading-xs" style={{ fontWeight: 600, color: 'var(--sap-blue7, #0070F2)', flexGrow: 1 }}>
+            {title}
+          </span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '16px', gap: '8px' }}>
+            <span className="body-s" style={{ fontWeight: 400, color: 'var(--sap-grey6, #5B738B)', minWidth: 0 }}>
+              Linux • macOS • Windows • SDKMAN
+            </span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+              <path d="M9 18L15 12L9 6" stroke="var(--sap-blue7, #0070F2)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+        </div>
+      ) : (
+        <Card style={{ marginBottom: 0, cursor: 'pointer', flex: 1 }}>
+          <div style={{
+            padding: '24px',
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            minHeight: '120px',
+            boxSizing: 'border-box',
+          }}>
+            <span className="heading-xxxs" style={{ fontWeight: 600, color: 'var(--sap-grey9, #1D2D3E)', flexGrow: 1 }}>
+              {title}
+            </span>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+              <Icon name="navigation-right-arrow" style={{ fontSize: '16px', color: 'var(--sap-blue7, #0070F2)' }} />
+            </div>
+          </div>
+        </Card>
+      )}
+    </div>
+  </Link>
+);
+
+## Using SapMachine
+
+<div className="doc-cards-using" style={{ display: 'flex', gap: '16px', alignItems: 'stretch', marginTop: '24px', marginBottom: '32px' }}>
+  <div className="doc-cards-using-large" style={{ flex: '0 0 calc(33.333% - 8px)' }}>
+    <DocCard to={usingSection[0].path} title={usingSection[0].title} large />
+  </div>
+  <div className="doc-cards-using-grid" style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+    {usingSection.slice(1).map(item => (
+      <DocCard key={item.path} to={item.path} title={item.title} />
+    ))}
+  </div>
+</div>
+
+---
+
+## Features
+
+<div className="doc-features-grid" style={{ gap: '16px', marginTop: '24px', marginBottom: '32px' }}>
+  {featuresSection.map(item => (
+    <DocCard key={item.path} to={item.path} title={item.title} short />
+  ))}
+</div>
+
+---
+
+## General
+
+<div className="doc-cards-grid" style={{ display: 'flex', gap: '16px', alignItems: 'stretch', marginTop: '24px', marginBottom: '32px' }}>
+  {generalSection.map(item => (
+    <div key={item.path}>
+      <DocCard to={item.path} title={item.title} short />
+    </div>
+  ))}
+</div>
