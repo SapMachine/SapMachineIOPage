@@ -1,10 +1,9 @@
 ---
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
 title: "Malloc Trace"
 sidebar_position: 3
 slug: /malloc-trace
 ---
-
-{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
 
 # Malloc Trace
 

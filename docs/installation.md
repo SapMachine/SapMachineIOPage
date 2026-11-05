@@ -1,12 +1,11 @@
 ---
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
 title: "Download and Installation Guide"
 sidebar_position: 4
 slug: /installation
 redirect_from:
   - /docs/Installation
 ---
-
-{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
 
 # Download and Installation of SapMachine
 

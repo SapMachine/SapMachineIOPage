@@ -1,12 +1,11 @@
 ---
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
 title: "Certification and Java Compatibility"
 sidebar_position: 14
 slug: /certification-and-java-compatibility
 redirect_from:
   - /docs/Certification-and-Java-Compatibility
 ---
-
-{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
 
 # Certification and Java Compatibility
 

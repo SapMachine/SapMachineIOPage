@@ -1,4 +1,5 @@
 ---
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
 title: "Cloud Foundry Buildpacks"
 sidebar_position: 3
 slug: /cloud-foundry-buildpacks
@@ -8,8 +9,6 @@ redirect_from:
   - /docs/cloud-foundry
   - /docs/Cloud-Foundry
 ---
-
-{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
 
 # SapMachine in Cloud Foundry Buildpacks
 

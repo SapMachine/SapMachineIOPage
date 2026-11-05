@@ -1,10 +1,9 @@
 ---
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
 title: JMC Agent Integration
 sidebar_position: 3.5
 slug: /jmc-agent-integration
 ---
-
-{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
 
 # JMC agent integration
 

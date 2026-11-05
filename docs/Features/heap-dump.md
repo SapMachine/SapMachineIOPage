@@ -1,10 +1,9 @@
 ---
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
 title: "Additional Heap Dump Features"
 sidebar_position: 5
 slug: /heap-dump
 ---
-
-{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
 
 # Additional heap dump features
 

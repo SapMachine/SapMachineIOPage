@@ -1,4 +1,5 @@
 ---
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
 title: "High Memory Reports"
 sidebar_position: 4
 slug: /high-memory-reports
@@ -6,8 +7,6 @@ redirect_from:
   - /docs/High-Memory-Reports
   - /docs/sapmachine-high-memory-reports
 ---
-
-{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
 
 # SapMachine High Memory Reports
 

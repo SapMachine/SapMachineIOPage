@@ -1,10 +1,9 @@
 ---
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
 title: "Essential Information on Virtual Threads"
 sidebar_position: 13
 slug: /essential-information-on-virtual-threads
 ---
-
-{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
 
 # Essential Information on Virtual Threads
 

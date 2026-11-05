@@ -1,4 +1,5 @@
 ---
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
 title: "Maintenance and Support"
 sidebar_position: 2
 slug: /maintenance-and-support
@@ -9,8 +10,6 @@ redirect_from:
   - /docs/support
   - /docs/Support
 ---
-
-{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
 
 # Maintenance and Support of SapMachine
 

@@ -1,4 +1,5 @@
 ---
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
 title: "Features of SapMachine"
 sidebar_position: 1
 slug: /features
@@ -7,8 +8,6 @@ redirect_from:
   - /docs/features-of-sapmachine
   - /docs/Features-of-Sapmachine
 ---
-
-{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
 
 # Features of SapMachine
 

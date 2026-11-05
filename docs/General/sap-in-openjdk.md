@@ -1,10 +1,9 @@
 ---
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
 title: "SAP's Engagement in the OpenJDK project"
 sidebar_position: 12
 slug: /sap-in-openjdk
 ---
-
-{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
 
 # SAP's Engagement in the OpenJDK Project
 

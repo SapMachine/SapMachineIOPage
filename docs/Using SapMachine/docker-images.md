@@ -1,4 +1,5 @@
 ---
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
 title: "OCI/Docker Images"
 sidebar_position: 2
 slug: /docker-images
@@ -7,8 +8,6 @@ redirect_from:
   - /docs/Docker-Images
   - /docs/oci-images
 ---
-
-{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
 
 # SapMachine Container Images
 

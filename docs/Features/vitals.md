@@ -1,4 +1,5 @@
 ---
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
 title: "SapMachine Vitals"
 sidebar_position: 2
 slug: /vitals
@@ -6,8 +7,6 @@ redirect_from:
   - /docs/Vitals
   - /docs/sapmachine-vitals
 ---
-
-{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
 
 # SapMachine Vitals
 

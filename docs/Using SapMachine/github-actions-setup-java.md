@@ -1,4 +1,5 @@
 ---
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
 title: "GitHub Actions setup-java"
 sidebar_position: 4
 slug: /github-actions-setup-java
@@ -6,8 +7,6 @@ redirect_from:
   - /docs/setup-java
   - /docs/gha
 ---
-
-{/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */}
 
 # GitHub Actions setup-java
 
