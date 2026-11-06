@@ -283,7 +283,7 @@ jobs:
       - name: Post / update preview link comment
         # Sticky comment posted via the GHES API (github.tools.sap) — no github.com access
         # needed. Finds the previous bot comment by marker and updates it, else creates one.
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const marker = '<!-- pr-preview-link -->';
