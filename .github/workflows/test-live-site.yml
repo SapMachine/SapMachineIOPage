@@ -42,7 +42,7 @@ jobs:
     runs-on: [self-hosted, solinas]
     steps:
       - name: Checkout checks
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           sparse-checkout: _checks
           sparse-checkout-cone-mode: false
@@ -63,7 +63,7 @@ jobs:
     runs-on: [self-hosted, solinas]
     steps:
       - name: Checkout checks
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           sparse-checkout: _checks
           sparse-checkout-cone-mode: false
@@ -83,7 +83,7 @@ jobs:
     runs-on: [self-hosted, solinas]
     steps:
       - name: Checkout checks
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           sparse-checkout: _checks
           sparse-checkout-cone-mode: false
