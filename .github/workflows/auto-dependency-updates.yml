@@ -1,0 +1,36 @@
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
+
+# Caller stub — schedule + manual triggers must live on `main` (the default
+# branch). The job logic is the reusable workflow of the same name on the
+# `ci-shared` branch (on: workflow_call). The `mode` input is defined here so the
+# "Run workflow" UI shows it; the reusable workflow reads it from the inherited
+# `github.event.inputs.mode` context (empty → 'safe' on scheduled runs).
+name: Automated dependency updates
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'   # Mondays 06:17 UTC
+  workflow_dispatch:       # manual "Run workflow" button in the Actions tab
+    inputs:
+      mode:
+        description: 'Update mode'
+        type: choice
+        default: safe
+        options:
+          - safe
+          - audit-only
+          - security-major
+          - latest
+
+concurrency:
+  group: auto-deps
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  call:
+    uses: SapMachine/SapMachineIOPage/.github/workflows/auto-dependency-updates.yml@ci-shared
+    secrets: inherit

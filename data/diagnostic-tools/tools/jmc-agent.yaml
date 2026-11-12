@@ -1,0 +1,53 @@
+id: jmc-agent
+tag: ready
+group: JFR / Profiling
+github_url: https://github.com/openjdk/jmc/tree/master/agent
+github_pages: https://sapmachine.io/docs/jmc-agent-integration
+tagline: >-
+  SapMachine bundles the JMC agent, which lets you trace specific method calls and capture their parameters, return
+  values, and stack traces as custom JFR events — with zero code changes to your application. The SapMachine version
+  adds convenience improvements on top of the upstream agent.
+tagline_short: Trace any method as a JFR event via XML config — no code changes.
+when_to_use:
+  - You want to trace specific method calls without modifying source code
+  - You need to correlate business-level events (e.g. login calls) with JFR profiling data
+  - You want to capture method parameters or return values as JFR event fields
+when_not_to_use:
+  - You need to trace all allocations or CPU samples (use async-profiler / JFR directly)
+  - You are not using SapMachine (the bundled agent is a SapMachine convenience)
+install:
+  - label: Start with agent
+    lang: bash
+    code: |
+      # Trace methods defined in config.xml, record to output.jfr
+      java -jmcagent:config.xml \
+           -XX:StartFlightRecording=filename=output.jfr \
+           -jar myapp.jar
+usage:
+  - label: XML config skeleton
+    lang: xml
+    code: |
+      <?xml version="1.0" encoding="UTF-8"?>
+      <jfragent>
+        <config>
+          <classprefix>__JFREvent</classprefix>
+          <allowtostring>true</allowtostring>
+          <allowconverter>true</allowconverter>
+        </config>
+        <events>
+          <event id="my.app.loginCalled">
+            <label>Login Called</label>
+            <description>Fires on every login attempt</description>
+            <class>com.example.AuthService</class>
+            <stacktrace>true</stacktrace>
+            <path>my/app/auth</path>
+            <method>
+              <name>login</name>
+              <descriptor>(Ljava/lang/String;Ljava/lang/String;)Z</descriptor>
+            </method>
+          </event>
+        </events>
+      </jfragent>
+note: >
+  The JMC agent is included in SapMachine out of the box — no separate download needed. For vanilla OpenJDK, download
+  the agent jar from the JMC project separately.

@@ -1,0 +1,65 @@
+id: mat
+tag: external
+group: Heap Dump Analysis
+github_url: https://github.com/eclipse-mat/mat
+github_pages: https://eclipse.dev/mat/
+tagline: >-
+  Eclipse Memory Analyser (MAT) is the classic desktop GUI for analysing Java heap dumps (.hprof files). It offers OOM
+  suspects reports, leak detection, retained heap calculations, dominator tree, histogram, and an OQL query language for
+  inspecting object graphs. MAT is the industry-standard starting point for heap analysis and handles most heap dumps
+  well, though very large files (>10 GiB) can exhaust heap memory. It is an independent Eclipse Foundation project — not
+  bundled with SapMachine.
+tagline_short: Classic Eclipse GUI for Java heap dump analysis — OOM suspects, dominator tree, OQL queries.
+features:
+  - OOM suspects report — automated analysis of what likely caused the OutOfMemoryError
+  - Dominator tree — find the objects retaining the most heap space
+  - Histogram — count and size breakdown by class
+  - Object Query Language (OQL) — SQL-like queries over the object graph
+  - Leak suspects and retained heap calculation
+  - Eclipse RCP GUI — mature, well-documented, widely known
+  - Handles most heap dumps; struggles with very large files (>10 GiB) due to Java heap limits
+when_to_use:
+  - You want an automated OOM suspects report with a visual summary
+  - You need to inspect the object graph interactively with OQL queries
+  - You are investigating Java heap leaks and want the dominator tree view
+  - You prefer a well-known, widely-documented tool with a large community
+when_not_to_use:
+  - Your heap dump is very large (>10 GiB) — hprof-analyzer handles these better
+  - You need to redact sensitive strings before analysis — use hprof-redact first
+  - You want a fast command-line tool without a GUI — use hprof-analyzer instead
+install:
+  - label: Download MAT
+    lang: bash
+    code: |
+      # Download the standalone MAT package from:
+      # https://eclipse.dev/mat/downloads.php
+      # (choose the version matching your OS — no Eclipse IDE required)
+
+      # Increase MAT's heap if you get OutOfMemoryError during analysis:
+      # Edit MemoryAnalyzer.ini and set -Xmx4g (or higher)
+usage:
+  - label: Open a heap dump
+    lang: text
+    code: |
+      1. Launch MAT (MemoryAnalyzer executable)
+      2. File → Open Heap Dump… → select your .hprof file
+      3. MAT indexes the dump (this takes time for large files)
+      4. Choose "Leak Suspects Report" or "Component Report" from the overview
+      5. Use the Dominator Tree and Histogram tabs for object-level investigation
+  - label: OQL query example
+    lang: sql
+    code: |
+      -- Find all instances of a class larger than 1 MB retained heap
+      SELECT * FROM java.util.HashMap s WHERE s.@retainedHeapSize > 1048576
+
+      -- Find String instances containing a specific value
+      SELECT * FROM java.lang.String s WHERE s.toString().contains("password")
+links:
+  - label: Eclipse MAT download ↗
+    url: https://eclipse.dev/mat/downloads.php
+  - label: MAT documentation ↗
+    url: https://help.eclipse.org/latest/topic/org.eclipse.mat.ui.help/welcome.html
+note: >
+  Eclipse MAT is an independent open-source project maintained by the Eclipse Foundation — it is not developed or
+  bundled by SapMachine. For very large heap dumps that MAT cannot open, use hprof-analyzer, which is a Rust-based
+  command-line tool that can handle files exceeding available Java heap.

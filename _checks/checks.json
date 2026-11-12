@@ -1,0 +1,87 @@
+{
+  "urls": {
+    "homepage": [
+      "/"
+    ],
+    "pages": [
+      "/download",
+      "/jmc",
+      "/faq",
+      "/frequently-asked-questions"
+    ],
+    "docs": [
+      "/docs",
+      "/docs/installation",
+      "/docs/features",
+      "/docs/vitals",
+      "/docs/malloc-trace",
+      "/docs/jmc-agent-integration",
+      "/docs/high-memory-reports",
+      "/docs/maintenance-and-support",
+      "/docs/certification-and-java-compatibility",
+      "/docs/sap-in-openjdk",
+      "/docs/essential-information-on-virtual-threads",
+      "/docs/docker-images",
+      "/docs/cloud-foundry-buildpacks",
+      "/docs/fips-configuration",
+      "/docs/github-actions-setup-java"
+    ],
+    "resources": [
+      "/img/favicon.ico",
+      "/jfrevents/"
+    ],
+    "data": [
+      "/assets/data/env.json",
+      "/assets/data/jmc_releases.json",
+      "/assets/data/sapmachine-releases-10.json",
+      "/assets/data/sapmachine-releases-11.json",
+      "/assets/data/sapmachine-releases-12.json",
+      "/assets/data/sapmachine-releases-13.json",
+      "/assets/data/sapmachine-releases-14.json",
+      "/assets/data/sapmachine-releases-15.json",
+      "/assets/data/sapmachine-releases-16.json",
+      "/assets/data/sapmachine-releases-17.json",
+      "/assets/data/sapmachine-releases-18.json",
+      "/assets/data/sapmachine-releases-19.json",
+      "/assets/data/sapmachine-releases-20.json",
+      "/assets/data/sapmachine-releases-21.json",
+      "/assets/data/sapmachine-releases-22.json",
+      "/assets/data/sapmachine-releases-23.json",
+      "/assets/data/sapmachine-releases-24.json",
+      "/assets/data/sapmachine-releases-25.json",
+      "/assets/data/sapmachine-releases-26.json",
+      "/assets/data/sapmachine-releases-27.json",
+      "/assets/data/sapmachine-releases-28.json",
+      "/assets/data/sapmachine-releases-all.json",
+      "/assets/data/sapmachine-releases-latest.json",
+      "/assets/data/sapmachine-releases-website.json",
+      "/assets/data/sapmachine_releases.json"
+    ],
+    "cf": [
+      "/assets/cf/jdk/bionic/x86_64/index.yml",
+      "/assets/cf/jdk/jammy/x86_64/index.yml",
+      "/assets/cf/jdk/linux/x86_64/index.yml",
+      "/assets/cf/jre/bionic/x86_64/index.yml",
+      "/assets/cf/jre/jammy/x86_64/index.yml",
+      "/assets/cf/jre/linux/x86_64/index.yml"
+    ]
+  },
+  "required_files": [
+    "static/.well-known/security.txt",
+    "static/CNAME",
+    "static/img/favicon.ico",
+    "static/img/logos/logo-bubble.png",
+    "static/img/logos/sap-logo-svg.svg",
+    "static/assets/data/env.json",
+    "static/assets/data/sapmachine-releases-website.json",
+    "static/assets/data/jmc_releases.json",
+    "docusaurus.config.js",
+    "package.json",
+    "sidebars.js",
+    "src/pages/index.js",
+    "src/pages/download.js",
+    "src/pages/frequently-asked-questions.js",
+    "src/pages/jmc.js",
+    "src/pages/download.js"
+  ]
+}

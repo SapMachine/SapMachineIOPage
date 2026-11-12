@@ -1,0 +1,23 @@
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
+
+# Caller stub — push to `main` + manual trigger must live on `main`. The job
+# logic (push internal main -> public github.com mirror) is the reusable
+# workflow of the same name on the `ci-shared` branch (on: workflow_call).
+name: Sync to public mirror
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+concurrency:
+  group: sync-to-public-mirror
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  call:
+    uses: SapMachine/SapMachineIOPage/.github/workflows/sync-to-public.yml@ci-shared
+    secrets: inherit

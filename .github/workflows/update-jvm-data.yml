@@ -1,0 +1,35 @@
+# Caller stub — the triggers must live on the site branch (the push/schedule
+# triggers only fire from the default branch, so this takes effect once it lands
+# on main via PR #210). The job logic is the reusable workflow of the same name
+# on the `ci-shared` branch (on: workflow_call). The `force` input is defined
+# here for the "Run workflow" UI and passed through to the reusable workflow.
+name: Update diagnostic tools data
+
+on:
+  schedule:
+    - cron: '0 0 * * 1-5' # weekdays at midnight UTC
+  push:
+    branches: [main]
+    paths:
+      - 'data/diagnostic-tools/tools/*.yaml'
+      - 'data/diagnostic-tools/tool-names.yaml'
+      - 'data/diagnostic-tools/tree-overrides.yaml'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Create PR even if no changes detected'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  call:
+    uses: SapMachine/SapMachineIOPage/.github/workflows/update-jvm-data.yml@ci-shared
+    with:
+      force: ${{ github.event.inputs.force || 'false' }}
+    secrets: inherit

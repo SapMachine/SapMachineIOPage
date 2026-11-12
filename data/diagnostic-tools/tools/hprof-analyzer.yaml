@@ -1,0 +1,304 @@
+id: hprof-analyzer
+group: Heap Dump Analysis
+tag: ready
+tagline: Fast heap dump analyser (Rust CLI). Reproduces Eclipse MAT's System Overview, Leak Suspects, Top Consumers, and Threads
+  views with a fraction of the memory overhead. Handles dumps larger than 10 GiB that MAT cannot open. Ships an OQL query
+  engine, a disk-cached interactive analysis mode, an MCP server for AI-assisted triage, an HTTP server for the browser UI
+  and LLM agent access, a redact subcommand to zero sensitive data before sharing, MAT cache generation, and an in-browser
+  WASM UI for dumps up to 3 GiB.
+tagline_short: Fast heap dump analyser — MAT-parity reports, OQL, MCP server, redaction, browser UI.
+cargo_crate: hprof-analyzer
+github_pages: https://parttimenerd.github.io/hprof-analyzer/
+when_to_use:
+- You need to analyse a heap dump without Eclipse MAT's memory overhead
+- You have a very large heap dump (>10 GiB) that MAT cannot handle
+- You want a quick in-browser analyser for smaller dumps (WASM, no install)
+- You want Leak Suspects, Top Consumers, and thread views without a GUI IDE
+- You need scriptable, CI-friendly heap analysis (JSON output, diff two dumps)
+- You want AI-assisted heap triage via Claude, Cline, or other MCP clients
+- You want to query a heap dump with OQL from the CLI or an interactive REPL
+- You need to redact sensitive data from a dump before sharing it
+- You want to speed up Eclipse MAT's first open of a large dump (cache generation)
+when_not_to_use:
+- You need full interactive MAT-style object graph exploration (use Eclipse MAT)
+links:
+- label: Web analyser ↗
+  url: https://parttimenerd.github.io/hprof-analyzer/
+- label: Sample report ↗
+  url: https://parttimenerd.github.io/hprof-analyzer/reports/
+install:
+- label: Homebrew
+  lang: bash
+  code: 'brew tap parttimenerd/hprof-analyzer
+
+    brew trust parttimenerd/hprof-analyzer  # required once for third-party taps
+
+    brew install hprof-analyzer
+
+    '
+- label: macOS (arm64)
+  lang: bash
+  code: 'curl -L https://github.com/parttimenerd/hprof-analyzer/releases/download/nightly/hprof-analyzer-aarch64-apple-darwin.tar.gz
+    | tar xz
+
+    sudo mv hprof-analyzer-*/hprof-analyzer /usr/local/bin/
+
+    '
+- label: Linux (x86_64)
+  lang: bash
+  code: 'curl -L https://github.com/parttimenerd/hprof-analyzer/releases/download/nightly/hprof-analyzer-x86_64-unknown-linux-gnu.tar.gz
+    | tar xz
+
+    sudo mv hprof-analyzer-*/hprof-analyzer /usr/local/bin/
+
+    '
+- label: Windows (x86_64)
+  lang: bash
+  code: '# Download hprof-analyzer-x86_64-pc-windows-msvc.zip from:
+
+    # https://github.com/parttimenerd/hprof-analyzer/releases/tag/nightly
+
+    '
+- label: cargo
+  lang: bash
+  code: 'cargo install hprof-analyzer
+
+    '
+usage:
+- label: Basic Usage
+  lang: bash
+  code: 'hprof-analyzer heap.hprof report.html
+
+    '
+how_to:
+- title: Analyse a heap dump and open the report
+  body: '```bash
+
+    hprof-analyzer heap.hprof report.html
+
+    ```
+
+    Opens a self-contained HTML file with System Overview, Leak Suspects,
+
+    Top Consumers, and Threads — no server, no external assets.
+
+
+    Compressed dumps are read transparently:
+
+    ```bash
+
+    hprof-analyzer heap.hprof.gz report.html
+
+    hprof-analyzer heap.hprof.zip report.html
+
+    ```
+
+    **Tip:** use `-XX:+HeapDumpGzip` to write compressed dumps directly — typically 5–10× smaller.
+
+
+    Update to the latest nightly build at any time:
+
+    ```bash
+
+    hprof-analyzer update nightly
+
+    ```
+
+    '
+- title: Find what is consuming the most memory
+  body: 'The Top Consumers view ranks object types by retained heap — the amount of memory
+
+    that would be freed if all instances of that class were collected:
+
+    ```bash
+
+    hprof-analyzer heap.hprof report.html
+
+    # Open report.html → "Top Consumers" tab
+
+    ```
+
+    For a fast command-line answer without a full report:
+
+    ```bash
+
+    hprof-analyzer heap summary heap.hprof
+
+    ```
+
+    Look for classes with high *retained* bytes — those are the real memory holders,
+
+    not just large arrays that are themselves held by something else.
+
+    '
+- title: Find the likely cause of an OutOfMemoryError
+  body: 'The Leak Suspects view groups objects into accumulation points — classes where
+
+    many instances exist that share a common path from a GC root:
+
+    ```bash
+
+    hprof-analyzer heap.hprof report.html
+
+    # Open report.html → "Leak Suspects" tab
+
+    ```
+
+    Each suspect shows the accumulator class, instance count, total retained bytes,
+
+    and the shortest path from a GC root to a representative instance.
+
+    For a text summary from the cache (fast after first run):
+
+    ```bash
+
+    hprof-analyzer heap summary heap.hprof
+
+    ```
+
+    If the suspect is a framework collection (e.g. a `HashMap` inside a cache),
+
+    check which application class holds a reference to it — that is where to look
+
+    for a missing eviction policy or unbounded growth.
+
+    '
+- title: Analyse in the browser without installing anything
+  body: 'Visit **[parttimenerd.github.io/hprof-analyzer](https://parttimenerd.github.io/hprof-analyzer/)**
+
+    and drag-and-drop your `.hprof` file. Runs entirely via WebAssembly — no data leaves your machine.
+
+    Performance depends on available browser memory; it may work fine above 3 GiB or struggle below
+
+    it depending on your machine. For large or slow dumps use the native binary instead.
+
+    '
+- title: Repeatedly explore the same dump with fast cached access
+  body: 'The `heap` subcommand group runs the full analysis once, writes a cache alongside the dump,
+
+    and loads in ~1 s on every subsequent call:
+
+    ```bash
+
+    # First run: full analysis (5–15 min on large dumps)
+
+    hprof-analyzer heap summary heap.hprof
+
+
+    # All subsequent runs: ~1 s from cache
+
+    hprof-analyzer heap summary heap.hprof
+
+    hprof-analyzer heap histogram heap.hprof
+
+    hprof-analyzer heap query heap.hprof --oql "SELECT COUNT(*) FROM java.lang.String"
+
+    hprof-analyzer heap browse heap.hprof          # browse dominator tree
+
+    hprof-analyzer heap inspect heap.hprof --index 42
+
+    ```
+
+    The cache lives at `<dump>.hprof-cache/` alongside the file. Delete it to force re-analysis.
+
+    '
+- title: Run OQL queries — CLI REPL or browser
+  body: 'Interactive REPL in the terminal with tab-completion:
+
+    ```bash
+
+    hprof-analyzer query heap.hprof --repl
+
+    ```
+
+    Or start a local server and use the browser OQL shell:
+
+    ```bash
+
+    hprof-analyzer server heap.hprof
+
+    # → open http://127.0.0.1:7070
+
+    ```
+
+    ```
+
+    /help oql        — full OQL language reference
+
+    /examples        — guided tour of OQL examples by category
+
+    ```
+
+    The OQL dialect is modelled on Eclipse MAT''s — most MAT queries work unchanged.
+
+    '
+- title: Use with Claude or Cline via MCP
+  body: 'hprof-analyzer ships a built-in MCP server so Claude, Cline, and other
+
+    MCP-compatible AI assistants can analyse heap dumps directly.
+
+
+    **Claude Code:**
+
+    ```bash
+
+    claude mcp add hprof -- hprof-analyzer mcp
+
+    ```
+
+    **Cline (VS Code)** — add to `.vscode/mcp.json`:
+
+    ```json
+
+    { "mcpServers": { "hprof": { "command": "hprof-analyzer", "args": ["mcp"] } } }
+
+    ```
+
+    Homebrew prints full MCP setup instructions after install.
+
+    '
+- title: Redact a dump before sharing
+  body: 'Heap dumps contain sensitive data — string values, field contents, serialized objects.
+
+    The `redact` subcommand zeroes primitive values while preserving class/field names and
+
+    the object graph, producing a dump safe to share with colleagues or attach to a bug report:
+
+    ```bash
+
+    # Lean mode (default): zeroes all primitive array elements (byte[], char[], int[], …)
+
+    hprof-analyzer redact heap.hprof redacted.hprof
+
+
+    # Complete mode: also zeroes scalar instance fields and static fields
+
+    hprof-analyzer redact --complete heap.hprof redacted.hprof
+
+    ```
+
+    Redacted dumps are readable by hprof-analyzer, Eclipse MAT, and jhat.
+
+    hprof-analyzer detects them automatically and shows a "Redacted dump" banner,
+
+    skipping analyses that would be meaningless on zeroed data.
+
+    A standalone `hprof-redact` binary (under 1 MB) is also available for minimal environments.
+
+    '
+- title: Generate Eclipse MAT cache files (speed up first MAT open)
+  body: 'For large dumps MAT''s first parse can peak at ~55 GiB RSS. hprof-analyzer generates
+
+    the same cache files with much lower memory usage:
+
+    ```bash
+
+    hprof-analyzer mat caches heap.hprof
+
+    ```
+
+    Open `heap.hprof` in MAT as usual — it detects the cache and skips the expensive first parse.
+
+    '
+note: The in-browser WASM version is memory-limited by the browser — it may work for larger dumps or struggle for smaller
+  ones depending on your machine. For reliable analysis of large dumps use the native binary.

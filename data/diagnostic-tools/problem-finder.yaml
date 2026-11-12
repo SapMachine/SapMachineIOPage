@@ -1,0 +1,572 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# SapMachine decision-tree overrides — fully derived from tool .yaml data.
+# Merged over problem-finder.yaml at build time by build-jvm-data.js.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Top-level entry ───────────────────────────────────────────────────────────
+
+start:
+  type: question
+  text: What are you trying to do?
+  options:
+    - label: Profile a slow or unresponsive app
+      next: q-slow-env
+    - label: Investigate a memory problem or OOM
+      next: q-memory
+    - label: Analyse a JFR recording I already have
+      next: q-jfr
+    - label: Diagnose a crash, freeze, or strange JVM behaviour
+      next: q-crash
+    - label: Run a specific JVM command — thread dump, heap dump, Vitals
+      next: q-live-diag
+
+
+# ── Profiling ─────────────────────────────────────────────────────────────────
+
+q-slow-env:
+  type: question
+  text: Where is the JVM running?
+  options:
+    - label: Locally — I'm using IntelliJ
+      next: r-intellij-profile
+    - label: Locally — I prefer the command line
+      next: q-slow-local
+    - label: Remote server or container (SSH)
+      next: r-jstall
+    - label: Cloud Foundry (no SSH access)
+      next: r-cf
+
+q-slow-local:
+  type: question
+  text: What kind of profiling do you need?
+  options:
+    - label: Interactive overview — hot threads, deadlock check, quick flame graph
+      next: r-jstall-local
+    - label: Drive the profiler manually — CPU, allocation, or lock flame graphs
+      next: r-async-profiler
+    - label: Record with JFR and analyse later
+      next: r-jcmd-record
+    - label: Continuous recording over days or weeks (low disk usage)
+      next: r-condensed
+
+r-intellij-profile:
+  type: result
+  headline: Profile directly from IntelliJ IDEA — run configs, attach, or open existing recordings.
+  tools:
+    - id: intellij-profiler-plugin
+      note: >
+        Profile any run configuration or attach to a running JVM from the IntelliJ tool window.
+        Uses JFR or async-profiler. View flame graphs, call trees, and allocation profiles
+        inside the IDE with Firefox Profiler or Jeffrey. Also opens existing .jfr files.
+        Requires JDK 11+; async-profiler requires Linux or macOS.
+  related:
+    - label: Need the command line instead?
+      tools:
+        - id: jstall
+          note: Attach to any local JVM instantly — deadlocks, hot threads, flame graphs, no restart needed.
+    - label: Want to view the resulting .jfr file in a browser?
+      tools:
+        - id: firefox-profiler
+          note: Drag and drop the .jfr file — shareable link, JFR-specific UI, no install.
+
+r-jstall-local:
+  type: result
+  headline: Instant JVM insight from the command line — deadlocks, hot threads, flame graphs.
+  tools:
+    - id: jstall
+      note: >
+        CLI TUI — attaches to any local JVM (no restart, no agent). Detects deadlocks,
+        shows hot threads, captures short-burst flame graphs via bundled async-profiler.
+        Also available as an IntelliJ plugin and VS Code extension.
+  related:
+    - label: Need accurate native-frame flame graphs without safe-point bias?
+      tools:
+        - id: async-profiler
+          note: Bundled with SapMachine. CPU, allocation, lock, and wall-clock profiling with mixed Java + native stacks.
+    - label: Want to keep a recording for later analysis?
+      tools:
+        - id: condensed-data
+          note: Live-attach to the JVM and store JFR events compactly for days or weeks.
+
+r-jstall:
+  type: result
+  headline: Instant JVM insight over SSH — deadlocks, hot threads, flame graphs.
+  tools:
+    - id: jstall
+      note: >
+        SSH to the host and run jstall — no agent install or JVM restart needed on the remote side.
+        Deadlock detection, hot thread analysis, and flame graphs over SSH.
+        To copy a recording back: jstall record create --output=/tmp/rec.zip <pid>, then scp /tmp/rec.zip.
+  related:
+    - label: Need accurate native-frame flame graphs?
+      tools:
+        - id: async-profiler
+          note: Bundled with SapMachine — CPU, allocation, lock profiling, mixed Java + native stacks.
+    - label: Want continuous recording for later analysis?
+      tools:
+        - id: condensed-data
+          note: Live-attach and store JFR events compactly for days or weeks.
+
+r-cf:
+  type: result
+  headline: Inspect a JVM inside Cloud Foundry without SSH access.
+  tools:
+    - id: cf-cli-java-plugin
+      note: >
+        CF CLI plugin — trigger JFR recordings, heap dumps, and thread dumps through
+        the CF CLI without SSH. Bundles jstall internally for live inspection.
+    - id: jstall
+      note: >
+        Supports CF targets via jstall remote cf <app> — hot threads, deadlocks,
+        and flame graphs from the command line alongside the CF plugin.
+  related:
+    - label: Analyse the JFR recording you captured
+      tools:
+        - id: firefox-profiler
+          note: Open the .jfr file in the browser — shareable, JFR-specific UI, no install.
+        - id: jmc
+          note: Full desktop GUI — automated rules, GC analysis, allocation profiling.
+
+r-async-profiler:
+  type: result
+  headline: Accurate CPU, allocation, or lock flame graphs — no safe-point bias, native frames.
+  tools:
+    - id: async-profiler
+      note: >
+        Uses Linux perf_events and AsyncGetCallTrace — no safe-point bias, mixed
+        Java + native stacks (JNI, runtime internals). CPU, allocation, lock, and
+        wall-clock profiling. Bundled with SapMachine at $JAVA_HOME/../async-profiler/.
+        Attach to a running JVM without restart.
+  related:
+    - label: Profile from IntelliJ without the command line
+      tools:
+        - id: intellij-profiler-plugin
+          note: Uses async-profiler under the hood — profile from a run config or attach from the tool window.
+    - label: View the resulting JFR recording
+      tools:
+        - id: firefox-profiler
+          note: Open the .jfr file in the browser — shareable, JFR-specific UI, no install.
+        - id: jmc
+          note: Full desktop GUI — automated rules, GC, allocation, and thread analysis.
+
+r-jcmd-record:
+  type: result
+  headline: Start a JFR recording on a running JVM with jcmd or -XX:StartFlightRecording.
+  tools:
+    - id: jcmd
+      note: >
+        Built into every JDK. jcmd <pid> JFR.start name=rec filename=rec.jfr
+        starts a recording; JFR.stop dumps it. Or use -XX:StartFlightRecording at
+        startup. No extra install needed.
+  followon:
+    heading: Analyse the recording with
+    tools:
+      - id: firefox-profiler
+        note: Drag and drop the .jfr file — flame graph, marker timeline, shareable link.
+      - id: jmc
+        note: Full desktop GUI — automated rules engine, GC analysis, allocation profiling.
+      - id: intellij-profiler-plugin
+        note: Open .jfr files directly inside IntelliJ IDEA.
+
+r-condensed:
+  type: result
+  headline: Continuous JFR recording for days or weeks without filling the disk.
+  tools:
+    - id: condensed-data
+      note: >
+        Live-attach to a running JVM (Linux/macOS). Stores JFR events in the compact
+        .cjfr format — significantly smaller than raw .jfr, self-describing. Read by
+        firefox-profiler and a JMC fork. Early development — format may change.
+  followon:
+    heading: Analyse the recordings with
+    tools:
+      - id: firefox-profiler
+        note: Opens .cjfr files natively — drag and drop, shareable link, no install.
+      - id: jmc
+        note: Use the JMC fork with .cjfr support for GC analysis and automated rules.
+
+
+# ── Memory ────────────────────────────────────────────────────────────────────
+
+q-memory:
+  type: question
+  text: What kind of memory problem?
+  options:
+    - label: Java heap — OOM or memory leak, I have or need a heap dump
+      next: q-heap
+    - label: Native / off-heap memory growing (RSS up, Java heap looks normal)
+      next: r-malloc-trace
+    - label: I want automatic diagnostics before OOM kills the process (SapMachine)
+      next: r-high-memory-reports
+    - label: I need heap dump capture flags — overwrite, compress, or stream (SapMachine)
+      next: r-heap-dump-extras
+
+q-heap:
+  type: question
+  text: What do you need?
+  options:
+    - label: Fast CLI analysis — leak suspects, top consumers, large dumps (>10 GiB)
+      next: r-hprof-analyze
+    - label: GUI analysis — OOM suspects report, dominator tree, OQL queries
+      next: r-mat
+    - label: Capture a heap dump now (jcmd or -XX:+HeapDumpOnOutOfMemoryError)
+      next: r-jcmd-heap
+    - label: Capture automatically at a memory threshold (SapMachine)
+      next: r-high-memory-reports
+
+r-hprof-analyze:
+  type: result
+  headline: Analyse a heap dump — leak suspects, top consumers, threads, OQL.
+  tools:
+    - id: hprof-analyzer
+      note: >
+        Fast Rust CLI — handles >10 GiB dumps that Eclipse MAT can't open.
+        Reproduces MAT's Leak Suspects, Top Consumers, and Threads views.
+        JSON output for CI, diff two dumps. Also available as a WASM web tool
+        for smaller dumps. Linux/macOS only for the native binary.
+  related:
+    - label: Want a GUI with interactive OQL and dominator tree?
+      tools:
+        - id: mat
+          note: Eclipse MAT — OOM suspects report, dominator tree, OQL queries. Well-documented.
+
+r-mat:
+  type: result
+  headline: Analyse a heap dump with a GUI — OOM suspects, dominator tree, OQL queries.
+  tools:
+    - id: mat
+      note: >
+        Eclipse MAT — automated OOM suspects report, interactive dominator tree,
+        OQL queries, and GC root analysis. The most widely documented heap analysis
+        GUI. Works well for most dump sizes; for >10 GiB use hprof-analyzer instead.
+  related:
+    - label: Dump is very large (>10 GiB) and MAT won't open it?
+      tools:
+        - id: hprof-analyzer
+          note: Rust-based CLI — no Java heap limit, handles arbitrarily large dumps.
+
+r-jcmd-heap:
+  type: result
+  headline: Capture a heap dump from a running JVM on demand.
+  tools:
+    - id: jcmd
+      note: >
+        jcmd <pid> GC.heap_dump filename=heap.hprof — built into every JDK.
+        Or set -XX:+HeapDumpOnOutOfMemoryError at startup. Requires the JVM
+        to be owned by the same user (or root).
+  followon:
+    heading: Analyse the heap dump with
+    tools:
+      - id: hprof-analyzer
+        note: Fast CLI — leak suspects, top consumers, handles >10 GiB.
+      - id: mat
+        note: GUI — OOM suspects report, dominator tree, OQL queries.
+  related:
+    - label: Need extra capture flags — overwrite, compress, stream? (SapMachine)
+      tools:
+        - id: heap-dump-extras
+          note: -XX:+HeapDumpOverwrite, -XX:HeapDumpGzipLevel, pipe streaming — SapMachine only.
+
+r-malloc-trace:
+  type: result
+  headline: Track native malloc/calloc allocations to find a native memory leak.
+  tools:
+    - id: malloc-trace
+      note: >
+        SapMachine-only, Linux/macOS. Start the JVM with -XX:+UseMallocHooks (required
+        at startup). Then: jcmd <pid> MallocTrace.enable, wait, jcmd <pid> MallocTrace.dump
+        — shows the top native call stacks by allocation size. Use -trace-free to see
+        only currently live (not freed) allocations.
+  related:
+    - label: Check NMT first for a higher-level native memory breakdown
+      tools:
+        - id: jcmd
+          note: jcmd <pid> VM.native_memory summary — less detail but zero extra overhead.
+    - label: Monitor JVM health over time alongside the trace
+      tools:
+        - id: sapmachine-vitals
+          note: VM.vitals shows RSS, virt, and NMT totals across a 10-day history.
+
+r-high-memory-reports:
+  type: result
+  headline: Automatic diagnostics before OOM — watermarks at 66%, 75%, 90% of memory limit.
+  tools:
+    - id: high-memory-reports
+      note: >
+        SapMachine-only. Enable with -XX:+HiMemReport. A reporter thread polls RSS+Swap
+        and fires at 66%, 75%, 90% of the container (or host) memory limit. Each
+        threshold writes Vitals + NMT to stderr. Add -XX:HiMemReportExec=GC.heap_dump
+        to also capture a heap dump while the JVM is still alive.
+  related:
+    - label: Analyse a heap dump captured at the threshold
+      tools:
+        - id: hprof-analyzer
+          note: Feed the dump produced by -XX:HiMemReportExec=GC.heap_dump.
+        - id: mat
+          note: Eclipse MAT for interactive OQL and dominator tree exploration.
+
+r-heap-dump-extras:
+  type: result
+  headline: SapMachine heap dump flags — overwrite, compress, size limit, pipe streaming.
+  tools:
+    - id: heap-dump-extras
+      note: >
+        SapMachine-only flags:
+        -XX:+HeapDumpOverwrite — don't fail if the file already exists.
+        -XX:HeapDumpGzipLevel=1 — gzip-compressed dumps.
+        -XX:+LimitPrimitiveArrayContentInHeapDump — truncate char/byte arrays (smaller dumps).
+        Pipe/tty target — stream the dump over SSH without local disk.
+  related:
+    - label: Analyse the dump once captured
+      tools:
+        - id: hprof-analyzer
+          note: Handles >10 GiB. Also available as a WASM web tool.
+        - id: mat
+          note: Eclipse MAT — OOM suspects, dominator tree, OQL.
+
+
+# ── JFR recording in hand ─────────────────────────────────────────────────────
+
+q-jfr:
+  type: question
+  text: What do you want to do with the recording?
+  options:
+    - label: View it as a flame graph or share it with my team
+      next: r-jfr-visual
+    - label: Full desktop analysis — GC, allocations, automated rules
+      next: r-jmc
+    - label: Inspect event types, counts, or raw events from the terminal
+      next: r-jfr-cli
+    - label: Look up event fields, or add custom events before recording
+      next: q-jfr-meta
+
+q-jfr-meta:
+  type: question
+  text: What are you trying to do?
+  options:
+    - label: Look up what JFR event types exist and what fields they have
+      next: r-jfrevents
+    - label: Add custom method-level events to my next recording (no code changes)
+      next: r-jmc-agent
+
+r-jfr-visual:
+  type: result
+  headline: Explore a JFR recording as a flame graph — shareable, browser-based or in-IDE.
+  tools:
+    - id: firefox-profiler
+      note: >
+        Fork of Firefox Profiler with native JFR and .cjfr support. Drag and drop
+        a .jfr or .cjfr file — no install, no local server. JFR-specific UI: custom
+        marker tracks, Java syntax highlighting, function table, shareable links.
+    - id: intellij-profiler-plugin
+      note: >
+        View .jfr files directly inside IntelliJ with Firefox Profiler or Jeffrey —
+        flame graphs, call trees, allocation profiles without leaving the IDE.
+  related:
+    - label: Need the full desktop analysis GUI with automated rules?
+      tools:
+        - id: jmc
+          note: Open the same .jfr file in JMC for GC analysis, allocation profiling, and automated rules.
+    - label: Quick terminal check before opening the viewer?
+      tools:
+        - id: jfr
+          note: "jfr summary recording.jfr — event types, counts, duration. Built into every JDK 14+."
+
+r-jmc:
+  type: result
+  headline: Full JFR analysis GUI — automated rules, GC, allocations, threads, memory leaks.
+  tools:
+    - id: jmc
+      note: >
+        SapMachine ships a pre-built, co-versioned JMC at $JAVA_HOME/../jmc/jmc
+        (or download from sapmachine.io/download). The most complete JFR tool:
+        automated rules engine scans for common issues, flame graphs, GC analysis,
+        allocation profiling, thread and lock views, memory leak detection.
+  related:
+    - label: Need a lightweight browser-based view to share with your team?
+      tools:
+        - id: firefox-profiler
+          note: Drag-and-drop, shareable link, no install.
+        - id: intellij-profiler-plugin
+          note: View .jfr files directly inside IntelliJ IDEA.
+    - label: Want to add custom method-level events to your next recording?
+      tools:
+        - id: jmc-agent
+          note: Bundled with SapMachine — trace any method as a JFR event via XML config.
+
+r-jfr-cli:
+  type: result
+  headline: Inspect, filter, print, or assemble JFR recording files from the terminal.
+  tools:
+    - id: jfr
+      note: >
+        Built into every JDK 14+ — no install needed. jfr summary shows event types and
+        counts; jfr print dumps events as text or JSON (filter by event type or time
+        range); jfr assemble combines multiple recording chunks into one file.
+  related:
+    - label: Visual flame graph from the same recording
+      tools:
+        - id: firefox-profiler
+          note: Open in the browser — JFR-specific UI, shareable link, no install.
+        - id: intellij-profiler-plugin
+          note: View inside IntelliJ with Firefox Profiler or Jeffrey.
+    - label: Full desktop analysis
+      tools:
+        - id: jmc
+          note: SapMachine ships pre-built JMC — automated rules, GC, allocation profiling.
+
+r-jmc-agent:
+  type: result
+  headline: Trace specific method calls as custom JFR events — no source code changes.
+  tools:
+    - id: jmc-agent
+      note: >
+        Bundled with SapMachine (no separate download). Define which methods to trace
+        in an XML config — method parameters, return values, and stack traces appear
+        as custom JFR events in any recording. Start with: java -jmcagent:<config.xml>
+        -XX:StartFlightRecording=filename=output.jfr. Correlate business events (logins,
+        transactions) with CPU/GC/allocation data in the same recording.
+  related:
+    - label: View the resulting recording
+      tools:
+        - id: firefox-profiler
+          note: Open in the browser — custom events appear as markers in the timeline.
+        - id: jmc
+          note: Full analysis GUI — automated rules, custom event browser.
+    - label: Look up available JFR event types
+      tools:
+        - id: jfrevents
+          note: Browse all built-in JFR event definitions across JDK versions.
+
+r-jfrevents:
+  type: result
+  headline: Reference for every JFR event type — fields, types, and examples across JDK versions.
+  tools:
+    - id: jfrevents
+      note: >
+        Lists every JFR event for JDK 17, 21, 24+ with field names, types, descriptions,
+        and benchmark-derived examples showing which events fire in practice. Use it
+        when writing JFR tooling, subscribing to events, or comparing JDK versions.
+        Web-only — maintained by the SAP SapMachine team at sap.github.io/jfrevents/.
+
+
+# ── Crash / freeze / strange behaviour ───────────────────────────────────────
+
+q-crash:
+  type: question
+  text: What are you dealing with?
+  options:
+    - label: Runtime failure — deadlock, OOM, or native memory leak
+      next: q-crash-runtime
+    - label: Tooling or configuration mystery — agent, logging flags
+      next: r-jdklogs
+
+q-crash-runtime:
+  type: question
+  text: What kind of failure?
+  options:
+    - label: Deadlock or frozen JVM
+      next: r-deadlock
+    - label: Native memory growing (RSS up, Java heap looks normal)
+      next: r-malloc-trace
+    - label: OutOfMemoryError crash — I need to analyse the heap dump
+      next: q-heap
+
+r-deadlock:
+  type: result
+  headline: Detect and diagnose a deadlock or frozen JVM.
+  tools:
+    - id: jstall
+      note: >
+        Attaches to the JVM and runs deadlock detection immediately — no restart or
+        agent needed. Also shows hot threads and captures a flame graph to confirm
+        what threads are blocked on. Works locally and via SSH.
+  related:
+    - label: Get a full JVM health snapshot while it's still responding (SapMachine)
+      tools:
+        - id: sapmachine-vitals
+          note: jcmd <pid> VM.vitals — CPU, memory, GC, thread history over 10 days in one command.
+    - label: Capture a flame graph while the JVM still responds
+      tools:
+        - id: async-profiler
+          note: Wall-clock or CPU flame graph shows exactly which frames threads are blocked on.
+
+r-jdklogs:
+  type: result
+  headline: Understand what your -Xlog configuration will actually produce.
+  tools:
+    - id: jdklogs
+      note: >
+        Interactive browser tool — enter a -Xlog expression and see exactly which
+        JVM log statements match, with source file context. Data regenerated monthly
+        from OpenJDK source. No install — web-only.
+
+
+# ── Live JVM ──────────────────────────────────────────────────────────────────
+
+q-live-diag:
+  type: question
+  text: What do you want to do?
+  options:
+    - label: Trigger a JFR recording, heap dump, or thread dump
+      next: r-jcmd
+    - label: Get a historical JVM health snapshot — CPU, GC, memory, threads (SapMachine)
+      next: r-sapmachine-vitals
+    - label: In a Cloud Foundry container without SSH
+      next: r-cf
+
+r-jcmd:
+  type: result
+  headline: Trigger a diagnostic on a running JVM — JFR, heap dump, thread dump, Vitals.
+  tools:
+    - id: jcmd
+      note: >
+        Built into every JDK. Key commands: JFR.start / JFR.stop, GC.heap_dump,
+        Thread.print, VM.native_memory, VM.flags. On SapMachine: VM.vitals for a
+        10-day health history. Requires same-user ownership of the JVM process.
+        Use jps to find the PID first if needed.
+  related:
+    - label: Analyse the JFR recording you captured
+      tools:
+        - id: firefox-profiler
+          note: Drag and drop the .jfr file — flame graph, shareable link, no install.
+        - id: jmc
+          note: Full desktop GUI — automated rules, GC analysis, allocation profiling.
+    - label: Analyse the heap dump you captured
+      tools:
+        - id: hprof-analyzer
+          note: Fast CLI — leak suspects, top consumers, handles >10 GiB.
+        - id: mat
+          note: Eclipse MAT — GUI with OOM suspects report and OQL queries.
+    - label: Need extra heap dump flags? (SapMachine)
+      tools:
+        - id: heap-dump-extras
+          note: Overwrite, compress, size-limit, or pipe-stream the dump — SapMachine only.
+    - label: In a CF container without SSH?
+      tools:
+        - id: cf-cli-java-plugin
+          note: Proxies jcmd through the CF CLI — no SSH needed.
+    - label: Find the PID of the Java process
+      tools:
+        - id: jps
+          note: jps lists all local Java processes with their PIDs and main class names. Built into every JDK.
+
+r-sapmachine-vitals:
+  type: result
+  headline: Compact 10-day JVM health history — CPU, memory, GC, threads — always on.
+  tools:
+    - id: sapmachine-vitals
+      note: >
+        Always on in SapMachine at near-zero cost (~300KB RAM, unmeasurable CPU overhead).
+        jcmd <pid> VM.vitals prints the last hour (high-res) and 10 days (low-res)
+        as an ASCII table. Container-aware (cgroup vs host RAM), includes NMT totals.
+        Paste the output straight into an incident ticket or support request.
+  related:
+    - label: Set up automatic diagnostics at memory thresholds
+      tools:
+        - id: high-memory-reports
+          note: -XX:+HiMemReport fires Vitals + NMT snapshots at 66/75/90% memory pressure.
+    - label: Trigger a heap dump or JFR recording alongside Vitals
+      tools:
+        - id: jcmd
+          note: jcmd <pid> GC.heap_dump or JFR.start runs alongside VM.vitals.

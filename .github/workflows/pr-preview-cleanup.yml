@@ -1,0 +1,34 @@
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
+
+# Caller stub — pull_request_target (closed) + schedule + manual triggers must
+# live on `main` (the default branch). The job logic is the reusable workflow of
+# the same name on the `ci-shared` branch (on: workflow_call). The reusable logic
+# is pulled from the pinned `@ci-shared` ref, never from PR code — safe for
+# pull_request_target. The event `github` context is inherited by the reusable.
+name: PR preview cleanup
+
+on:
+  pull_request_target:
+    types: [closed]
+  # Daily self-healing sweep (02:37 UTC; off-peak, just before the 03:00 live-site
+  # job in test-live-site.yml).
+  schedule:
+    - cron: '37 2 * * *'
+  # Manual run.
+  workflow_dispatch:
+
+# Serialize cleanup runs so they don't race each other.
+concurrency:
+  group: preview-pages-cleanup
+  cancel-in-progress: false
+
+# Ceiling for the reusable workflow's GITHUB_TOKEN (cleanup job pushes the
+# deletion to preview-pages and reads PR state).
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  call:
+    uses: SapMachine/SapMachineIOPage/.github/workflows/pr-preview-cleanup.yml@ci-shared
+    secrets: inherit

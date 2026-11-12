@@ -1,0 +1,43 @@
+id: jps
+tag: external
+group: Live JVM Inspection
+github_url: https://github.com/openjdk/jdk/tree/master/src/jdk.jcmd
+tagline: >-
+  jps (JVM Process Status) lists all Java processes on the local host, printing each PID alongside the main class or JAR
+  name. It is typically the first step in any JVM diagnostic workflow — you need a PID before you can use jcmd,
+  async-profiler, jstack, or any attach-based tool. Built into every JDK, no install needed.
+tagline_short: List running JVM processes and find their PIDs — built into every JDK.
+features:
+  - List all Java processes on the local host with their PIDs and class names
+  - Show the full main class name (-l) or the JAR path that launched the process
+  - Print JVM flags passed to the process (-v) or main method arguments (-m)
+  - Built into every JDK — no install needed, available everywhere
+when_to_use:
+  - You need the PID of a running JVM before attaching a profiler or running jcmd
+  - You want a quick list of all Java processes on a host
+  - You need to confirm which JAR or class is running as which process
+when_not_to_use:
+  - You need to list Java processes on a remote host — jps is local-only (SSH first)
+  - The target JVM is owned by a different user — use 'ps aux | grep java' instead
+  - You need CPU or memory stats — use jcmd or sapmachine-vitals instead
+install:
+  - label: Built-in
+    lang: bash
+    code: |
+      # jps ships with every JDK — no install needed
+      jps -version
+usage:
+  - label: List JVMs
+    lang: bash
+    code: |
+      # List all running JVMs (PID + short class name)
+      jps
+
+      # Show full main class or JAR path
+      jps -l
+
+      # Show JVM flags for each process
+      jps -v
+
+      # Show all: full name + flags + arguments
+      jps -lvm

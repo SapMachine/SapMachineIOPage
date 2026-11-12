@@ -1,0 +1,105 @@
+id: jcmd
+tag: external
+group: Live JVM Inspection
+github_url: https://github.com/openjdk/jdk/tree/master/src/jdk.jcmd
+tagline: >-
+  jcmd is a command-line diagnostic tool built into the JDK. It can attach to any running JVM on the same host and issue
+  diagnostic commands: start/stop JFR recordings, trigger heap dumps, print thread stacks, inspect NMT memory, list
+  flags, and — on SapMachine — print Vitals snapshots. No agent, no extra tooling: if you have a JDK installed, you
+  already have jcmd.
+tagline_short: Built-in JDK diagnostic tool — JFR, heap dumps, thread dumps, NMT, Vitals (SapMachine).
+features:
+  - Start, stop, check, and dump JFR recordings on a running JVM without restart
+  - Trigger heap dumps on demand (GC.heap_dump)
+  - Print thread stacks (Thread.print) — same output as jstack but via attach
+  - Print VM flags (VM.flags), system properties (VM.system_properties), and VM info
+  - NMT memory breakdown by category (VM.native_memory) when NMT is enabled
+  - SapMachine Vitals snapshot (VM.vitals) — a compact multi-metric health report, SapMachine only
+  - Works inside CF containers via the cf-cli-java-plugin (no SSH required)
+  - Available everywhere a JDK is installed — no separate install
+when_to_use:
+  - You want to start or stop a JFR recording on an already-running JVM without restarting it
+  - You need a heap dump or thread dump on demand from a production process
+  - You are on SapMachine and want a quick VM health check via VM.vitals
+  - You need NMT memory breakdown to investigate native memory growth
+  - You are in a CF container and need jcmd via the cf-cli-java-plugin
+when_not_to_use:
+  - You need to attach to a JVM on a remote host — jcmd only works locally (use jcmd via SSH or the CF plugin)
+  - You want continuous profiling or a flame graph — use async-profiler, jfr-profiling, or JMC instead
+  - You need to analyse an existing recording — jcmd starts/stops recordings but does not analyse them
+install:
+  - label: Built-in
+    lang: bash
+    code: |
+      # jcmd ships with every JDK — no install needed
+      jcmd --version
+
+      # List all running JVMs on this host:
+      jcmd
+usage:
+  - label: JFR recording
+    lang: bash
+    code: |
+      PID=<pid>
+
+      # Start a 60-second profiling recording
+      jcmd $PID JFR.start duration=60s filename=/tmp/recording.jfr settings=profile
+
+      # Check recording status
+      jcmd $PID JFR.check
+
+      # Dump an ongoing continuous recording to file
+      jcmd $PID JFR.dump filename=/tmp/snapshot.jfr
+
+      # Stop and write a recording
+      jcmd $PID JFR.stop name=<recording-name> filename=/tmp/recording.jfr
+  - label: Heap & thread dumps
+    lang: bash
+    code: |
+      PID=<pid>
+
+      # Trigger a heap dump (live objects only)
+      jcmd $PID GC.heap_dump /tmp/heap.hprof
+
+      # Print all thread stacks (like jstack)
+      jcmd $PID Thread.print
+
+      # Print thread stacks with locks
+      jcmd $PID Thread.print -l
+  - label: VM info & flags
+    lang: bash
+    code: |
+      PID=<pid>
+
+      # All VM flags (including defaults)
+      jcmd $PID VM.flags
+
+      # Print NMT native memory breakdown (requires -XX:NativeMemoryTracking=summary)
+      jcmd $PID VM.native_memory summary
+
+      # Full VM info (version, flags, heap config, OS details)
+      jcmd $PID VM.info
+
+      # List all available commands for this JVM
+      jcmd $PID help
+  - label: Vitals (SapMachine only)
+    lang: bash
+    code: |
+      PID=<pid>
+
+      # Print a compact multi-metric snapshot: CPU, memory, GC, threads,
+      # heap, metaspace, NMT — last 60 min + last 10 days
+      jcmd $PID VM.vitals
+
+      # Scale values (k/m/g/t) and show raw numbers side by side
+      jcmd $PID VM.vitals scale=m
+links:
+  - label: SapMachine Vitals docs ↗
+    url: https://sapmachine.io/docs/vitals
+  - label: CF plugin (use jcmd in CF containers) ↗
+    url: https://github.com/SAP/cf-cli-java-plugin
+note: >
+  jcmd requires the JVM process to be owned by the same user (or root). On Linux, it uses the attach mechanism via
+  /tmp/.java_pidNNN. On SapMachine, VM.vitals is available by default at no extra cost — it keeps a rolling 10-day
+  history of system and JVM metrics sampled every 10 seconds. For CF environments, the cf-cli-java-plugin proxies jcmd
+  commands without requiring SSH access to the container.

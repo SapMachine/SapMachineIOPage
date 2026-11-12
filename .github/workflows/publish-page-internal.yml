@@ -1,0 +1,32 @@
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
+
+# Caller stub — push to `main` + manual trigger must live on `main`. The job
+# logic is the reusable workflow of the same name on the `ci-shared` branch
+# (on: workflow_call).
+#
+# IMPORTANT: keep this workflow's name "Publish sapmachine.io page" unchanged —
+# test-live-site.yml's `workflow_run` trigger matches on that exact name.
+name: Publish sapmachine.io page
+
+on:
+  # Run on pushes to the main branch
+  push:
+    branches: ["main"]
+
+  # Allow to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# There is only one sapmachine.io page, latest commit should be published, running jobs get canceled.
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  call:
+    uses: SapMachine/SapMachineIOPage/.github/workflows/publish-page-internal.yml@ci-shared
+    secrets: inherit

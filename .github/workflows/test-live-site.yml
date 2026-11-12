@@ -1,0 +1,31 @@
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
+
+# Caller stub — schedule + workflow_run + manual triggers must live on `main`
+# (the default branch); workflow_run in particular only fires from the default
+# branch. The job logic is the reusable workflow of the same name on the
+# `ci-shared` branch (on: workflow_call). The event `github` context is inherited
+# by the reusable, so its `github.event.workflow_run.*` checks still work.
+name: Test SapMachineIOPage preview (live site)
+
+on:
+  # Run every day at 03:00 UTC
+  schedule:
+    - cron: '0 3 * * *'
+
+  # Trigger after successfully publishing a new version of the sapmachine.io page
+  workflow_run:
+    workflows: ["Publish sapmachine.io page"]
+    types: [completed]
+    branches: [main]
+
+  # Allow to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write        # Needed to auto-create an issue on scheduled failures
+
+jobs:
+  call:
+    uses: SapMachine/SapMachineIOPage/.github/workflows/test-live-site.yml@ci-shared
+    secrets: inherit

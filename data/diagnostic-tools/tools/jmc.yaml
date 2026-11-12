@@ -1,0 +1,69 @@
+id: jmc
+tag: external
+group: JFR / Profiling
+github_url: https://github.com/openjdk/jmc
+github_pages: https://sapmachine.io/download
+tagline: >-
+  JDK Mission Control (JMC) is an Eclipse-based desktop application for analysing JFR recordings. It is the most
+  complete GUI for JFR: automated rules engine, flame graph, allocation profiling, GC analysis, thread timeline, and
+  memory leak detection — all in one place. The UI is somewhat dated (Eclipse RCP) but it is stable, well-maintained,
+  and covers analysis scenarios that lighter browser tools do not. SapMachine ships a pre-built, tested JMC release
+  alongside the JDK — download it from sapmachine.io.
+tagline_short: Eclipse-based JFR analysis GUI — stable, full-featured, ships with SapMachine.
+features:
+  - Automated rules engine scans recordings and flags GC pressure, lock contention, blocked threads, and more
+  - Flame graph / method profiling view for CPU hotspot analysis
+  - Allocation profiling — see which call sites allocate most and what types they create
+  - GC pause timeline with pause-reason breakdown (pause type, cause, duration)
+  - Thread activity timeline, lock contention, and deadlock detection
+  - Memory leak detection via heap statistics and object growth across recording windows
+  - Eclipse RCP UI — solid and stable, though visually dated compared to modern browser tools
+  - SapMachine ships a pre-built JMC — no separate download or build required
+when_to_use:
+  - You want the automated rules engine to scan a recording and tell you what looks wrong
+  - You need the full breadth of JFR analysis — GC, allocations, threads, locks, memory leaks — in one app
+  - You are comfortable installing a desktop application and want stable, well-supported tooling
+  - You are on SapMachine and want the pre-tested, co-versioned JMC build
+when_not_to_use:
+  - You need a shareable browser link — use jfr-profiling / Firefox Profiler instead
+  - You want to query JFR data with SQL — use jfr-query instead
+  - You want a modern, lightweight UI — JMC's Eclipse RCP shell feels heavy compared to browser tools
+install:
+  - label: Download (SapMachine build)
+    lang: bash
+    code: |
+      # Download JMC from the SapMachine download page (sapmachine.io/download)
+      # then launch:
+      /path/to/jmc/jmc
+
+      # Or if installed alongside a SapMachine JDK:
+      $JAVA_HOME/../jmc/jmc
+usage:
+  - label: Open a recording
+    lang: bash
+    code: |
+      # Pass a recording file on the command line:
+      jmc -open /path/to/recording.jfr
+
+      # Or launch JMC and use File → Open File… to browse to the .jfr file.
+      # The Automated Analysis tab runs the rules engine automatically on open.
+  - label: Start a live recording
+    lang: text
+    code: |
+      1. Launch JMC
+      2. In the JVM Browser pane, find your running JVM (local JVMs appear automatically)
+      3. Right-click → Start Flight Recording
+      4. Configure duration, event profile (Profiling / Continuous), and filename
+      5. When the recording finishes it opens automatically in the editor
+links:
+  - label: Download SapMachine JMC ↗
+    url: https://sapmachine.io/download
+  - label: JMC agent integration docs ↗
+    url: https://sapmachine.io/docs/jmc-agent-integration
+  - label: JMC project (GitHub) ↗
+    url: https://github.com/openjdk/jmc
+note: >
+  SapMachine ships a pre-built JMC release that is tested and co-versioned with the JDK — download it from
+  sapmachine.io/download. If you installed SapMachine from the .tar.gz or installer, check $JAVA_HOME/../jmc/. The
+  bundled JMC also works with vanilla OpenJDK recordings. Upstream JMC builds are available from the JMC GitHub releases
+  page and adoptium.net.

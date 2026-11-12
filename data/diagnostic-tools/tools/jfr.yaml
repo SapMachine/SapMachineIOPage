@@ -1,0 +1,58 @@
+id: jfr
+tag: external
+group: JFR / Profiling
+github_url: https://github.com/openjdk/jdk/tree/master/src/jdk.jfr
+tagline: >-
+  jfr is the command-line tool for working with JFR recording files (.jfr). It can print all events in a recording,
+  summarize what event types are present, assemble multiple recordings into one, or filter events by type and time
+  range. It is the quickest way to inspect a .jfr file from the terminal without opening JMC or writing Java code. Built
+  into every JDK 14+.
+tagline_short: Inspect, print, and assemble JFR recording files from the command line — built into every JDK 14+.
+features:
+  - Print all events from a .jfr recording as structured text (jfr print)
+  - Summarize available event types and their counts (jfr summary)
+  - Assemble multiple .jfr files into a single recording (jfr assemble)
+  - Filter events by type, time range, or stack frame with --categories, --events
+  - Output events as JSON or XML for scripted processing (--json, --xml)
+  - Built into every JDK 14+ — no install needed
+when_to_use:
+  - You have a .jfr file and want a quick terminal inspection without opening JMC
+  - You want to filter or extract specific event types from a recording for scripting
+  - You need to combine or split .jfr files
+  - You want to see what event types a recording contains before opening it in JMC
+when_not_to_use:
+  - You want flame graphs or visual analysis — use JMC or jfr-profiling instead
+  - You want to query events with SQL — use jfr-query instead
+  - You need to start or stop a recording on a running JVM — use jcmd for that
+install:
+  - label: Built-in
+    lang: bash
+    code: |
+      # jfr ships with every JDK 14+ — no install needed
+      jfr --version
+usage:
+  - label: Inspect recording
+    lang: bash
+    code: |
+      # Summarize what event types are in the recording
+      jfr summary recording.jfr
+
+      # Print all events as structured text
+      jfr print recording.jfr
+
+      # Print only GC pause events
+      jfr print --events GarbageCollection recording.jfr
+
+      # Print as JSON for scripting
+      jfr print --json recording.jfr
+  - label: Filter & combine
+    lang: bash
+    code: |
+      # Print events from a specific category
+      jfr print --categories GC,Profiling recording.jfr
+
+      # Combine multiple recordings into one
+      jfr assemble combined.jfr chunk1.jfr chunk2.jfr chunk3.jfr
+
+      # Split a recording back into its original chunks
+      jfr disassemble recording.jfr

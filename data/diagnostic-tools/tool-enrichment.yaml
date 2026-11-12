@@ -1,0 +1,960 @@
+# Search enrichment data for diagnostic tools.
+# Each entry augments the MiniSearch index with concepts, synonyms, problems, and example queries.
+# Keys must match tool IDs in tools/ YAML files.
+
+async-profiler:
+  concepts:
+    - CPU profiling
+    - allocation profiling
+    - lock profiling
+    - wall-clock profiling
+    - flamegraph
+    - flame graph
+    - JFR profiling
+    - native profiling
+    - low overhead profiling
+    - sampling profiler
+    - perf events
+    - async get call trace
+    - hot method finder
+    - cpu hotspot
+    - high cpu diagnosis
+    - cpu spike profiling
+    - latency profiling
+    - slow startup profiling
+    - docker profiling
+    - container profiling
+  synonyms:
+    - AsyncProfiler
+    - java profiler
+    - sampling profiler
+    - flame graph profiler
+    - flamegraph profiler
+    - ap profiler
+    - async profiler
+    - asyncprofiler
+  problems:
+    - high CPU usage
+    - cpu spike
+    - memory allocation hotspot
+    - lock contention
+    - slow code path
+    - GC pressure
+    - production profiling
+    - safepoint bias
+    - hot method
+    - slow method
+    - allocation hotspot
+    - latency spike
+    - high cpu
+    - cpu 100 percent
+    - thread using too much cpu
+    - synchronized block contention
+    - monitor contention
+    - thread waiting on lock
+    - slow startup
+    - startup slow java
+    - slow class loading
+  queries:
+    - java cpu profiler
+    - how to generate flame graph java
+    - low overhead java profiler
+    - allocation profiling java
+    - async profiler tutorial
+    - flamegraph java
+    - generate flamegraph jvm
+    - java profiler no safepoint bias
+    - find hot method java
+    - cpu profiler no overhead
+    - profiler production java
+    - profile java startup
+    - java startup profiling
+
+jstall:
+  concepts:
+    - thread analysis
+    - deadlock detection
+    - CPU profiling
+    - flamegraph
+    - flame graph
+    - live TUI
+    - JVM inspection
+    - hot threads
+    - jvm diagnostics
+    - one-shot inspector
+    - no restart required
+    - attach running jvm
+    - quick diagnosis
+    - performance triage
+    - thread dump
+    - jvm monitor
+    - application hanging
+    - unresponsive jvm
+    - slow startup diagnosis
+    - docker container diagnosis
+    - kubernetes pod diagnosis
+  synonyms:
+    - JVM inspector CLI
+    - thread dump CLI
+    - one-shot profiler
+    - jvm monitoring tool
+    - java diagnostic cli
+    - jvm tui
+    - jvm checker
+  problems:
+    - JVM hanging
+    - high CPU usage
+    - deadlock
+    - unresponsive application
+    - slow request
+    - Cloud Foundry diagnostics
+    - slow application
+    - performance problem
+    - jvm slow
+    - application slow
+    - slow response time
+    - jvm performance issue
+    - app not responding
+    - java process frozen
+    - pod restart loop
+    - requests timing out
+    - latency spike
+    - high latency
+    - slow startup
+    - startup taking too long
+    - java startup slow
+    - docker container java slow
+    - no restart needed
+  queries:
+    - how to profile java without agent
+    - quick java thread dump
+    - find deadlocks jvm
+    - java high cpu tool
+    - jvm diagnostics production
+    - quick jvm check
+    - java performance diagnostic
+    - jvm tui monitor
+    - diagnose slow java app
+    - java app unresponsive
+    - java app hanging fix
+    - java latency diagnosis
+    - diagnose java in docker
+    - java startup slow diagnosis
+
+sapmachine-vitals:
+  concepts:
+    - JVM health log
+    - continuous monitoring
+    - CPU metrics
+    - GC metrics
+    - memory metrics
+    - thread metrics
+    - Vitals
+    - 10-day history
+    - vm vitals
+    - jvm monitoring
+    - always-on monitoring
+    - garbage collection history
+    - heap usage history
+    - gc pause history
+    - thread count history
+    - cpu usage history
+    - container monitoring
+  synonyms:
+    - SapMachine Vitals
+    - JVM health monitor
+    - continuous JVM log
+    - vm vitals
+    - sapmachine vitals
+    - jvm metrics
+    - jvm health check
+  problems:
+    - JVM health baseline
+    - historical JVM metrics
+    - continuous memory monitoring
+    - GC history
+    - thread count history
+    - jvm performance history
+    - production monitoring without agent
+    - cpu usage trending
+    - memory usage over time
+    - garbage collection frequency
+    - want to see what happened before incident
+  queries:
+    - jvm continuous monitoring
+    - sapmachine vitals
+    - jvm health log
+    - jcmd vitals
+    - java gc history log
+    - jvm always-on monitoring
+    - jvm performance history no agent
+    - jvm cpu usage over time
+    - jvm metrics without prometheus
+    - jvm gc pause history
+
+high-memory-reports:
+  concepts:
+    - memory watermark
+    - memory usage reports
+    - NMT report
+    - Vitals report
+    - automatic memory report
+    - heap pressure
+    - container memory
+    - OOM prevention
+    - memory limit
+    - kubernetes memory
+    - k8s oom
+    - automatic diagnostics
+    - memory threshold alert
+    - before oom killed
+    - memory growing
+    - garbage collection overhead
+    - heap watermark
+    - docker memory limit
+    - docker oom
+    - container killed
+  synonyms:
+    - memory report
+    - memory watermark report
+    - automatic memory diagnostics
+    - HiMemReport
+    - high memory report
+    - oom prevention diagnostics
+  problems:
+    - memory growing over time
+    - memory spike detection
+    - automatic OOM diagnostics
+    - baseline memory usage
+    - container OOM
+    - kubernetes oom killed
+    - k8s pod restart
+    - memory limit reached
+    - automatic heap dump on oom
+    - want diagnostics before process killed
+    - memory pressure
+    - high memory usage java container
+    - pod oom killed
+    - docker container oom
+    - java docker memory limit hit
+  queries:
+    - java automatic memory report
+    - jvm memory watermark
+    - sapmachine memory reports
+    - nmt report automatic
+    - automatic diagnostics before oom
+    - container memory report java
+    - kubernetes java oom diagnostics
+    - java memory alert threshold
+    - high memory report sapmachine
+    - java docker oom diagnostics
+
+jcmd:
+  concepts:
+    - JVM diagnostic commands
+    - JFR start stop
+    - heap dump trigger
+    - thread dump trigger
+    - NMT
+    - native memory tracking
+    - Vitals
+    - VM.info
+    - jmap replacement
+    - jstack replacement
+    - attach api
+    - classloader stats
+    - vm commands
+    - built-in diagnostics
+    - thread print
+    - gc run
+    - vm flags
+    - no restart required
+    - zero downtime diagnostics
+  synonyms:
+    - jcmd tool
+    - JVM command tool
+    - built-in JVM diagnostics
+    - jmap alternative
+    - jstack alternative
+    - jmap replacement
+    - jstack replacement
+    - jhat alternative
+  problems:
+    - trigger heap dump command line
+    - start JFR recording command
+    - get thread dump without IDE
+    - native memory tracking
+    - jmap equivalent
+    - jstack equivalent
+    - thread dump command
+    - heap dump command
+    - classloader stats command
+    - vm info command
+    - trigger gc command line
+    - get jvm flags at runtime
+    - thread dump no tools installed
+    - thread dump without restart
+    - zero downtime thread dump
+  queries:
+    - jcmd heap dump
+    - jcmd jfr start
+    - jcmd thread dump
+    - java nmt jcmd
+    - jcmd commands list
+    - jcmd jmap equivalent
+    - jcmd jstack equivalent
+    - jcmd classloader stats
+    - jcmd native memory
+    - jcmd vm info
+    - thread dump one liner
+    - heap dump command line java
+    - jcmd thread print
+    - jhat replacement tool
+
+malloc-trace:
+  concepts:
+    - native memory leak
+    - malloc tracing
+    - native allocation profiling
+    - call stack tracing
+    - off-heap memory
+    - rss growing
+    - native heap
+    - c malloc
+    - non-java memory
+    - direct memory
+    - off heap leak
+    - native leak detection
+    - process memory growing
+    - virtual memory
+    - anonymous memory
+  synonyms:
+    - native memory tracer
+    - malloc profiler
+    - native leak detector
+    - malloc trace
+    - off-heap tracer
+    - native heap profiler
+  problems:
+    - native memory leak
+    - off-heap memory growing
+    - malloc call stack
+    - non-heap memory leak
+    - native memory tracing
+    - RSS growing java heap ok
+    - virtual memory growing
+    - native allocation tracking
+    - direct memory leak
+    - off heap memory growing
+    - process rss increasing
+    - native memory not tracked by jvm
+    - memory growing but heap looks fine
+  queries:
+    - java native memory leak detection
+    - track malloc java
+    - off heap memory leak java
+    - native memory profiling sapmachine
+    - rss growing java heap ok
+    - native memory leak jvm
+    - off-heap memory profiling java
+    - java process memory growing heap fine
+    - find native memory leak java
+
+heap-dump-extras:
+  concepts:
+    - heap dump
+    - compressed heap dump
+    - heap dump streaming
+    - heap dump flags
+    - SapMachine heap dump
+    - OOM diagnostics
+    - heap dump on oom
+    - gzip heap dump
+    - heap dump overwrite
+    - heap dump pipe
+    - crash dump
+    - oom dump
+  synonyms:
+    - heap dump tool
+    - gzip heap dump
+    - heap dump size limit
+    - heap dump extras
+  problems:
+    - heap dump too large
+    - compress heap dump
+    - heap dump overwrite
+    - stream heap dump
+    - OOM analysis
+    - heap dump disk space
+    - heap dump file exists error
+    - automated heap dump on crash
+    - heap dump on out of memory
+    - heap dump too slow to write
+    - heap dump in container disk full
+  queries:
+    - java heap dump compressed
+    - gzip heap dump jvm
+    - heap dump size limit sapmachine
+    - heap dump extras flags
+    - heap dump pipe stream
+    - automatic heap dump on oom
+    - java heap dump on outofmemoryerror
+    - compress heap dump gzip sapmachine
+
+mat:
+  concepts:
+    - heap dump analysis
+    - OOM analysis
+    - dominator tree
+    - OQL queries
+    - memory leak analysis
+    - retained heap
+    - Eclipse MAT
+    - HPROF analysis
+    - heap histogram
+    - gc roots
+    - OutOfMemoryError suspects
+    - object graph
+    - heap dump gui
+    - memory analyzer
+    - jhat replacement
+    - jhat alternative
+  synonyms:
+    - Eclipse Memory Analyzer
+    - MAT
+    - heap analyzer
+    - memory analyzer tool
+    - eclipse mat
+    - heap dump analyser gui
+    - memory analysis tool
+    - jhat replacement
+    - jvisualvm heap analysis
+  problems:
+    - OutOfMemoryError analysis
+    - find memory leak heap dump
+    - large heap dump analysis
+    - dominator object
+    - GC root analysis
+    - oom heap dump analysis
+    - heap dump visual analysis
+    - find objects retaining memory
+    - what caused out of memory error
+    - heap dump investigation
+  queries:
+    - eclipse memory analyzer tutorial
+    - analyze heap dump java
+    - find memory leak java heap dump
+    - mat heap dump tool
+    - oom analysis java
+    - eclipse mat download
+    - heap dump analysis gui
+    - java heap dump analyser
+
+hprof-analyzer:
+  concepts:
+    - heap dump analysis
+    - HPROF analysis
+    - Rust heap analyser
+    - OQL shell
+    - leak suspects
+    - top consumers
+    - large heap dump
+    - web heap analysis
+    - hprof format
+    - fast heap analysis
+    - cli heap analysis
+  synonyms:
+    - hprof analyzer
+    - heap dump analyser
+    - fast heap analyser
+    - MAT alternative
+    - hprof-analyzer
+    - heap dump cli tool
+  problems:
+    - heap dump too large for MAT
+    - OOM analysis without Eclipse
+    - scriptable heap analysis
+    - CI heap dump analysis
+    - compare two heap dumps
+    - large hprof file
+    - fast oom analysis
+    - analyze heap dump command line
+    - heap dump without gui
+  queries:
+    - analyze large heap dump
+    - alternative to eclipse mat
+    - heap dump rust analyser
+    - hprof analyzer cli
+    - heap dump diff tool
+    - analyze hprof without eclipse
+    - fast heap dump analysis cli
+    - heap dump analysis no gui
+
+jmc:
+  concepts:
+    - JFR GUI
+    - JDK Mission Control
+    - JFR analysis GUI
+    - method profiling
+    - memory analysis
+    - JFR visualization
+    - flamegraph gui
+    - flame graph viewer
+    - jfr desktop app
+    - visualvm alternative
+    - mission control
+    - automated rules engine
+    - jfr automated analysis
+    - gc analysis gui
+    - lock contention analysis
+    - allocation analysis
+    - garbage collection analysis
+    - garbage collector tuning
+    - gc pause analysis
+    - jvisualvm alternative
+    - jvisualvm replacement
+  synonyms:
+    - JDK Mission Control
+    - JFR viewer
+    - JFR analysis tool
+    - JMC
+    - jmc tool
+    - mission control java
+    - VisualVM alternative
+    - Java Mission Control
+    - jfr desktop viewer
+    - jvisualvm
+    - jvisualvm replacement
+  problems:
+    - analyze JFR recording
+    - visualize flame graph
+    - inspect memory allocation JFR
+    - find hot methods
+    - jfr gui analysis
+    - jfr desktop viewer
+    - VisualVM replacement
+    - automated jfr analysis
+    - gc problem jfr
+    - lock contention jfr recording
+    - jfr file analysis tool
+  queries:
+    - jdk mission control download
+    - jfr analysis gui
+    - java flight recorder viewer
+    - jmc sapmachine
+    - jmc download
+    - jdk mission control tutorial
+    - visualvm alternative jmc
+    - mission control jvm
+    - jfr gui tool java
+
+jmc-agent:
+  concepts:
+    - JFR custom events
+    - bytecode instrumentation
+    - method tracing
+    - JFR instrumentation
+    - XML config profiling
+    - custom jfr events
+    - java agent jfr
+    - trace method calls
+    - instrument without code change
+  synonyms:
+    - JMC agent
+    - JFR agent
+    - method tracing agent
+    - jfr instrumentation agent
+  problems:
+    - add JFR events without code changes
+    - trace method calls as JFR events
+    - instrument running application
+    - custom events jfr
+    - jfr method tracing
+    - add business events to jfr recording
+    - profile specific methods jfr
+  queries:
+    - add custom jfr events
+    - trace java methods jfr
+    - jfr instrumentation no code change
+    - jmc agent tutorial
+    - custom jfr events java agent
+    - jfr method level profiling
+
+jfr:
+  concepts:
+    - Java Flight Recorder
+    - JFR recording
+    - JFR events
+    - JFR analysis
+    - JFR print
+    - JFR assemble
+    - jfr cli
+    - flight recorder command
+    - jfr command line
+    - jfr file inspection
+  synonyms:
+    - JFR CLI
+    - jfr command
+    - flight recorder tool
+    - java flight recorder cli
+    - jfr tool jdk
+  problems:
+    - inspect JFR recording
+    - print JFR events
+    - combine JFR chunks
+    - JFR without IDE
+    - read jfr file terminal
+    - parse jfr recording
+    - list events in jfr file
+    - jfr file too big to open in jmc
+  queries:
+    - jfr command line tool
+    - print jfr recording
+    - java flight recorder cli
+    - inspect jfr file terminal
+    - jfr print events command
+    - jfr summary command
+    - read jfr file command line
+
+jfrevents:
+  concepts:
+    - JFR event reference
+    - JFR event fields
+    - JFR event types
+    - JDK event documentation
+    - JFR tooling
+    - flight recorder events
+    - jfr event list
+    - jfr api documentation
+  synonyms:
+    - JFR events reference
+    - JFR event catalogue
+    - JDK flight recorder events
+    - jfr event documentation
+    - jfr events list website
+  problems:
+    - what fields does JFR event have
+    - JFR event across JDK versions
+    - find JFR event for use case
+    - JFR event documentation
+    - jfr event schema
+    - which jfr events exist
+  queries:
+    - jfr events list
+    - jfr event fields documentation
+    - jdk flight recorder events reference
+    - jfr event types jdk 21
+    - jfr event api reference
+    - jfr events documentation website
+
+firefox-profiler:
+  concepts:
+    - JFR viewer
+    - flamegraph browser
+    - flame graph browser
+    - cjfr viewer
+    - browser-based profiler
+    - JFR visualisation
+    - jfr web viewer
+    - online jfr viewer
+    - drag drop jfr
+    - jfr no install viewer
+  synonyms:
+    - Firefox Profiler fork
+    - JFR browser viewer
+    - JFR flame graph viewer
+    - jfrtofp viewer
+    - jfr online viewer
+    - browser jfr viewer
+  problems:
+    - view JFR file in browser
+    - JFR flame graph without IDE
+    - open cjfr recording
+    - JFR drag and drop viewer
+    - visualize jfr recording
+    - open jfr online
+    - jfr viewer no install
+    - share jfr recording as link
+  queries:
+    - open jfr file browser
+    - jfr flame graph online
+    - view jfr recording without ide
+    - firefox profiler jfr
+    - jfrtofp viewer
+    - jfr viewer web browser
+    - online jfr flame graph viewer
+
+intellij-profiler-plugin:
+  concepts:
+    - IntelliJ profiling
+    - JFR run configuration
+    - IDE flame graphs
+    - IDE flamegraph
+    - attach JFR IntelliJ
+    - JFR file viewer IDE
+    - CPU time profiling
+    - jetbrains profiler
+    - ide profiler
+    - intellij jfr plugin
+  synonyms:
+    - Java JFR Profiler plugin
+    - IntelliJ JFR plugin
+    - IntelliJ profiler
+    - JFR IntelliJ
+    - jetbrains jfr plugin
+    - intellij profiler plugin
+  problems:
+    - profile from IntelliJ run config
+    - JFR profiling without command line
+    - view JFR inside IntelliJ
+    - attach profiler from IDE
+    - flamegraph in intellij
+    - profiling from ide without separate tool
+  queries:
+    - intellij jfr profiling plugin
+    - java profiler intellij idea
+    - jfr plugin jetbrains
+    - profile java from ide
+    - intellij flame graph
+    - intellij flamegraph plugin
+    - java jfr profiler intellij plugin
+
+condensed-data:
+  concepts:
+    - JFR long-term storage
+    - JFR compression
+    - cjfr format
+    - live attach recording
+    - continuous JFR
+    - low-overhead recording
+    - compact jfr
+    - continuous profiling
+  synonyms:
+    - condensed JFR
+    - cjfr
+    - compact JFR storage
+    - JFR agent
+    - long-term JFR
+    - condensed data format
+    - cjfr format
+  problems:
+    - JFR recording disk usage too high
+    - continuous JFR recording
+    - long-term profiling data
+    - JFR data over days or weeks
+    - jfr too large
+    - disk space jfr
+    - always-on jfr recording
+  queries:
+    - compress jfr recording
+    - long term jfr storage
+    - continuous jfr low overhead
+    - jfr live attach agent
+    - condensed jfr format
+    - cjfr viewer
+    - compact jfr recording java
+
+jdklogs:
+  concepts:
+    - JVM logging
+    - Xlog configuration
+    - GC logging
+    - safepoint logging
+    - class loading logging
+    - JIT logging
+    - compilation logging
+    - classloader logging
+    - log configuration
+    - gc log
+    - jvm log flags
+    - xlog explorer
+    - garbage collection logging
+    - gc log format
+    - jvm debug logging
+  synonyms:
+    - Xlog explorer
+    - JDK log browser
+    - JVM log configurator
+    - xlog browser
+    - jdk logging tool
+    - jvm xlog tool
+  problems:
+    - too much log output
+    - missing GC log events
+    - configure JVM logging
+    - understand -Xlog flags
+    - JVM log format
+    - configure gc logging
+    - configure compilation logging
+    - configure safepoint logging
+    - missing jvm logs
+    - enable jit logging
+    - gc log format java
+    - garbage collection log flags
+    - how to enable safepoint log
+  queries:
+    - how to configure jvm logging
+    - xlog java
+    - gc log flags jdk
+    - java logging flags explorer
+    - jdk xlog configuration tool
+    - configure gc logging java
+    - enable safepoint logging
+    - jvm compilation logging
+    - java gc log enable
+    - -Xlog configuration
+
+jps:
+  concepts:
+    - JVM process list
+    - find JVM PID
+    - running JVMs
+    - Java process discovery
+    - process id
+    - list jvms
+    - java process status
+  synonyms:
+    - java process tool
+    - jvm pid finder
+    - java ps
+    - jps command
+    - java process lister
+  problems:
+    - find running JVM pid
+    - list java processes
+    - identify java application pid
+    - find jvm process id
+    - list running jvms
+    - what java processes are running
+  queries:
+    - list running java processes
+    - find jvm pid linux
+    - jps command java
+    - java process id
+    - find java process pid
+    - list java processes command
+
+cf-cli-java-plugin:
+  concepts:
+    - Cloud Foundry
+    - CF diagnostics
+    - remote JVM
+    - cloudfoundry java
+    - cf java plugin
+    - heap dump cf
+    - thread dump cf
+    - jvm cf
+    - cloudfoundry monitoring
+    - pcf java
+  synonyms:
+    - cf java plugin
+    - cloudfoundry java diagnostics
+    - cf jvm tool
+    - cloud foundry java plugin
+    - pcf java plugin
+  problems:
+    - heap dump cloud foundry
+    - thread dump cloud foundry
+    - diagnose java cf app
+    - jvm diagnostics without ssh
+    - cloud foundry java troubleshooting
+    - cf java app slow
+    - heap dump pcf app
+    - cf app out of memory
+  queries:
+    - cloud foundry java diagnostics
+    - cf cli java plugin
+    - heap dump cloudfoundry
+    - diagnose java app cf
+    - cf java thread dump
+    - cloudfoundry java heap dump
+    - pcf java diagnostics plugin
+
+execjar:
+  concepts:
+    - executable JAR
+    - fat JAR wrapper
+    - self-executing file
+    - Java launcher
+    - version checking
+    - CLI distribution
+    - single binary
+    - posix launcher
+  synonyms:
+    - execjar
+    - executable jar
+    - self-executing jar
+    - jar launcher
+    - fat jar executable
+  problems:
+    - ship CLI tool without java -jar
+    - single file Java app
+    - automatic Java discovery
+    - min Java version check at startup
+    - distribute java app as single file
+  queries:
+    - make jar executable linux
+    - java jar single file executable
+    - ship java cli tool
+    - fat jar self executing
+    - java version check startup
+    - java single binary distribution
+
+meta-agent:
+  concepts:
+    - Java agent instrumentation
+    - ClassFileTransformer
+    - bytecode diff
+    - agent debugging
+    - instrument agents
+    - bytecode inspection
+    - java agent wrapper
+    - class transformation debugging
+  synonyms:
+    - meta agent
+    - agent instrumenter
+    - Java agent wrapper
+    - transformer recorder
+    - java agent debugger
+  problems:
+    - debug Java agent bytecode changes
+    - see what agent transforms class
+    - unexpected agent behaviour
+    - intercept ClassFileTransformer
+    - java agent debugging
+    - agent causing class loading issues
+  queries:
+    - debug java agent instrumentation
+    - see bytecode changes from agent
+    - java agent classfiletransformer debug
+    - instrument java agent
+    - meta agent java
+    - java agent bytecode diff
+
+test-order:
+  concepts:
+    - test prioritisation
+    - test ordering
+    - fail fast CI
+    - bytecode coverage tracking
+    - Maven test order
+    - Gradle test order
+    - ci feedback time
+  synonyms:
+    - test order plugin
+    - test reordering
+    - fail fast tests
+    - test prioritizer
+  problems:
+    - slow CI test feedback
+    - failures appear late in test run
+    - surface relevant failures early
+    - large test suite slow feedback
+    - ci test suite too slow
+  queries:
+    - maven test order plugin
+    - gradle test prioritisation
+    - run failing tests first ci
+    - test reordering maven
+    - fast feedback test suite java
+    - maven test prioritization plugin

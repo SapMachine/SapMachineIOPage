@@ -1,0 +1,30 @@
+# Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0.
+
+# Caller stub — the trigger must live on `main` so PRs against `main` run it.
+# The job logic is the reusable workflow of the same name on the `ci-shared`
+# branch (on: workflow_call). The pull_request `github` context is inherited by
+# the reusable workflow, so no inputs need to be passed.
+name: PR checks and preview
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+# One group per PR: a PR's superseded runs cancel, but different PRs run in parallel.
+concurrency:
+  group: pr-${{ github.ref }}
+  cancel-in-progress: true
+
+# Ceiling for the reusable workflow's GITHUB_TOKEN (the deploy-preview job needs
+# contents:write to push to preview-pages and pull-requests:write to comment).
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  call:
+    uses: SapMachine/SapMachineIOPage/.github/workflows/pr-checks-and-preview.yml@ci-shared
+    secrets: inherit

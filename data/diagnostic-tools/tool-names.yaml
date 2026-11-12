@@ -1,0 +1,23 @@
+# Maps tool id -> display name (the project's real name, usually the README h1).
+# Committed as a baseline; fetch-releases.py updates this automatically from each
+# repo's README when it runs.
+
+async-profiler: Async-profiler
+cf-cli-java-plugin: Cloud Foundry Command Line Java plugin
+condensed-data: Condensed Data
+firefox-profiler: Firefox Profiler
+heap-dump-extras: Heap Dump Extras
+high-memory-reports: High Memory Reports
+hprof-analyzer: hprof-analyzer
+intellij-profiler-plugin: Java Profiler Plugin
+jcmd: jcmd
+jdklogs: jdklogs
+jfr: jfr
+jfrevents: JFR Event Collector
+jmc: JDK Mission Control
+jmc-agent: JMC Agent
+jps: jps
+jstall: JStall
+malloc-trace: Malloc Trace
+mat: Eclipse Memory Analyzer (MAT)
+sapmachine-vitals: SapMachine Vitals

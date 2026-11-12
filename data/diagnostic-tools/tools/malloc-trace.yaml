@@ -1,0 +1,77 @@
+id: malloc-trace
+tag: ready
+group: Live JVM Inspection
+github_url: https://github.com/SAP/SapMachine
+github_pages: https://sapmachine.io/docs/malloc-trace
+tagline: >-
+  Malloc Trace is a SapMachine-only facility for finding native memory leaks and understanding native memory usage at
+  the malloc/calloc level. Enabled at startup with -XX:+UseMallocHooks and controlled via jcmd, it intercepts every
+  native allocation in the JVM process and records a stack trace. A dump shows the top allocating call stacks with sizes
+  and counts. With -trace-free it tracks live allocations only, so you can see what is currently retained. Unique to
+  SapMachine on Linux and macOS.
+tagline_short: Track native malloc/calloc allocations by call stack — find native memory leaks. SapMachine only.
+features:
+  - Intercepts every malloc, calloc, realloc call in the JVM process — full native coverage
+  - Records stack traces for each allocation; dumps top-N call stacks sorted by total size
+  - Optional -trace-free mode tracks live allocations only (freed memory excluded)
+  - Enable/disable at runtime via jcmd without restarting the JVM
+  - Works at the OS malloc level — catches leaks in JVM internals, native libraries, and JNI code
+  - SapMachine-only, Linux and macOS only
+when_to_use:
+  - You suspect a native memory leak (RSS growing but Java heap and NMT look normal)
+  - You want to know which native call sites are allocating the most memory
+  - You need stack traces for native allocations to identify the leak source
+  - NMT shows a growing category but you need more detail on the allocation site
+when_not_to_use:
+  - You are not using SapMachine, or you are on Windows — this feature does not exist there
+  - You need Java heap analysis — use hprof-analyzer or jcmd GC.heap_dump instead
+  - You want continuous low-overhead monitoring — malloc tracing adds measurable overhead
+install:
+  - label: Enable at startup
+    lang: bash
+    code: |
+      # Must be set at JVM startup — cannot be enabled after the fact
+      java -XX:+UseMallocHooks -jar myapp.jar
+usage:
+  - label: Trace and dump
+    lang: bash
+    code: |
+      PID=<pid>
+
+      # Enable tracing (total allocations since enable)
+      jcmd $PID MallocTrace.enable
+
+      # Enable tracing of live allocations only (tracks free() calls too)
+      jcmd $PID MallocTrace.enable -trace-free
+
+      # Dump top 10 call stacks by allocation size
+      jcmd $PID MallocTrace.dump
+
+      # Dump top 50 call stacks
+      jcmd $PID MallocTrace.dump -max-entries=50
+
+      # Disable tracing
+      jcmd $PID MallocTrace.disable
+  - label: Understand the output
+    lang: text
+    code: |
+      Stack 1 of 5593: 202,475,760 (193 M, 6.51 %) bytes, 736 allocations
+        malloc+71 in libmallochooks.so
+        os::malloc(...) in libjvm.so
+        Arena::grow(...) in libjvm.so
+        ...
+
+      Total allocated bytes: 3,110,684,597 (2.9 G)
+      Total unique stacks: 5,593
+
+      # Each entry shows: total bytes, % of all tracked, allocation count,
+      # and the native call stack that triggered the allocation.
+      # With -trace-free: only currently live (not yet freed) allocations shown.
+links:
+  - label: Full documentation ↗
+    url: https://sapmachine.io/docs/malloc-trace
+note: >
+  Requires -XX:+UseMallocHooks at JVM startup — cannot be enabled on a running JVM that was not started with this flag.
+  The flag adds a small baseline overhead even when tracing is disabled. Tracing itself (especially -trace-free) adds
+  significant overhead and should be used for diagnosis, not continuous monitoring. SapMachine only, Linux and macOS
+  only.

@@ -1,0 +1,72 @@
+id: sapmachine-vitals
+tag: ready
+group: Live JVM Inspection
+github_url: https://github.com/SAP/SapMachine
+github_pages: https://sapmachine.io/docs/vitals
+tagline: >-
+  SapMachine Vitals is an always-on, near-zero-overhead monitoring facility built into SapMachine. It continuously
+  samples system and JVM metrics — CPU, memory, GC, threads, heap, metaspace, NMT — every 10 seconds, retaining a
+  high-resolution 1-hour buffer and a 10-day low-resolution history. A single jcmd call prints the full history as a
+  compact ASCII table. Enabled by default, no flags required. Unique to SapMachine.
+tagline_short: Always-on JVM health log — CPU, memory, GC, threads, 10-day history. One jcmd call. SapMachine only.
+features:
+  - Enabled by default in every SapMachine JVM — no flags, no agents, no overhead to opt in
+  - ~300 KB memory overhead, CPU overhead not measurable at the default 10-second interval
+  - High-resolution 1-hour buffer (10-second samples) + low-resolution 10-day history (downsampled)
+  - 'Covers: system CPU/memory/swap, process RSS/virt/swap, Java heap/metaspace, GC activity, threads, NMT, class loading'
+  - 'cgroup-aware: shows container memory limits and usage separately from host metrics'
+  - Printed as a compact ASCII table — easy to paste into tickets, log files, or incidents
+  - Included automatically in High Memory Reports (-XX:+HiMemReport)
+when_to_use:
+  - You want a compact historical health snapshot of a running JVM without installing any tooling
+  - You are investigating a memory, CPU, or GC incident and want to see what happened over the last hour or days
+  - You paste Vitals output into a ticket, incident report, or support request
+  - You want container-aware memory metrics (cgroup limits vs host RAM) without a separate monitoring agent
+  - You use High Memory Reports and want to understand the Vitals section they include
+when_not_to_use:
+  - You are not using SapMachine — Vitals does not exist in vanilla OpenJDK
+  - You need real-time dashboards or alerting — use Prometheus/Grafana or similar for that
+  - You need per-request or per-transaction traces — Vitals is aggregate, not request-scoped
+install:
+  - label: Built-in
+    lang: bash
+    code: |
+      # Vitals is enabled by default in every SapMachine JVM — nothing to install.
+      # Just print the snapshot:
+      jcmd <pid> VM.vitals
+usage:
+  - label: Print snapshot
+    lang: bash
+    code: |
+      PID=<pid>
+
+      # Print full Vitals table (last 60 min high-res + last 10 days low-res)
+      jcmd $PID VM.vitals
+
+      # Scale values to megabytes for easier reading
+      jcmd $PID VM.vitals scale=m
+
+      # Scale to gigabytes
+      jcmd $PID VM.vitals scale=g
+  - label: Sample output (abbreviated)
+    lang: text
+    code: |
+      ----------system---------  --------process---------  -------jvm--------
+      avail  comm  cgroup-usg    virt   rss  cpu-us  thr   heap-used  jthr-num
+      12.1g  8.4g     2.1g      4.2g  1.8g    12%    42    640m/1g      38
+      11.9g  8.4g     2.2g      4.2g  1.9g    14%    42    720m/1g      38
+      ...
+      # Each row = one 10-second sample.
+      # avail: host memory available without swapping
+      # cgroup-usg: container memory usage (if containerised)
+      # rss: resident set size of the JVM process
+      # heap-used/committed: Java heap utilisation
+      # jthr-num: number of Java threads
+links:
+  - label: Full documentation ↗
+    url: https://sapmachine.io/docs/vitals
+note: >
+  Vitals is always on — the only reason to know it exists is to remember to run jcmd <pid> VM.vitals when something
+  looks wrong. The output is designed to be human-readable and paste-friendly. NMT columns (nmt-mlc, nmt-map, etc.) only
+  appear if -XX:NativeMemoryTracking=summary is set. On containerised JVMs, cgroup-lim and cgroup-usg show the container
+  memory limits independently of host RAM.

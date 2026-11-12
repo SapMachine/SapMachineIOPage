@@ -1,0 +1,245 @@
+/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */
+
+/**
+ * Custom DocSidebar Styles
+ * Design: Light blue background with straight blue left indicator when active
+ * SAP Brand Colors: Black text (#000), Grey7 arrows (#475E75)
+ */
+
+/* Main sidebar container */
+.sidebarContainer {
+  display: flex;
+  width: 100%;
+  padding: 24px 8px 24px 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* Sidebar content wrapper */
+.sidebarContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+
+/* 1st level category (Content, Using SapMachine, Features, General) */
+.sidebarCategory {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  align-self: stretch;
+  width: 100%;
+}
+
+/* 1st level category header */
+.categoryHeader {
+  display: flex;
+  min-height: 36px;
+  padding: 8px 12px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--sap-black, #000000);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+  user-select: none;
+}
+
+.categoryHeader:hover {
+  background: var(--sap-grey1, #F5F6F7);
+}
+
+/* Category icon */
+.categoryIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--sap-grey7, #475E75);
+}
+
+/* Category label */
+.categoryLabel {
+  flex: 1;
+}
+
+/* Arrow icon - SAP Grey7 */
+.arrowIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--sap-grey7, #475E75);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.arrowExpanded {
+  transform: rotate(90deg);
+}
+
+/* 2nd level items container */
+.categoryItems {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  align-self: stretch;
+  width: 100%;
+}
+
+/* 2nd level sidebar item (e.g., Download and Installation, OCI/Docker Images) */
+.sidebarItem {
+  display: flex;
+  min-height: 36px;
+  padding: 8px 12px 8px 40px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--sap-black, #000000);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebarItem:hover {
+  background: var(--sap-grey1, #F5F6F7);
+}
+
+/* 3rd level sidebar item (e.g., Download, Windows, macOS) */
+.sidebarItemLevel3 {
+  display: flex;
+  min-height: 36px;
+  padding: 8px 12px 8px 56px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--sap-black, #000000);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebarItemLevel3:hover {
+  background: var(--sap-grey1, #F5F6F7);
+}
+
+/* 2nd level category (nested category like Download and Installation) */
+.nestedCategory {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  align-self: stretch;
+  width: 100%;
+}
+
+/* 2nd level category header */
+.nestedCategoryHeader {
+  display: flex;
+  min-height: 36px;
+  padding: 8px 12px 8px 40px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  font-family: "72 Brand", "72", "72full", Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--sap-black, #000000);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.nestedCategoryHeader:hover {
+  background: var(--sap-grey1, #F5F6F7);
+}
+
+/* 3rd level items container */
+.nestedCategoryItems {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  align-self: stretch;
+  width: 100%;
+}
+
+/* Active sidebar item - light blue background with straight blue left indicator */
+.sidebarItemActive {
+  background: var(--sap-blue1, #EBF8FF);
+}
+
+.sidebarItemActive:hover {
+  background: var(--sap-blue1, #EBF8FF);
+}
+
+/* Straight blue indicator on the left side of active items */
+.activeIndicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--sap-blue7, #0070F2);
+  border-radius: 4px 0 0 4px;
+}
+
+/* Item label */
+.itemLabel {
+  flex: 1;
+}
+
+/* Focus styles for accessibility */
+.categoryHeader:focus,
+.nestedCategoryHeader:focus {
+  outline: none;
+}
+
+.categoryHeader:focus-visible,
+.nestedCategoryHeader:focus-visible {
+  outline: 2px solid var(--sap-blue10, #002A86);
+  outline-offset: 2px;
+}
+
+.sidebarItem:focus,
+.sidebarItemLevel3:focus {
+  outline: none;
+}
+
+.sidebarItem:focus-visible,
+.sidebarItemLevel3:focus-visible {
+  outline: 2px solid var(--sap-blue10, #002A86);
+  outline-offset: 2px;
+}
+
+/* Mobile responsive - hide sidebar on small screens */
+@media (max-width: 996px) {
+  .sidebarContainer {
+    display: none;
+  }
+}

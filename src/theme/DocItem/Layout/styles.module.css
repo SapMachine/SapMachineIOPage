@@ -1,0 +1,69 @@
+/* Copyright (c) 2026 SAP SE or an SAP affiliate company and SapMachine contributors. Licensed under CC BY 4.0. */
+
+/**
+ * DocItem Layout Styles
+ */
+
+/* Stretch the row so sidebar and content share the same full height */
+.docsRow {
+  align-items: flex-start;
+}
+
+/* Sticky sidebar - sticks below the navbar, no internal scroll */
+.sidebarCol {
+  position: sticky;
+  top: 56px;
+  align-self: flex-start;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* Content column padding */
+.contentCol {
+  padding-top: var(--section-spacing-hero);
+  padding-bottom: var(--section-spacing-footer);
+  min-width: 0;
+}
+
+/* Hide the h1 in the content since we show it in the hero */
+.docItemContainer :global(header > h1) {
+  display: none;
+}
+
+/* Also hide any duplicate title from markdown */
+.docItemContainer :global(article > h1:first-child) {
+  display: none;
+}
+
+/* Remove top margin from first heading after hero */
+.docItemContainer :global(h2:first-child),
+.docItemContainer :global(article > h2:first-of-type),
+.docItemContainer :global(.theme-doc-markdown > h2:first-child),
+.docItemContainer :global(.markdown > h2:first-child),
+.docItemContainer :global(article h2:first-of-type),
+.docItemContainer :global(h1 + h2),
+.docItemContainer :global(header + h2),
+.docItemContainer :global(h1:first-child + h2) {
+  margin-top: 0 !important;
+}
+
+.docItemContainer :global(article > .theme-doc-markdown > h2:first-of-type),
+.docItemContainer :global(article > .markdown > h2:first-of-type) {
+  margin-top: 0 !important;
+}
+
+/* Add spacing below the "On this page" mobile TOC */
+:global(.theme-doc-toc-mobile) {
+  margin-bottom: 48px;
+}
+
+@media (max-width: 979px) {
+  .sidebarCol {
+    display: none !important;
+  }
+
+  .contentCol {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+}

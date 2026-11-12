@@ -1,0 +1,63 @@
+id: async-profiler
+tag: external
+group: JFR / Profiling
+github_url: https://github.com/async-profiler/async-profiler
+tagline: >-
+  async-profiler is a low-overhead sampling profiler for the JVM that uses Linux perf_events and AsyncGetCallTrace to
+  capture CPU, allocation, and lock profiles with accurate stack traces and minimal skew. It produces flame graphs, JFR
+  files, and various text formats. SapMachine bundles async-profiler alongside the JDK — it is the engine behind jstall
+  and is available at $JAVA_HOME/../async-profiler/ out of the box.
+tagline_short: Low-overhead sampling profiler — CPU, allocation, lock profiles, flame graphs. Bundled with SapMachine.
+features:
+  - Uses Linux perf_events and AsyncGetCallTrace — avoids safe-point bias that plagues JVMTI profilers
+  - CPU profiling, allocation profiling, wall-clock profiling, and lock contention profiling
+  - Captures native frames alongside Java frames — full mixed-mode stacks
+  - Outputs flame graphs (HTML), JFR recordings, collapsed stacks, and more
+  - Can attach to a running JVM without restart (via JVMTI attach)
+  - Bundled with SapMachine at $JAVA_HOME/../async-profiler/ — also the engine used by jstall
+  - Works on Linux (x64/AArch64) and macOS; Windows support limited
+when_to_use:
+  - You need accurate CPU flame graphs without safe-point bias
+  - You want allocation profiling to find high-allocation call sites
+  - You want to profile a running JVM without restarting it
+  - You need mixed Java + native stack traces (JNI, runtime internals)
+  - You are using jstall and want to know what runs underneath it
+when_not_to_use:
+  - You want a full-featured GUI with automated analysis rules — use JMC instead
+  - You need continuous long-term profiling with SQL queries — use jfr-profiling + jfr-query
+  - You are on Windows and need full support — async-profiler's Windows coverage is limited
+install:
+  - label: Bundled with SapMachine
+    lang: bash
+    code: |
+      # async-profiler ships with SapMachine — no separate install needed:
+      ls $JAVA_HOME/../async-profiler/
+
+      # Or download the standalone release:
+      # https://github.com/async-profiler/async-profiler/releases
+usage:
+  - label: CPU flame graph
+    lang: bash
+    code: |
+      # Attach to a running JVM (PID) for 30 seconds, produce an HTML flame graph
+      $JAVA_HOME/../async-profiler/bin/asprof -d 30 -f /tmp/flamegraph.html <pid>
+
+      # Then open flamegraph.html in a browser.
+  - label: Allocation profiling
+    lang: bash
+    code: |
+      # Profile allocations for 30 seconds (requires -XX:+EnableDynamicAgentLoading or Java 8)
+      $JAVA_HOME/../async-profiler/bin/asprof -e alloc -d 30 -f /tmp/alloc.html <pid>
+  - label: Record to JFR
+    lang: bash
+    code: |
+      # Capture a mixed CPU+alloc recording in JFR format (openable in JMC or jfr-query)
+      $JAVA_HOME/../async-profiler/bin/asprof -e cpu,alloc -d 60 -f /tmp/ap.jfr <pid>
+links:
+  - label: GitHub releases ↗
+    url: https://github.com/async-profiler/async-profiler/releases
+note: >
+  async-profiler is an external open-source project (not developed by SAP/SapMachine), but SapMachine bundles it
+  alongside the JDK for convenience. It is also the profiling engine used by jstall. On Linux, CPU profiling requires
+  perf_events access (check /proc/sys/kernel/perf_event_paranoid). On macOS, async-profiler uses a different mechanism
+  and some event types are unavailable.

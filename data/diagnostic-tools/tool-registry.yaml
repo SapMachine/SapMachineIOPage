@@ -1,0 +1,89 @@
+# Registry of all diagnostic tools shown on the Diagnostics page.
+#
+# Each entry controls display order and group membership.
+# Use 'repo' for tools fetched from GitHub (.tool.yaml); 'name' for locally-defined tools (in tools/).
+# 'order' controls sort position within the group (lower = earlier; ties keep file order).
+#
+# To add a tool: add an entry here and run `npm run build-jvm-data` (or let CI do it).
+# To remove a tool: delete its entry here.
+
+# ── Live JVM Inspection ───────────────────────────────────────────────────────
+- repo: https://github.com/parttimenerd/jstall
+  group: Live JVM Inspection
+  order: 1
+
+- name: jcmd
+  group: Live JVM Inspection
+  order: 2
+
+- name: jps
+  group: Live JVM Inspection
+  order: 3
+
+- name: sapmachine-vitals
+  group: Live JVM Inspection
+  order: 4
+
+- name: high-memory-reports
+  group: Live JVM Inspection
+  order: 5
+
+- repo: https://github.com/SAP/cf-cli-java-plugin
+  group: Live JVM Inspection
+  order: 6
+
+# ── JFR / Profiling ───────────────────────────────────────────────────────────
+- name: async-profiler
+  group: JFR / Profiling
+  order: 1
+
+- name: jfr
+  group: JFR / Profiling
+  order: 2
+
+- name: jmc
+  group: JFR / Profiling
+  order: 3
+
+- name: jmc-agent
+  group: JFR / Profiling
+  order: 4
+
+- repo: https://github.com/parttimenerd/firefox-profiler
+  group: JFR / Profiling
+  order: 5
+
+- repo: https://github.com/parttimenerd/intellij-profiler-plugin
+  group: JFR / Profiling
+  order: 6
+
+- repo: https://github.com/parttimenerd/condensed-data
+  group: JFR / Profiling
+  order: 7
+
+- repo: https://github.com/SAP/jfrevents
+  group: JFR / Profiling
+  order: 8
+
+# ── Heap Dump Analysis ────────────────────────────────────────────────────────
+- name: mat
+  group: Heap Dump Analysis
+  order: 1
+
+- repo: https://github.com/parttimenerd/hprof-analyzer
+  group: Heap Dump Analysis
+  order: 2
+
+- name: heap-dump-extras
+  group: Heap Dump Analysis
+  order: 3
+
+# ── Crash / Log Diagnostics ───────────────────────────────────────────────────
+- repo: https://github.com/parttimenerd/jdklogs
+  group: Crash / Log Diagnostics
+  order: 1
+
+- name: malloc-trace
+  group: Crash / Log Diagnostics
+  order: 2
+

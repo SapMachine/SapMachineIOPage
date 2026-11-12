@@ -1,0 +1,55 @@
+id: high-memory-reports
+tag: ready
+group: Live JVM Inspection
+github_url: https://github.com/SAP/SapMachine
+github_pages: https://sapmachine.io/docs/high-memory-reports
+tagline: >-
+  HiMemReport is a VM-internal facility in SapMachine that automatically generates diagnostic reports when the process
+  RSS+Swap reaches 66%, 75%, or 90% of the configured memory limit (container limit or half of host RAM). Each report
+  contains SapMachine Vitals, an NMT summary, and optionally arbitrary jcmd output — all written before the OOM killer
+  strikes. Production-ready and already in use at SAP. Unique to SapMachine.
+tagline_short: Automatic memory-watermark reports (66/75/90%) with Vitals + NMT — SapMachine only.
+features:
+  - Threshold-triggered at 66%, 75%, and 90% of the memory limit — no manual intervention needed
+  - Base report includes SapMachine Vitals snapshot, NMT summary, and JVM arguments
+  - Extend with any jcmd via -XX:HiMemReportExec (e.g. VM.info, GC.heap_dump, VM.metaspace)
+  - Write reports to stderr (default) or to timestamped files in a dedicated directory
+  - GC.heap_dump gets an automatic filename if no path is specified
+  - 'Spike recognition: resets after memory recovers; disables itself after repeated spikes to avoid disk floods'
+  - Already used in production SAP workloads running on SapMachine
+when_to_use:
+  - You run SapMachine in a container and want automatic diagnostics captured before OOM kills the process
+  - You want memory watermark alerts (66 / 75 / 90%) with zero external tooling or sidecar agents
+  - You need NMT or Vitals snapshots taken automatically under memory pressure
+  - You want a heap dump triggered at a threshold rather than at OOM (when the VM is still alive)
+when_not_to_use:
+  - You are not using SapMachine — this feature does not exist in vanilla OpenJDK or other distributions
+  - You need continuous real-time profiling rather than threshold-triggered snapshots
+install:
+  - label: Enable
+    lang: bash
+    code: |
+      # Writes a report to stderr at 66%, 75%, and 90% of the memory limit
+      java -XX:+HiMemReport -jar myapp.jar
+usage:
+  - label: Common options
+    lang: bash
+    code: |
+      # Write timestamped files to a directory instead of stderr
+      -XX:HiMemReportDir=/var/log/himem
+
+      # Run extra jcmds after the base report (semicolon-separated)
+      -XX:HiMemReportExec=VM.info;GC.heap_dump
+
+      # Enable NMT so the base report includes a memory breakdown
+      -XX:NativeMemoryTracking=summary
+
+      # Override the reference limit (default: container limit or ½ host RAM)
+      -XX:HiMemReportMax=8g
+links:
+  - label: Full documentation ↗
+    url: https://sapmachine.io/docs/high-memory-reports
+note: >
+  High Memory Reports are a SapMachine-specific feature — they do not exist in vanilla OpenJDK or other distributions
+  (upstream contribution is planned). Requires SapMachine 17+. See the full documentation for file naming conventions,
+  spike recognition, jcmd execution details, and troubleshooting.

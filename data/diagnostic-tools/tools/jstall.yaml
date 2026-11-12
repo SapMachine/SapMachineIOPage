@@ -1,0 +1,244 @@
+id: jstall
+group: Live JVM Inspection
+tag: ready
+tagline: One-shot CLI inspector for running JVMs. Detects deadlocks, identifies hot threads, captures short-burst flamegraphs
+  via async-profiler, and provides a live TUI — all without a persistent agent or IDE attachment. Use it when you need instant
+  insight into a misbehaving JVM in production, staging, or CF without setting up a full profiler.
+tagline_short: Instant JVM insight — deadlocks, hot threads, flamegraphs — no agent needed.
+when_to_use:
+- You need instant insight into a running JVM without attaching a full profiler
+- You need deadlock detection, hot thread analysis, or a quick flamegraph
+- You are working in a Cloud Foundry Java environment
+- You want a live TUI showing thread states, GC activity, and memory in real time
+when_not_to_use:
+- You need continuous long-term profiling (use condensed-data + JFR instead)
+- You need allocation or lock profiling in depth (use async-profiler directly)
+- You are on Windows (the native binary is Linux/macOS only)
+related:
+- label: IntelliJ plugin
+  url: https://github.com/parttimenerd/jstall-intellij-plugin
+- label: VS Code extension
+  url: https://github.com/parttimenerd/jstall-vscode-extension
+links:
+- label: JetBrains marketplace ↗
+  url: https://plugins.jetbrains.com/plugin/30667-jstall
+- label: VS Code marketplace ↗
+  url: https://marketplace.visualstudio.com/items?itemName=bechberger.jstall
+install:
+- label: Download JAR
+  lang: bash
+  code: "curl -L https://github.com/parttimenerd/jstall/releases/latest/download/jstall.jar \\\n  -o jstall.jar\njava -jar\
+    \ jstall.jar --help\n"
+usage:
+- label: Inspect JVM
+  lang: bash
+  code: 'java -jar jstall.jar status <pid>
+
+    java -jar jstall.jar flame <pid>
+
+    '
+- label: Live TUI
+  lang: bash
+  code: 'java -jar jstall.jar threads --live <pid>
+
+    '
+note: Flamegraph capture requires async-profiler on the same host. The JAR bundles a copy for Linux/macOS; on other platforms
+  provide it via --async-profiler-path.
+how_to:
+- title: Get a quick report on hottest methods and active threads
+  body: 'Run the default `status` command — it combines deadlock detection, hot thread
+
+    identification, thread categorization, and a dependency graph in one shot:
+
+    ```bash
+
+    java -jar jstall.jar status <pid>
+
+    # Or match by JVM name instead of PID
+
+    java -jar jstall.jar status MyApplication
+
+    ```
+
+    Use `--intelligent-filter` to collapse framework internals and focus on
+
+    application code, or `--full` for the unfiltered output.
+
+    '
+- title: Find out where your JVM is stuck or not responding
+  body: 'Run `deadlock` first — if there is a deadlock it is the root cause and everything
+
+    else is a symptom:
+
+    ```bash
+
+    java -jar jstall.jar deadlock <pid>
+
+    ```
+
+    If no deadlock, check which threads are BLOCKED or WAITING and what they are
+
+    waiting for:
+
+    ```bash
+
+    java -jar jstall.jar status <pid> --intelligent-filter
+
+    ```
+
+    Look for threads in `BLOCKED` state and the monitor address they are waiting on.
+
+    The thread currently *holding* that monitor is the bottleneck.
+
+    For a continuous view while the JVM is unresponsive, use the live TUI:
+
+    ```bash
+
+    java -jar jstall.jar threads --live <pid>
+
+    ```
+
+    '
+- title: Find out why CPU is high
+  body: '`most-work` takes repeated thread dumps and ranks threads by on-CPU frequency —
+
+    no async-profiler needed, works on any JVM:
+
+    ```bash
+
+    java -jar jstall.jar most-work --dumps 5 <pid>
+
+    # Show only top 3 threads
+
+    java -jar jstall.jar most-work --dumps 5 --top=3 <pid>
+
+    ```
+
+    For a proper CPU flamegraph (requires async-profiler, bundled on Linux/macOS):
+
+    ```bash
+
+    java -jar jstall.jar flame --duration=30 --open <pid>
+
+    ```
+
+    '
+- title: Check if memory is growing without taking a full heap dump
+  body: 'The `status` command includes a heap histogram showing the top object types by
+
+    instance count and retained bytes — much faster than a full `jmap -histo`:
+
+    ```bash
+
+    java -jar jstall.jar status <pid> | grep -A 20 "Heap"
+
+    ```
+
+    Take two snapshots a minute apart and compare to see which class is accumulating:
+
+    ```bash
+
+    java -jar jstall.jar record <pid> --output before.zip
+
+    sleep 60
+
+    java -jar jstall.jar record <pid> --output after.zip
+
+    java -jar jstall.jar status before.zip
+
+    java -jar jstall.jar status after.zip
+
+    ```
+
+    If the leak is confirmed, trigger a full heap dump for analysis with hprof-analyzer:
+
+    ```bash
+
+    jcmd <pid> GC.heap_dump heap.hprof
+
+    ```
+
+    '
+- title: Find the threads doing the most CPU work
+  body: '```bash
+
+    java -jar jstall.jar most-work <pid>
+
+    # Take 3 dumps for a more accurate picture
+
+    java -jar jstall.jar most-work --dumps 3 <pid>
+
+    # Show only the top 5 threads
+
+    java -jar jstall.jar most-work --top=5 <pid>
+
+    ```
+
+    `most-work` takes multiple thread dumps and ranks threads by how often they
+
+    appear on-CPU across samples.
+
+    '
+- title: Capture a flamegraph
+  body: '```bash
+
+    java -jar jstall.jar flame <pid>
+
+    # Record for 30 seconds
+
+    java -jar jstall.jar flame --duration=30 <pid>
+
+    # Open in browser automatically
+
+    java -jar jstall.jar flame --open <pid>
+
+    ```
+
+    Runs async-profiler for a short burst and writes an interactive HTML flamegraph.
+
+    Requires async-profiler on the same host (bundled for Linux/macOS).
+
+    '
+- title: Record the current state to a zip for offline analysis or sharing
+  body: '```bash
+
+    java -jar jstall.jar record <pid> --output diagnostics.zip
+
+    # Replay later
+
+    java -jar jstall.jar status diagnostics.zip
+
+    java -jar jstall.jar most-work diagnostics.zip
+
+    ```
+
+    The zip contains thread dumps, heap histogram, GC log excerpt, and other
+
+    diagnostic data. Use `-f diagnostics.zip` as a global flag to replay any command.
+
+    '
+- title: Inspect a Cloud Foundry app
+  body: 'The `cf-cli-java-plugin` embeds jstall and exposes it via `cf java jstall`.
+
+    You can also use jstall directly with the `--cf` option:
+
+    ```bash
+
+    # Via cf-cli-java-plugin
+
+    cf java jstall $APP_NAME
+
+    cf java jstall $APP_NAME --args ''deadlock all''
+
+    cf java jstall $APP_NAME --args ''most-work --dumps 3 all''
+
+    cf java jstall $APP_NAME --args ''flame all''
+
+
+    # Or directly with jstall
+
+    java -jar jstall.jar --cf $APP_NAME status all
+
+    ```
+
+    '

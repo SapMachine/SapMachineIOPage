@@ -1,0 +1,69 @@
+id: heap-dump-extras
+tag: ready
+group: Heap Dump Analysis
+github_url: https://github.com/SAP/SapMachine
+github_pages: https://sapmachine.io/docs/heap-dump
+tagline: >-
+  SapMachine adds several VM flags that improve heap dump handling in production scenarios: overwrite protection bypass,
+  gzip compression, size reduction via primitive array truncation, and streaming to a pipe or tty for disk-less capture.
+  These are all JVM flags — no extra tooling needed.
+tagline_short: 'Extra heap dump flags: overwrite, gzip, size limits, pipe streaming. SapMachine only.'
+features:
+  - '-XX:+HeapDumpOverwrite — allow overwriting an existing heap dump file (avoids ''file exists'' failures)'
+  - '-XX:HeapDumpGzipLevel=1 — write compressed heap dumps directly (smaller files on disk)'
+  - '-XX:+LimitPrimitiveArrayContentInHeapDump — truncate large primitive arrays to reduce dump size'
+  - Pipe/tty streaming — dump to a named pipe or tty to stream off-host without local disk space
+  - '-XX:HeapDumpParallelism=1 — disable parallel writing (required for single-file pipe streaming on JDK 25+)'
+  - All flags work with both -XX:+HeapDumpOnOutOfMemoryError and jcmd GC.heap_dump
+when_to_use:
+  - You run in a container with limited disk and want to stream the heap dump off-host via pipe
+  - Your HeapDumpOnOutOfMemoryError fails because the file already exists from a previous crash
+  - You need smaller heap dumps and can tolerate truncated primitive array content
+  - You want compressed heap dumps without a post-processing step
+when_not_to_use:
+  - You are not using SapMachine — these flags do not exist in vanilla OpenJDK
+  - You need full fidelity of all array contents (truncation loses data)
+install:
+  - label: Common flags
+    lang: bash
+    code: |
+      # Allow overwriting existing dump file
+      -XX:+HeapDumpOverwrite
+
+      # Compressed dump (gzip level 1 = fast)
+      -XX:HeapDumpGzipLevel=1
+
+      # Reduce size by truncating large primitive arrays
+      -XX:+LimitPrimitiveArrayContentInHeapDump
+
+      # Single-file mode (needed for pipe streaming on JDK 25+)
+      -XX:HeapDumpParallelism=1
+usage:
+  - label: Stream dump via pipe (no local disk)
+    lang: bash
+    code: |
+      # On the JVM host: create a named pipe and start reading it
+      mkfifo /tmp/heap.pipe
+      nc -l 9999 < /tmp/heap.pipe &    # stream to remote via netcat
+
+      # Trigger dump to the pipe (requires HeapDumpOverwrite since pipe "exists")
+      jcmd <pid> GC.heap_dump -XX:+HeapDumpOverwrite /tmp/heap.pipe
+
+      # On receiving host:
+      nc <jvm-host> 9999 > heap.hprof
+  - label: Compressed OOM dump
+    lang: bash
+    code: |
+      java -XX:+HeapDumpOnOutOfMemoryError \
+           -XX:HeapDumpPath=/var/dumps/heap.hprof.gz \
+           -XX:HeapDumpGzipLevel=1 \
+           -XX:+HeapDumpOverwrite \
+           -jar myapp.jar
+links:
+  - label: Full documentation ↗
+    url: https://sapmachine.io/docs/heap-dump
+note: >
+  All flags are SapMachine-specific and do not exist in vanilla OpenJDK. -XX:+LimitPrimitiveArrayContentInHeapDump
+  truncates char/byte arrays to 120 elements and other primitive arrays to 50 by default — adjust with
+  -XX:StringLikeContentSizeLimitInHeapDump and -XX:ArrayContentSizeLimitInHeapDump. On JDK 25+, parallel heap dump
+  writing is the default; add -XX:HeapDumpParallelism=1 when streaming to a pipe.
