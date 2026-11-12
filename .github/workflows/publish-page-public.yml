@@ -43,12 +43,6 @@ jobs:
 
       - name: Build website
         run: npm run build
-        env:
-          # Deployed to GitHub Pages at https://sapmachine.github.io/SapMachineIOPage/.
-          # Remove these overrides once the site moves to the sapmachine.io custom domain
-          # (the config defaults to https://sapmachine.io and baseUrl "/").
-          SITE_URL: https://sapmachine.github.io
-          BASE_URL: /SapMachineIOPage/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
