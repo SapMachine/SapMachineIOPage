@@ -116,6 +116,7 @@
 17.0.21_0.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-17.0.21/sapmachine-jdk-17.0.21_linux-x64_bin.tar.gz
 17.0.21_0.2.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-17.0.21.0.2/sapmachine-jdk-17.0.21.0.2_linux-x64_bin.tar.gz
 17.0.21_0.3.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-17.0.21.0.3/sapmachine-jdk-17.0.21.0.3_linux-x64_bin.tar.gz
+17.0.21_1.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-17.0.21.1/sapmachine-jdk-17.0.21.1_linux-x64_bin.tar.gz
 18.0.0_0.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-18/sapmachine-jdk-18_linux-x64_bin.tar.gz
 18.0.1_0.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-18.0.1/sapmachine-jdk-18.0.1_linux-x64_bin.tar.gz
 18.0.1_1.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-18.0.1.1/sapmachine-jdk-18.0.1.1_linux-x64_bin.tar.gz
@@ -145,6 +146,7 @@
 21.0.13_0.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.13/sapmachine-jdk-21.0.13_linux-x64_bin.tar.gz
 21.0.13_0.2.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.13.0.2/sapmachine-jdk-21.0.13.0.2_linux-x64_bin.tar.gz
 21.0.13_0.3.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.13.0.3/sapmachine-jdk-21.0.13.0.3_linux-x64_bin.tar.gz
+21.0.13_1.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.13.1/sapmachine-jdk-21.0.13.1_linux-x64_bin.tar.gz
 22.0.0_0.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-22/sapmachine-jdk-22_linux-x64_bin.tar.gz
 22.0.1_0.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-22.0.1/sapmachine-jdk-22.0.1_linux-x64_bin.tar.gz
 22.0.2_0.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-22.0.2/sapmachine-jdk-22.0.2_linux-x64_bin.tar.gz
@@ -163,6 +165,7 @@
 25.0.5_0.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.5/sapmachine-jdk-25.0.5_linux-x64_bin.tar.gz
 25.0.5_0.2.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.5.0.2/sapmachine-jdk-25.0.5.0.2_linux-x64_bin.tar.gz
 25.0.5_0.3.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.5.0.3/sapmachine-jdk-25.0.5.0.3_linux-x64_bin.tar.gz
+25.0.5_1.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.5.1/sapmachine-jdk-25.0.5.1_linux-x64_bin.tar.gz
 26.0.0_0.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-26/sapmachine-jdk-26_linux-x64_bin.tar.gz
 26.0.1_0.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-26.0.1/sapmachine-jdk-26.0.1_linux-x64_bin.tar.gz
 26.0.2_0.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-26.0.2/sapmachine-jdk-26.0.2_linux-x64_bin.tar.gz
@@ -171,3 +174,4 @@
 27.0.1_0.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-27.0.1/sapmachine-jdk-27.0.1_linux-x64_bin.tar.gz
 27.0.1_0.2.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-27.0.1.0.2/sapmachine-jdk-27.0.1.0.2_linux-x64_bin.tar.gz
 27.0.1_0.3.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-27.0.1.0.3/sapmachine-jdk-27.0.1.0.3_linux-x64_bin.tar.gz
+27.0.1_1.0.b0: https://github.com/SAP/SapMachine/releases/download/sapmachine-27.0.1.1/sapmachine-jdk-27.0.1.1_linux-x64_bin.tar.gz
