@@ -462,6 +462,14 @@
             "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B2/sapmachine-jdk-21.0.14-ea.2_linux-x64-musl_bin.tar.gz",
             "checksum": "sha256 dda7c61810a12363ae27686547fff70a7cc7a7fdb7c9a0337c806dc59b1c301c"
           },
+          "macos-aarch64-installer": {
+            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B2/sapmachine-jdk-21.0.14-ea.2_macos-aarch64_bin.dmg",
+            "checksum": "sha256 3f0a4e12999bcc24aabfee4ecf2e988bdd8d627c9d3ee98abc7d823192c5f130"
+          },
+          "macos-aarch64": {
+            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B2/sapmachine-jdk-21.0.14-ea.2_macos-aarch64_bin.tar.gz",
+            "checksum": "sha256 29bfaf4bf696d70634a44741fabeb06fd33e2dfc45ec905d1983a8ca6de4d687"
+          },
           "macos-x64-installer": {
             "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B2/sapmachine-jdk-21.0.14-ea.2_macos-x64_bin.dmg",
             "checksum": "sha256 bc068139bf389273f4caea2c044c0ce742716139a0e251cf503c7b8207f65d72"
@@ -484,6 +492,14 @@
             "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B2/sapmachine-jre-21.0.14-ea.2_linux-x64-musl_bin.tar.gz",
             "checksum": "sha256 3835ec0eb6b65371522084b24ce9d43531dc0072dd0efa13c9fd8e6d9c8c30a7"
           },
+          "macos-aarch64-installer": {
+            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B2/sapmachine-jre-21.0.14-ea.2_macos-aarch64_bin.dmg",
+            "checksum": "sha256 1cc263a94215ee65822208a15da6267029d903f3407d6fcfd3ee078c4ed84474"
+          },
+          "macos-aarch64": {
+            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B2/sapmachine-jre-21.0.14-ea.2_macos-aarch64_bin.tar.gz",
+            "checksum": "sha256 88aedc3d151fc19279ff6222c933a7d2ee9cb5a70bfa779a9d708dba1192127d"
+          },
           "macos-x64-installer": {
             "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B2/sapmachine-jre-21.0.14-ea.2_macos-x64_bin.dmg",
             "checksum": "sha256 da75f76a45d7a426ad2fe7e88d6dd2319538b4ec449add0316aa2ab0456bab27"
@@ -505,14 +521,6 @@
             "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B1/sapmachine-jdk-21.0.14-ea.1_linux-ppc64le_bin.tar.gz",
             "checksum": "sha256 c464779874c4712a5877b34b46d112badb553000f90ae604b2def9d2b8b25564"
           },
-          "macos-aarch64-installer": {
-            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B1/sapmachine-jdk-21.0.14-ea.1_macos-aarch64_bin.dmg",
-            "checksum": "sha256 78c93c2b7ffc4208f52ee4a43c3cbfdb8b143677ef5342a8ec556b6857451f43"
-          },
-          "macos-aarch64": {
-            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B1/sapmachine-jdk-21.0.14-ea.1_macos-aarch64_bin.tar.gz",
-            "checksum": "sha256 235e66375bb45cff06ad91b323659b7fb439247d56af1387242e87371aec2581"
-          },
           "windows-x64": {
             "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B1/sapmachine-jdk-21.0.14-ea.1_windows-x64_bin.zip",
             "checksum": "sha256 919dd46f30c691140743dd2e167e8ac30a2cd995f57d14455345d376e5eca4ff"
@@ -526,14 +534,6 @@
           "linux-ppc64le": {
             "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B1/sapmachine-jre-21.0.14-ea.1_linux-ppc64le_bin.tar.gz",
             "checksum": "sha256 d40a14887cad916ea5ace64aafeb8beab3dad0aa9dc459538d398a3b8faf8209"
-          },
-          "macos-aarch64-installer": {
-            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B1/sapmachine-jre-21.0.14-ea.1_macos-aarch64_bin.dmg",
-            "checksum": "sha256 277601ed9ae5ca173e20bd7b2d0bf86e93f5bcfbf3af3dece240193bba24d08f"
-          },
-          "macos-aarch64": {
-            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B1/sapmachine-jre-21.0.14-ea.1_macos-aarch64_bin.tar.gz",
-            "checksum": "sha256 659da2e95c3f5ee7f497f57c0904420a0252a3fd65782c794d446d33e9f736e2"
           },
           "windows-x64": {
             "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-21.0.14%2B1/sapmachine-jre-21.0.14-ea.1_windows-x64_bin.zip",
