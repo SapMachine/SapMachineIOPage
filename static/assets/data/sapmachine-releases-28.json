@@ -13,6 +13,18 @@
                 "checksum": "f2b81c4d445ea36e194d6ff5cc39724b28247d3614ed76193d9b8c6e627bb3d5",
                 "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-28%2B24/sapmachine-jdk-28-ea.24_linux-x64-musl_bin.tar.gz"
               }
+            },
+            "macos-aarch64": {
+              "dmg": {
+                "name": "sapmachine-jdk-28-ea.24_macos-aarch64_bin.dmg",
+                "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-28%2B24/sapmachine-jdk-28-ea.24_macos-aarch64_bin.dmg",
+                "checksum": "b93f4eee80ee172151cac6a83dc7e2d9c71a58ce03eadf2691a19a1628dd6601"
+              },
+              "tar.gz": {
+                "name": "sapmachine-jdk-28-ea.24_macos-aarch64_bin.tar.gz",
+                "checksum": "28118df526c30c9339a19630fe58413a3b17fa8b4978ef7b9d7a420ba78657e6",
+                "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-28%2B24/sapmachine-jdk-28-ea.24_macos-aarch64_bin.tar.gz"
+              }
             }
           },
           "jre": {
@@ -21,6 +33,18 @@
                 "name": "sapmachine-jre-28-ea.24_linux-x64-musl_bin.tar.gz",
                 "checksum": "ff5870b844e9392b0d55f3dfa57a14a43f2b2770d7edb042e4a9538a320e202a",
                 "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-28%2B24/sapmachine-jre-28-ea.24_linux-x64-musl_bin.tar.gz"
+              }
+            },
+            "macos-aarch64": {
+              "dmg": {
+                "name": "sapmachine-jre-28-ea.24_macos-aarch64_bin.dmg",
+                "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-28%2B24/sapmachine-jre-28-ea.24_macos-aarch64_bin.dmg",
+                "checksum": "896b4e4c1cdfa850cc70aca37b30c19f7c121d3107e6d95b8086df18e6547ef3"
+              },
+              "tar.gz": {
+                "name": "sapmachine-jre-28-ea.24_macos-aarch64_bin.tar.gz",
+                "checksum": "2ca6f6960718dfe7ae80799046197ccdb6240a8c6625565317407f0d681edd96",
+                "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-28%2B24/sapmachine-jre-28-ea.24_macos-aarch64_bin.tar.gz"
               }
             }
           }
