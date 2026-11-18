@@ -254,12 +254,31 @@
     "ea": true,
     "releases": [
       {
-        "tag": "sapmachine-25.0.6+1",
+        "tag": "sapmachine-25.0.6+2",
         "jdk": {
           "aix-ppc64": {
-            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B1/sapmachine-jdk-25.0.6-ea.1_aix-ppc64_bin.tar.gz",
-            "checksum": "sha256 e3e7ace971ab07b304d99466cd636826807e0e905d05a41b3422c0fc8ff924ff"
+            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B2/sapmachine-jdk-25.0.6-ea.2_aix-ppc64_bin.tar.gz",
+            "checksum": "sha256 174df5034dc0d271eea979c50b219e927746d82b1cba684c4a4b3fdfd3379bf0"
           },
+          "linux-x64": {
+            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B2/sapmachine-jdk-25.0.6-ea.2_linux-x64_bin.tar.gz",
+            "checksum": "sha256 5e87a023528c4788097e50cdc1d5dfb4e01b3719f9c4408af29d8018afb67334"
+          }
+        },
+        "jre": {
+          "aix-ppc64": {
+            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B2/sapmachine-jre-25.0.6-ea.2_aix-ppc64_bin.tar.gz",
+            "checksum": "sha256 354103a38ea9f8505a92a1a6e94822b47a1200fe0245f23217174874878cd091"
+          },
+          "linux-x64": {
+            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B2/sapmachine-jre-25.0.6-ea.2_linux-x64_bin.tar.gz",
+            "checksum": "sha256 053cb533addee713a755e7de00e6e51ee2a1af65347dd3bee0a4a83358236be0"
+          }
+        }
+      },
+      {
+        "tag": "sapmachine-25.0.6+1",
+        "jdk": {
           "linux-aarch64": {
             "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B1/sapmachine-jdk-25.0.6-ea.1_linux-aarch64_bin.tar.gz",
             "checksum": "sha256 c605b4eabedae47b138d9839a13d570b72dbbfceb57f1c7ad06236fb4b15f8a8"
@@ -267,10 +286,6 @@
           "linux-ppc64le": {
             "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B1/sapmachine-jdk-25.0.6-ea.1_linux-ppc64le_bin.tar.gz",
             "checksum": "sha256 2eec571e4b94df4f8ce3d521e53135079f3be437e2814c6ac2664fdaacc78104"
-          },
-          "linux-x64": {
-            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B1/sapmachine-jdk-25.0.6-ea.1_linux-x64_bin.tar.gz",
-            "checksum": "sha256 805c6ffe7d0ece300a9d6a61febddae3b2af3c20d63a344a9701c3b76a512bf7"
           },
           "linux-x64-musl": {
             "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B1/sapmachine-jdk-25.0.6-ea.1_linux-x64-musl_bin.tar.gz",
@@ -290,10 +305,6 @@
           }
         },
         "jre": {
-          "aix-ppc64": {
-            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B1/sapmachine-jre-25.0.6-ea.1_aix-ppc64_bin.tar.gz",
-            "checksum": "sha256 ca377b473eb01d5a036ce30e5aa5405f06acdbddee406ee0571e2dbcbcb9c32c"
-          },
           "linux-aarch64": {
             "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B1/sapmachine-jre-25.0.6-ea.1_linux-aarch64_bin.tar.gz",
             "checksum": "sha256 1b3d393209fefb386c54f9593216f509ca910f0631ff181cabe21541df4b40d3"
@@ -301,10 +312,6 @@
           "linux-ppc64le": {
             "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B1/sapmachine-jre-25.0.6-ea.1_linux-ppc64le_bin.tar.gz",
             "checksum": "sha256 f32f14616a7bd43ffaa3f530410cd127ba3f1dee0d7261d7f8979b38285d9cc9"
-          },
-          "linux-x64": {
-            "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B1/sapmachine-jre-25.0.6-ea.1_linux-x64_bin.tar.gz",
-            "checksum": "sha256 c89ad7a6ce6575e31ad197008af63aef228dd946ce4306f766f9e4fffcf35d77"
           },
           "linux-x64-musl": {
             "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B1/sapmachine-jre-25.0.6-ea.1_linux-x64-musl_bin.tar.gz",

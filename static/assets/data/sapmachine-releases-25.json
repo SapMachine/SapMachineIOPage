@@ -2,6 +2,44 @@
   "lts": "true",
   "updates": {
     "25.0.6": {
+      "sapmachine-25.0.6+2": {
+        "url": "https://github.com/SAP/SapMachine/releases/tag/sapmachine-25.0.6%2B2",
+        "ea": "true",
+        "assets": {
+          "jdk": {
+            "aix-ppc64": {
+              "tar.gz": {
+                "name": "sapmachine-jdk-25.0.6-ea.2_aix-ppc64_bin.tar.gz",
+                "checksum": "174df5034dc0d271eea979c50b219e927746d82b1cba684c4a4b3fdfd3379bf0",
+                "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B2/sapmachine-jdk-25.0.6-ea.2_aix-ppc64_bin.tar.gz"
+              }
+            },
+            "linux-x64": {
+              "tar.gz": {
+                "name": "sapmachine-jdk-25.0.6-ea.2_linux-x64_bin.tar.gz",
+                "checksum": "5e87a023528c4788097e50cdc1d5dfb4e01b3719f9c4408af29d8018afb67334",
+                "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B2/sapmachine-jdk-25.0.6-ea.2_linux-x64_bin.tar.gz"
+              }
+            }
+          },
+          "jre": {
+            "aix-ppc64": {
+              "tar.gz": {
+                "name": "sapmachine-jre-25.0.6-ea.2_aix-ppc64_bin.tar.gz",
+                "checksum": "354103a38ea9f8505a92a1a6e94822b47a1200fe0245f23217174874878cd091",
+                "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B2/sapmachine-jre-25.0.6-ea.2_aix-ppc64_bin.tar.gz"
+              }
+            },
+            "linux-x64": {
+              "tar.gz": {
+                "name": "sapmachine-jre-25.0.6-ea.2_linux-x64_bin.tar.gz",
+                "checksum": "053cb533addee713a755e7de00e6e51ee2a1af65347dd3bee0a4a83358236be0",
+                "url": "https://github.com/SAP/SapMachine/releases/download/sapmachine-25.0.6%2B2/sapmachine-jre-25.0.6-ea.2_linux-x64_bin.tar.gz"
+              }
+            }
+          }
+        }
+      },
       "sapmachine-25.0.6+1": {
         "url": "https://github.com/SAP/SapMachine/releases/tag/sapmachine-25.0.6%2B1",
         "ea": "true",
